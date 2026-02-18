@@ -3,333 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Lecția 1 – Variabile, Tipuri & Casting</title>
+    <title>Python Lecția 1</title>
     <style>
-        :root {
-            --primary: #1A237E;
-            --primary-light: #E8EAF6;
-            --secondary: #455A64;
-            --bg: #F8F9FA;
-            --border: #CFD8DC;
-            --text: #263238;
-            --code-bg: #1e272e;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            font-family: 'Segoe UI', Arial, sans-serif;
             line-height: 1.6;
-            font-size: 16px;
-        }
-
-        header {
-            background: var(--primary);
-            color: #fff;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
-
-        nav {
-            background: #fff;
-            border-bottom: 1px solid var(--border);
-            padding: 10px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav a {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            padding: 5px 15px;
-            border-radius: 4px;
-        }
-
-        nav a:hover {
-            background: var(--primary-light);
-        }
-
-        main {
-            max-width: 850px;
+            color: #333;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 30px 20px;
+            padding: 20px;
+            background-color: #f5f5f5;
         }
-
         section {
-            background: #fff;
-            padding: 25px;
-            margin-bottom: 30px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        h2 {
-            color: var(--primary);
-            border-bottom: 2px solid var(--primary-light);
-            padding-bottom: 8px;
+            background: white;
+            padding: 20px;
             margin-bottom: 20px;
-        }
-
-        h3 {
-            margin: 20px 0 10px;
-            color: var(--secondary);
-        }
-
-        .code-block {
-            background: var(--code-bg);
-            color: #dfe6e9;
-            padding: 15px;
-            border-radius: 6px;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.95rem;
-            overflow-x: auto;
-            margin: 15px 0;
-        }
-
-        /* Culori Syntax Highlighting simple */
-        .comment { color: #74b9ff; }
-        .string { color: #55efc4; }
-        .number { color: #fdcb6e; }
-        .keyword { color: #fd79a8; }
-
-        .info-box {
-            background: var(--primary-light);
-            border-left: 4px solid var(--primary);
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 0 4px 4px 0;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        th, td {
-            text-align: left;
-            padding: 12px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        th {
-            background: #f1f3f4;
-            color: var(--primary);
-        }
-
-        .cast-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .cast-card {
-            background: #fff;
-            border: 2px solid var(--border);
-            padding: 15px;
-            text-align: center;
             border-radius: 8px;
-            cursor: pointer;
-            transition: 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-
-        .cast-card:hover {
-            border-color: var(--primary);
-            background: var(--primary-light);
-        }
-
-        .cast-card.active {
-            background: var(--primary);
-            color: #fff;
-            border-color: var(--primary);
-        }
-
-        .hidden-detail {
-            display: none;
-            margin-top: 15px;
+        h2 { color: #1A237E; border-bottom: 2px solid #1A237E; padding-bottom: 5px; }
+        .code-block {
+            background: #263238;
+            color: #eceff1;
             padding: 15px;
-            background: #f9f9f9;
-            border: 1px dashed var(--secondary);
+            border-radius: 5px;
+            font-family: 'Consolas', monospace;
+            white-space: pre; /* Păstrează rândurile noi și identarea */
+            overflow-x: auto;
+            line-height: 1.5;
         }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            color: var(--secondary);
-            font-size: 0.8rem;
-        }
-
-        button {
-            padding: 10px 20px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+        .comment { color: #78909C; }
+        .keyword { color: #ff80ab; }
+        .string { color: #b2ff59; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Python: Lecția 1</h1>
-    <p>Variabile, Tipuri de date și Casting</p>
-</header>
+<section>
+    <h2>1. Schimbarea valorii unei variabile</h2>
+    <div class="code-block">
+scor = 0
+print(scor)  <span class="comment"># Afișează: 0</span>
 
-<nav>
-    <a href="#intro">Introducere</a>
-    <a href="#variabile">Variabile</a>
-    <a href="#tipuri">Tipuri</a>
-    <a href="#casting">Casting</a>
-</nav>
+scor = 500
+print(scor)  <span class="comment"># Afișează: 500 (aceeași cutie, valoare nouă)</span>
 
-<main>
-    <section id="intro">
-        <h2>Ce este Python?</h2>
-        <p>Python este un limbaj de programare prietenos, creat să fie ușor de citit. Este folosit de companii precum Google, NASA și în dezvoltarea Inteligenței Artificiale.</p>
-        
-        <div class="info-box">
-            <strong>De ce Python?</strong> Este mult mai scurt decât alte limbaje. Pentru a afișa un mesaj, scrii doar o linie de cod.
-        </div>
-    </section>
+scor = scor + 100
+print(scor)  <span class="comment"># Afișează: 600</span></div>
+</section>
 
-    <section id="variabile">
-        <h2>1. Variabile</h2>
-        <p>O variabilă este ca o cutie etichetată în care stocăm informații.</p>
-        <div class="code-block">
-<span class="comment"># Crearea unei variabile</span>
-nume = <span class="string">"Andrei"</span>
-varsta = <span class="number">14</span>
+<section>
+    <h2>2. Casting: float()</h2>
+    <p>Transformă în număr decimal (cu virgulă):</p>
+    <div class="code-block">
+nota = float("9.5")
+print(nota + 0.5)  <span class="comment"># Rezultat: 10.0</span>
 
-print(nume)
-<span class="comment"># Putem schimba valoarea mai târziu</span>
-varsta = <span class="number">15</span>
-        </div>
-        <h3>Reguli pentru nume:</h3>
-        <ul>
-            <li>Trebuie să înceapă cu o literă sau underscore (_).</li>
-            <li>Nu pot începe cu o cifră.</li>
-            <li>Pot conține doar caractere alfanumerice și underscore (A-z, 0-9, și _).</li>
-        </ul>
-    </section>
-
-    <section id="tipuri">
-        <h2>2. Tipuri de date</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Tip</th>
-                    <th>Nume Python</th>
-                    <th>Exemplu</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Număr întreg</td>
-                    <td><code>int</code></td>
-                    <td><code>10</code></td>
-                </tr>
-                <tr>
-                    <td>Număr decimal</td>
-                    <td><code>float</code></td>
-                    <td><code>9.5</code></td>
-                </tr>
-                <tr>
-                    <td>Text</td>
-                    <td><code>str</code></td>
-                    <td><code>"Salut"</code></td>
-                </tr>
-                <tr>
-                    <td>Logic</td>
-                    <td><code>bool</code></td>
-                    <td><code>True / False</code></td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-
-    <section id="casting">
-        <h2>3. Casting (Conversia tipurilor)</h2>
-        <p>Casting-ul este procesul prin care transformăm o valoare dintr-un tip în altul.</p>
-        
-        <div class="cast-grid">
-            <div class="cast-card" onclick="toggleCast('int')">int()</div>
-            <div class="cast-card" onclick="toggleCast('float')">float()</div>
-            <div class="cast-card" onclick="toggleCast('str')">str()</div>
-        </div>
-
-        <div id="cast-int" class="hidden-detail">
-            <h3>Funcția int()</h3>
-            <p>Transformă în număr întreg. Dacă transformi un float, acesta va pierde zecimalele (nu rotunjește).</p>
-            <div class="code-block">
-print(int(<span class="number">9.8</span>)) <span class="comment"># Rezultat: 9</span>
-            </div>
-        </div>
-
-        <div id="cast-float" class="hidden-detail">
-            <h3>Funcția float()</h3>
-            <p>Transformă în număr decimal. Adaugă .0 la finalul numerelor întregi.</p>
-            <div class="code-block">
-nota = float(<span class="string">"9.5"</span>)
-print(nota + <span class="number">0.5</span>) <span class="comment"># Rezultat: 10.0</span>
-
-scor = <span class="number">100</span>
-print(float(scor)) <span class="comment"># Rezultat: 100.0</span>
-            </div>
-        </div>
-
-        <div id="cast-str" class="hidden-detail">
-            <h3>Funcția str()</h3>
-            <p>Transformă orice valoare în text. Util pentru concatenare.</p>
-            <div class="code-block">
-varsta = <span class="number">14</span>
-print(<span class="string">"Am "</span> + str(varsta) + <span class="string">" ani"</span>)
-            </div>
-        </div>
-    </section>
-</main>
-
-<footer>
-    <p>&copy; 2026 Viitorul Digital. Curs Python pentru elevi.</p>
-</footer>
-
-<script>
-    function toggleCast(type) {
-        // Ascunde toate detaliile
-        document.querySelectorAll('.hidden-detail').forEach(el => {
-            el.style.display = 'none';
-        });
-        // Resetare culori carduri
-        document.querySelectorAll('.cast-card').forEach(el => {
-            el.classList.remove('active');
-        });
-        
-        // Afișează detaliul cerut
-        const target = document.getElementById('cast-' + type);
-        if (target) {
-            target.style.display = 'block';
-            event.currentTarget.classList.add('active');
-        }
-    }
-</script>
+scor = 100
+print(float(scor))  <span class="comment"># Rezultat: 100.0 (adaugă .0)</span></div>
+</section>
 
 </body>
 </html>
