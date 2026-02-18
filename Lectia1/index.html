@@ -1,70 +1,791 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Lectia 1 - Variabile, Tipuri si Casting</title>
+<style>
+:root{
+  --blue:#1A237E;--blue-m:#3949AB;--blue-l:#E8EAF6;
+  --green:#1B5E20;--green-l:#E8F5E9;--green-m:#4CAF50;
+  --orange:#E65100;--orange-l:#FFF8E1;
+  --purple:#4A148C;--purple-l:#EDE7F6;
+  --red:#B71C1C;--red-l:#FFEBEE;
+  --teal:#006064;--teal-l:#E0F7FA;
+  --bg:#F4F6FF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:#333;line-height:1.75;font-size:15px}
+header{background:linear-gradient(135deg,#1A237E,#3949AB,#5C6BC0);color:#fff;text-align:center;padding:44px 20px 36px}
+header h1{font-size:2rem;font-weight:900;margin-bottom:6px}
+header p{opacity:.85;margin-bottom:4px}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:4px 16px;font-size:.82rem;margin-top:6px}
+nav{background:#fff;border-bottom:2px solid var(--blue-l);padding:10px 12px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+nav a{color:var(--blue-m);text-decoration:none;font-size:.82rem;padding:5px 12px;border-radius:20px;border:1px solid var(--blue-l);transition:all .2s}
+nav a:hover{background:var(--blue);color:#fff}
+main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+section{margin-bottom:48px}
+h2{font-size:1.45rem;color:var(--blue);font-weight:800;border-left:5px solid var(--blue-m);padding-left:14px;margin-bottom:18px}
+h3{font-size:1.05rem;color:var(--blue-m);margin:18px 0 8px;font-weight:700}
+p{margin-bottom:10px}
+.box{border-radius:10px;padding:16px 20px;margin:14px 0;border:1px solid rgba(0,0,0,.07)}
+.box-blue  {background:var(--blue-l);border-left:5px solid var(--blue-m)}
+.box-green {background:var(--green-l);border-left:5px solid var(--green-m)}
+.box-orange{background:var(--orange-l);border-left:5px solid var(--orange)}
+.box-red   {background:var(--red-l);border-left:5px solid var(--red)}
+.box-teal  {background:var(--teal-l);border-left:5px solid var(--teal)}
+.box-purple{background:var(--purple-l);border-left:5px solid var(--purple)}
+.box-pink  {background:#FCE4EC;border-left:5px solid #880E4F}
+.box-title {font-weight:700;font-size:.98rem;margin-bottom:7px}
+/* CODE BLOCKS — white-space:pre essential */
+.cb{background:#1e272e;color:#dfe6e9;border-radius:10px;padding:16px 20px;margin:12px 0;overflow-x:auto;font-family:'Courier New',monospace;font-size:.88rem;line-height:1.75;white-space:pre}
+/* TABLES */
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.tbl th{background:var(--blue);color:#fff;padding:10px 12px;font-size:.88rem;text-align:left}
+.tbl td{padding:9px 12px;font-size:.88rem;border-bottom:1px solid #e9ecef}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:nth-child(even) td{background:rgba(0,0,0,.02)}
+.tbl code{font-family:'Courier New',monospace;font-weight:700;color:var(--green)}
+/* TABS */
+.tab-btns{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:-1px}
+.tab-btn{padding:9px 18px;border:2px solid #dee2e6;border-bottom:none;border-radius:8px 8px 0 0;background:#f8f9fa;cursor:pointer;font-weight:700;font-size:.88rem;color:#555;font-family:'Segoe UI',Arial,sans-serif}
+.tab-pane{border:2px solid #dee2e6;border-radius:0 8px 8px 8px;padding:20px;background:#fff;display:none}
+.tab-pane.active{display:block}
+/* VAR BUILDER */
+.vb{background:#1e272e;border-radius:10px;padding:20px;margin:14px 0}
+.vb-lbl{color:#a0aab4;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.vb-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.vb-part{padding:9px 14px;border-radius:7px;font-family:'Courier New',monospace;font-size:.95rem;font-weight:700;cursor:pointer;border:2px solid transparent;transition:transform .15s}
+.vb-part:hover{transform:translateY(-2px)}
+.vb-name{background:#2d3f4e;color:#fdcb6e;border-color:#fdcb6e}
+.vb-val {background:#2d3f4e;color:#55efc4;border-color:#55efc4}
+.vb-eq  {color:#fff;font-size:1.2rem;padding:0 4px;font-family:'Courier New',monospace}
+.vb-out{background:#0d1117;border-radius:7px;padding:10px 14px;color:#55efc4;font-family:'Courier New',monospace;font-size:.88rem;min-height:36px;margin-top:8px}
+.vb-btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.vb-btn{padding:7px 16px;border-radius:7px;border:none;cursor:pointer;font-weight:700;font-size:.85rem;font-family:'Segoe UI',Arial,sans-serif}
+/* CAST */
+.cast-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+.cast-card{padding:16px 10px;border-radius:10px;text-align:center;cursor:pointer;border:3px solid transparent;transition:transform .15s}
+.cast-card:hover{transform:translateY(-3px)}
+.cast-card.sel{border-color:#fff}
+.cast-card .ce{font-size:1.6rem;display:block;margin-bottom:5px}
+.cast-card .cf{font-family:'Courier New',monospace;font-size:1rem;font-weight:700;display:block;margin-bottom:3px}
+.cast-card .cd{font-size:.75rem;opacity:.85}
+.cast-det{background:#fff;border-radius:10px;padding:18px 22px;margin:10px 0;border:2px solid var(--blue-l);display:none}
+.cast-det.show{display:block}
+/* RULES */
+.rule-item{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-radius:9px;margin-bottom:8px;cursor:pointer;border:2px solid #dee2e6;background:#f8f9fa;transition:border-color .2s}
+.rule-item:hover{border-color:var(--blue-m)}
+.rule-item.ok {background:#E8F5E9;border-color:#4CAF50;cursor:default}
+.rule-item.bad{background:#FFEBEE;border-color:#F44336;cursor:default}
+.rule-code{font-family:'Courier New',monospace;font-size:.9rem;font-weight:700}
+.rule-verdict{margin-left:auto;font-size:1.1rem;flex-shrink:0}
+.rule-why{font-size:.82rem;color:#555;margin-top:4px;display:none}
+.rule-item.ok .rule-why,.rule-item.bad .rule-why{display:block}
+.reveal-btn{background:var(--blue);color:#fff;border:none;border-radius:7px;padding:9px 20px;cursor:pointer;font-weight:700;font-size:.88rem;font-family:'Segoe UI',Arial,sans-serif}
+/* QUIZ */
+.quiz-card{background:#fff;border-radius:12px;padding:20px 22px;margin:16px 0;border:2px solid var(--orange-l);box-shadow:0 2px 8px rgba(230,81,0,.07)}
+.quiz-q{font-weight:700;color:var(--orange);margin-bottom:12px;font-size:.97rem}
+.quiz-opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:7px;margin-bottom:7px;cursor:pointer;border:2px solid #dee2e6;background:#f8f9fa;font-size:.92rem;user-select:none;transition:border-color .15s,background .15s}
+.quiz-opt:hover:not(.locked){border-color:var(--blue-m);background:var(--blue-l)}
+.quiz-opt.correct{background:#E8F5E9;border-color:#4CAF50;color:var(--green)}
+.quiz-opt.wrong  {background:#FFEBEE;border-color:#F44336;color:var(--red)}
+.quiz-opt.locked{pointer-events:none}
+.quiz-opt.correct.locked,.quiz-opt.wrong.locked{opacity:1}
+.quiz-opt:not(.correct):not(.wrong).locked{opacity:.5}
+.ql{width:26px;height:26px;border-radius:50%;background:#dee2e6;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0}
+.correct .ql{background:#4CAF50;color:#fff}
+.wrong   .ql{background:#F44336;color:#fff}
+.quiz-fb{margin-top:8px;padding:9px 12px;border-radius:7px;font-weight:600;font-size:.88rem;display:none}
+.fb-ok{background:#E8F5E9;color:var(--green);display:block}
+.fb-no{background:#FFEBEE;color:var(--red);display:block}
+.score-box{background:#fff;border-radius:12px;padding:24px;margin-top:24px;border:2px solid var(--blue-l);text-align:center;display:none}
+.score-num{font-size:2.8rem;font-weight:900;color:var(--blue)}
+.score-lbl{color:#757575;font-size:.9rem}
+.prog-wrap{background:#dee2e6;border-radius:10px;height:12px;overflow:hidden;margin:12px 0 6px}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue-m),var(--green-m));border-radius:10px;transition:width .6s ease;width:0}
+.score-msg{font-weight:700;font-size:1rem;margin-top:6px}
+/* EXERCISE & HOMEWORK */
+.exercise{background:#fff;border-radius:12px;padding:20px;margin:18px 0;border:2px solid var(--blue-l);box-shadow:0 2px 8px rgba(26,35,126,.06)}
+.ex-num{display:inline-flex;align-items:center;justify-content:center;background:var(--blue);color:#fff;border-radius:50%;width:30px;height:30px;font-weight:700;margin-right:8px;flex-shrink:0;font-size:.9rem}
+.hw-card{background:#fff;border-radius:12px;padding:20px;margin:18px 0;border:2px solid #880E4F;box-shadow:0 2px 8px rgba(136,14,79,.08)}
+.hw-num{display:inline-flex;align-items:center;justify-content:center;background:#880E4F;color:#fff;border-radius:50%;width:30px;height:30px;font-weight:700;margin-right:8px;flex-shrink:0;font-size:.9rem}
+.hw-badge{display:inline-block;padding:2px 10px;border-radius:10px;font-size:.75rem;font-weight:700;margin-left:8px;vertical-align:middle}
+.hw-easy{background:#E8F5E9;color:#1B5E20}
+.hw-med {background:#FFF8E1;color:#E65100}
+.hw-hard{background:#FFEBEE;color:#B71C1C}
+@media(max-width:540px){.cast-grid{grid-template-columns:repeat(2,1fr)}}
+footer{background:var(--blue);color:rgba(255,255,255,.8);text-align:center;padding:18px;font-size:.85rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div style="font-size:2.8rem;margin-bottom:8px">🐍</div>
+  <h1>Python — Lectia 1</h1>
+  <p>Variabile, Tipuri de Date &amp; Casting</p>
+  <div class="badge">Lectia 1 &nbsp;|&nbsp; 10-14 ani &nbsp;|&nbsp; Nivel: Incepator</div>
+</header>
+
+<nav>
+  <a href="#intro">Python</a>
+  <a href="#variabile">Variabile</a>
+  <a href="#reguli">Reguli</a>
+  <a href="#tipuri">Tipuri</a>
+  <a href="#casting">Casting</a>
+  <a href="#exercitii">Exercitii</a>
+  <a href="#quiz">Quiz</a>
+  <a href="#teme">Teme</a>
+</nav>
+
 <main>
 
-<section>
-<h2>📦 Variabile</h2>
-<div class="code-block">
-scor = 0
-print(scor)
-
-scor = 500
-print(scor)
-
-scor = scor + 100
-print(scor)
-</div>
+<!-- 0. INTRO -->
+<section id="intro">
+  <h2>0. Ce este Python?</h2>
+  <div class="box box-blue">
+    <div class="box-title">Gandeste-te asa:</div>
+    <p>Python este un <strong>limbaj de programare</strong> - un mod de a vorbi cu calculatorul. La fel cum tu vorbesti romana, calculatorul "intelege" Python!</p>
+    <p>Folosit la: jocuri, site-uri, inteligenta artificiala, roboti si chiar de NASA!</p>
+  </div>
+  <h3>De ce Python si nu altceva?</h3>
+  <table class="tbl">
+    <thead><tr><th>Limbaj</th><th>Cod Hello World</th><th>Dificultate</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Python</strong></td><td><code>print("Salut!")</code></td><td>Usor</td></tr>
+      <tr><td>Java</td><td><code>System.out.println("Salut!");</code></td><td>Mediu</td></tr>
+      <tr><td>C++</td><td><code>std::cout &lt;&lt; "Salut!";</code></td><td>Greu</td></tr>
+    </tbody>
+  </table>
 </section>
 
-<section>
-<h2>📋 Reguli pentru numele variabilelor</h2>
+<!-- 1. VARIABILE -->
+<section id="variabile">
+  <h2>1. Variabile - Cutiile magice</h2>
+  <div class="box box-teal">
+    <div class="box-title">Analogie:</div>
+    <p>O variabila este ca o <strong>cutie cu o eticheta</strong>. Pui ceva inauntru, ii dai un nume si il gasesti oricand. Poti schimba ce e in cutie oricand!</p>
+  </div>
 
-<div class="rule-item" data-verdict="ok">
-  <strong>varsta_mea = 13</strong>
-  <span class="rule-verdict"></span>
-  <div class="rule-why">Corect: litere mici + underscore.</div>
-</div>
+  <h3>Constructor interactiv - apasa pe fiecare parte:</h3>
+  <div class="vb">
+    <div class="vb-lbl">Apasa pe o parte colorata pentru explicatie</div>
+    <div class="vb-row">
+      <div class="vb-part vb-name" onclick="explainVar('name')">joc_preferat</div>
+      <div class="vb-eq">=</div>
+      <div class="vb-part vb-val"  onclick="explainVar('val')">"Minecraft"</div>
+    </div>
+    <div class="vb-out" id="vb-explain">Apasa pe una din partile colorate de mai sus!</div>
+    <div class="vb-btns">
+      <button class="vb-btn" style="background:#4CAF50;color:#fff" onclick="runVar()">Ruleaza (print)</button>
+      <button class="vb-btn" style="background:#3949AB;color:#fff" onclick="typeVar()">type()</button>
+    </div>
+    <div class="vb-out" id="vb-result" style="display:none"></div>
+  </div>
 
-<div class="rule-item" data-verdict="bad">
-  <strong>2jocuri = 10</strong>
-  <span class="rule-verdict"></span>
-  <div class="rule-why">Greșit: nu poate începe cu cifră.</div>
-</div>
+  <h3>Sintaxa de baza:</h3>
+  <div class="cb" id="cb-sintaxa"></div>
 
-<div class="rule-item" data-verdict="ok">
-  <strong>_scor_secret = 999</strong>
-  <span class="rule-verdict"></span>
-  <div class="rule-why">Corect: underscore la început este permis.</div>
-</div>
-
-<div class="rule-item" data-verdict="bad">
-  <strong>prenume familie = "Pop"</strong>
-  <span class="rule-verdict"></span>
-  <div class="rule-why">Greșit: spațiile nu sunt permise.</div>
-</div>
-
-<button onclick="revealAll()">Arată toate răspunsurile</button>
+  <h3>Poti schimba valoarea oricand:</h3>
+  <div class="cb" id="cb-schimba"></div>
 </section>
 
-<section>
-<h2>🏷️ Tipuri de date</h2>
-<div class="code-block">
-print(type(13))      # &lt;class 'int'&gt;
-print(type(9.5))     # &lt;class 'float'&gt;
-print(type("Ana"))   # &lt;class 'str'&gt;
-print(type(True))    # &lt;class 'bool'&gt;
-</div>
+<!-- 2. REGULI -->
+<section id="reguli">
+  <h2>2. Reguli pentru numele variabilelor</h2>
+  <p>Apasa pe fiecare variabila ca sa afli daca e corecta sau nu:</p>
+  <div id="rules-container">
+    <div class="rule-item" onclick="revealRule(this,'ok','Litere mici + underscore = combinatie perfecta in Python.')">
+      <div><div class="rule-code">varsta_mea = 13</div><div class="rule-why">Litere mici si underscore (_) sunt mereu ok in Python.</div></div>
+      <div class="rule-verdict"></div>
+    </div>
+    <div class="rule-item" onclick="revealRule(this,'bad','Nu poate incepe cu cifra!')">
+      <div><div class="rule-code">2jocuri = 10</div><div class="rule-why">Variabilele nu pot incepe cu cifre. Scrie: jocuri2 = 10</div></div>
+      <div class="rule-verdict"></div>
+    </div>
+    <div class="rule-item" onclick="revealRule(this,'ok','Underscore la inceput e permis.')">
+      <div><div class="rule-code">_scor_secret = 999</div><div class="rule-why">_ (underscore) la inceput este perfect valid.</div></div>
+      <div class="rule-verdict"></div>
+    </div>
+    <div class="rule-item" onclick="revealRule(this,'bad','Spatiile nu sunt permise in nume!')">
+      <div><div class="rule-code">prenume familie = "Pop"</div><div class="rule-why">Fara spatii! Corect: prenume_familie = "Pop"</div></div>
+      <div class="rule-verdict"></div>
+    </div>
+    <div class="rule-item" onclick="revealRule(this,'bad','print este cuvant rezervat Python!')">
+      <div><div class="rule-code">print = "test"</div><div class="rule-why">print, if, for, while etc. sunt rezervate - nu le poti folosi ca variabile!</div></div>
+      <div class="rule-verdict"></div>
+    </div>
+    <div class="rule-item" onclick="revealRule(this,'ok','camelCase este valid.')">
+      <div><div class="rule-code">esteElev = True</div><div class="rule-why">camelCase (prima litera mica, restul cu majuscula) e valid si popular.</div></div>
+      <div class="rule-verdict"></div>
+    </div>
+    <div class="rule-item" onclick="revealRule(this,'bad','Cratima (-) e operator matematic, nu e permisa in nume!')">
+      <div><div class="rule-code">nota-medie = 9.5</div><div class="rule-why">Cratima e operator de scadere! Corect: nota_medie = 9.5</div></div>
+      <div class="rule-verdict"></div>
+    </div>
+  </div>
+  <button class="reveal-btn" onclick="revealAll()" style="margin-top:8px">Arata toate raspunsurile</button>
 </section>
 
-<section>
-<h2>🔄 Casting</h2>
-<div class="code-block">
-varsta_text = "13"
-varsta = int(varsta_text)
+<!-- 3. TIPURI -->
+<section id="tipuri">
+  <h2>3. Tipuri de Date</h2>
+  <table class="tbl">
+    <thead><tr><th>Tip</th><th>Python</th><th>Exemplu</th><th>Cand il folosesti?</th></tr></thead>
+    <tbody>
+      <tr><td>Numar intreg</td><td><code>int</code></td><td><code>varsta = 13</code></td><td>Scoruri, varste, cantitati</td></tr>
+      <tr><td>Numar decimal</td><td><code>float</code></td><td><code>nota = 9.5</code></td><td>Note, preturi, temperaturi</td></tr>
+      <tr><td>Text</td><td><code>str</code></td><td><code>nume = "Ana"</code></td><td>Nume, mesaje, cuvinte</td></tr>
+      <tr><td>Adevarat/Fals</td><td><code>bool</code></td><td><code>castigat = True</code></td><td>Conditii da/nu</td></tr>
+    </tbody>
+  </table>
 
-print(varsta + 1)
+  <h3>Exploreaza fiecare tip - apasa pe tab:</h3>
+  <div>
+    <div class="tab-btns">
+      <button class="tab-btn" style="background:#1B5E20;color:#fff;border-color:#1B5E20" onclick="switchTab('int',this,'#1B5E20')">int</button>
+      <button class="tab-btn" onclick="switchTab('float',this,'#0D47A1')">float</button>
+      <button class="tab-btn" onclick="switchTab('str',this,'#E65100')">str</button>
+      <button class="tab-btn" onclick="switchTab('bool',this,'#880E4F')">bool</button>
+    </div>
+    <div id="tab-int" class="tab-pane active">
+      <strong style="color:#1B5E20">int - Numar intreg, fara virgula</strong>
+      <p style="margin-top:8px">Folosit pentru scoruri, varste, cantitati - orice numar fara zecimale.</p>
+      <div class="cb" id="cb-int"></div>
+    </div>
+    <div id="tab-float" class="tab-pane">
+      <strong style="color:#0D47A1">float - Numar cu virgula (zecimal)</strong>
+      <p style="margin-top:8px">Folosit pentru note, preturi, temperaturi.</p>
+      <div class="cb" id="cb-float"></div>
+    </div>
+    <div id="tab-str" class="tab-pane">
+      <strong style="color:#E65100">str - Text (sir de caractere)</strong>
+      <p style="margin-top:8px">Orice text intre ghilimele simple '...' sau duble "...".</p>
+      <div class="cb" id="cb-str"></div>
+    </div>
+    <div id="tab-bool" class="tab-pane">
+      <strong style="color:#880E4F">bool - Adevarat sau Fals</strong>
+      <p style="margin-top:8px">Doar doua valori: True sau False. Essential pentru conditii.</p>
+      <div class="cb" id="cb-bool"></div>
+      <div class="box box-orange" style="margin-top:10px">
+        <div class="box-title">Atentie la majuscule!</div>
+        <p>True / False cu litera MARE. "true" da eroare!</p>
+      </div>
+    </div>
+  </div>
 
-scor = 1500
-print("Scor:", str(scor))
-</div>
+  <h3>Cum verifici tipul - functia type():</h3>
+  <div class="cb" id="cb-type"></div>
 </section>
+
+<!-- 4. CASTING -->
+<section id="casting">
+  <h2>4. Casting - Schimbarea tipului</h2>
+  <div class="box box-purple">
+    <div class="box-title">Analogie - Reteta de gatit:</div>
+    <p>Daca ai mere (numere) dar reteta cere suc de mere (text), trebuie sa le transformi. Casting-ul face exact asta!</p>
+  </div>
+
+  <h3>Apasa pe o functie ca sa vezi cum functioneaza:</h3>
+  <div class="cast-grid">
+    <div class="cast-card" style="background:#1B5E20;color:#fff" onclick="showCast('int',this)">
+      <span class="ce">🔢</span><span class="cf">int()</span><span class="cd">numar intreg</span>
+    </div>
+    <div class="cast-card" style="background:#0D47A1;color:#fff" onclick="showCast('float',this)">
+      <span class="ce">💧</span><span class="cf">float()</span><span class="cd">numar decimal</span>
+    </div>
+    <div class="cast-card" style="background:#E65100;color:#fff" onclick="showCast('str',this)">
+      <span class="ce">📝</span><span class="cf">str()</span><span class="cd">text</span>
+    </div>
+    <div class="cast-card" style="background:#880E4F;color:#fff" onclick="showCast('bool',this)">
+      <span class="ce">✅</span><span class="cf">bool()</span><span class="cd">True/False</span>
+    </div>
+  </div>
+  <div id="cast-int"   class="cast-det"><strong style="color:#1B5E20">int() - Transforma in numar intreg</strong><div class="cb" id="cb-cast-int"  style="margin-top:10px"></div></div>
+  <div id="cast-float" class="cast-det"><strong style="color:#0D47A1">float() - Transforma in numar decimal</strong><div class="cb" id="cb-cast-float" style="margin-top:10px"></div></div>
+  <div id="cast-str"   class="cast-det"><strong style="color:#E65100">str() - Transforma in text</strong><div class="cb" id="cb-cast-str"  style="margin-top:10px"></div></div>
+  <div id="cast-bool"  class="cast-det"><strong style="color:#880E4F">bool() - Transforma in True/False</strong><div class="cb" id="cb-cast-bool" style="margin-top:10px"></div></div>
+
+  <div class="box box-red" style="margin-top:14px">
+    <div class="box-title">Regula de aur:</div>
+    <p>int("13") - functioneaza, "13" arata ca numar</p>
+    <p>int("mere") - ValueError, "mere" nu e numar!</p>
+    <p>int(9.8) - rezulta 9, taie zecimalele, nu rotunjeste!</p>
+  </div>
+</section>
+
+<!-- 5. EXERCITII -->
+<section id="exercitii">
+  <h2>5. Exercitii Practice</h2>
+
+  <div class="exercise">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><div class="ex-num">1</div><h3 style="margin:0;color:var(--blue)">Prezinta-te!</h3></div>
+    <div class="cb" id="cb-ex1"></div>
+  </div>
+
+  <div class="exercise">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><div class="ex-num">2</div><h3 style="margin:0;color:var(--blue)">Calculatorul de varsta</h3></div>
+    <div class="cb" id="cb-ex2"></div>
+    <div class="box box-green" style="margin-top:10px">
+      <div class="box-title">Raspuns:</div>
+      <code>int(varsta_text)</code> &nbsp;|&nbsp; <code>varsta</code> &nbsp;|&nbsp; <code>an_nastere</code>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><div class="ex-num">3</div><h3 style="margin:0;color:var(--blue)">Ghiceste tipul! (cu capcana)</h3></div>
+    <div class="cb" id="cb-ex3"></div>
+    <div class="box box-green" style="margin-top:10px">
+      <div class="box-title">Raspuns:</div>
+      <strong>int, str, float, bool, str</strong> - ultimul e capcana! "7" cu ghilimele e text, nu numar.
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><div class="ex-num">4</div><h3 style="margin:0;color:var(--blue)">Afiseaza mesaj cu numar</h3></div>
+    <div class="cb" id="cb-ex4"></div>
+    <div class="box box-green" style="margin-top:10px">
+      <div class="box-title">Raspuns:</div>
+      Ambele spatii se completeaza cu <code>str</code>
+    </div>
+  </div>
+</section>
+
+<!-- 6. QUIZ -->
+<section id="quiz">
+  <h2>6. Mini-Quiz</h2>
+  <p>Apasa pe raspunsul corect:</p>
+  <div id="quiz-container"></div>
+  <div class="score-box" id="score-box">
+    <div class="score-num" id="score-num">0/6</div>
+    <div class="score-lbl">raspunsuri corecte</div>
+    <div class="prog-wrap"><div class="prog-fill" id="prog-fill"></div></div>
+    <div class="score-msg" id="score-msg"></div>
+  </div>
+</section>
+
+<!-- 7. TEME -->
+<section id="teme">
+  <h2>7. Teme pentru Acasa</h2>
+  <div class="box box-pink">
+    <div class="box-title" style="color:#880E4F">Instructiuni:</div>
+    <p>Rezolva temele in <strong>IDLE</strong> sau <strong>Thonny</strong> (editor Python gratuit). Salveaza fisierele cu numele indicate si adauga-le in Google Classroom pana <strong>vineri</strong>.</p>
+  </div>
+
+  <div class="hw-card">
+    <div style="display:flex;align-items:center;margin-bottom:12px">
+      <div class="hw-num">1</div>
+      <h3 style="margin:0;color:#880E4F">Cardul de identitate Python</h3>
+      <span class="hw-badge hw-easy">Usor</span>
+    </div>
+    <p>Creeaza un program care afiseaza informatii despre tine folosind <strong>minim 5 variabile</strong> de tipuri diferite.</p>
+    <div class="cb" id="cb-hw1"></div>
+    <p style="margin-top:10px;font-size:.85rem;color:#555">Salveaza ca: <code>tema1_numetau.py</code></p>
+  </div>
+
+  <div class="hw-card">
+    <div style="display:flex;align-items:center;margin-bottom:12px">
+      <div class="hw-num">2</div>
+      <h3 style="margin:0;color:#880E4F">Convertor de temperatura</h3>
+      <span class="hw-badge hw-med">Mediu</span>
+    </div>
+    <p>Scrie un program care citeste temperatura in Celsius si o converteste in Fahrenheit si Kelvin.</p>
+    <div class="cb" id="cb-hw2"></div>
+    <div class="box box-green" style="margin-top:10px">
+      <div class="box-title">Formule:</div>
+      <p>Fahrenheit = Celsius * 9/5 + 32</p>
+      <p>Kelvin = Celsius + 273.15</p>
+    </div>
+    <p style="margin-top:10px;font-size:.85rem;color:#555">Salveaza ca: <code>tema2_numetau.py</code></p>
+  </div>
+
+  <div class="hw-card">
+    <div style="display:flex;align-items:center;margin-bottom:12px">
+      <div class="hw-num">3</div>
+      <h3 style="margin:0;color:#880E4F">Calculatorul de medie</h3>
+      <span class="hw-badge hw-hard">Provocare</span>
+    </div>
+    <p>Citeste 5 note ca text (string), converteste-le in float, calculeaza media si afiseaza un mesaj in functie de rezultat.</p>
+    <div class="cb" id="cb-hw3"></div>
+    <div class="box box-orange" style="margin-top:10px">
+      <div class="box-title">Bonus daca reusesti:</div>
+      <p>Adauga si verificarea daca elevul a promovat (media &gt;= 5).</p>
+    </div>
+    <p style="margin-top:10px;font-size:.85rem;color:#555">Salveaza ca: <code>tema3_numetau.py</code></p>
+  </div>
+</section>
+
+<div class="box box-blue" style="margin-top:8px">
+  <div class="box-title" style="font-size:1.05rem">Rezumat - Ce ai invatat azi!</div>
+  <p>Variabilele sunt cutii cu eticheta: <code>nume = valoare</code></p>
+  <p>int - intregi | float - zecimale | str - text | bool - True/False</p>
+  <p>type() - verifici tipul | int() float() str() bool() - casting</p>
+  <p style="margin-top:8px">Pregatit pentru Lectia 2 - Structuri de Date!</p>
+</div>
 
 </main>
+<footer>Python Lectia 1 - Variabile, Tipuri si Casting | 10-14 ani | Nivel: Incepator</footer>
+
+<script>
+// ── TOATE BLOCURILE DE COD ────────────────────────────────────────────────────
+// Sintaxa colorata manual cu spans, dar textul e injectat via JS
+// ca sa pastram newline-urile corecte
+
+var BLUE  = '#74b9ff';
+var GREEN = '#55efc4';
+var PINK  = '#fd79a8';
+var GOLD  = '#fdcb6e';
+
+function span(color, text) {
+  return '<span style="color:' + color + '">' + text + '</span>';
+}
+var cm = function(t){ return span(BLUE,  t); };
+var cs = function(t){ return span(GREEN, t); };
+var ck = function(t){ return span(PINK,  t); };
+var cn = function(t){ return span(GOLD,  t); };
+
+function setCode(id, lines) {
+  var el = document.getElementById(id);
+  if (el) el.innerHTML = lines.join('\n');
+}
+
+// Sintaxa de baza
+setCode('cb-sintaxa', [
+  cm('# Sintaxa: nume_variabila = valoare'),
+  'prenume  = ' + cs('"Alex"'),
+  'varsta   = ' + cn('13'),
+  'inaltime = ' + cn('1.65'),
+  'castigat = ' + ck('True'),
+  '',
+  'print(prenume)    ' + cm('# Alex'),
+  'print(varsta)     ' + cm('# 13'),
+]);
+
+setCode('cb-schimba', [
+  'scor = ' + cn('0'),
+  'print(scor)           ' + cm('# 0'),
+  'scor = ' + cn('500'),
+  'print(scor)           ' + cm('# 500  <- aceeasi cutie, valoare noua'),
+  'scor = scor + ' + cn('100'),
+  'print(scor)           ' + cm('# 600'),
+]);
+
+// Tipuri
+setCode('cb-int', [
+  'scor  = ' + cn('1500'),
+  'nivel = ' + cn('7'),
+  'vieti = ' + cn('3'),
+  '',
+  cm('# Operatii:'),
+  'print(scor + ' + cn('100') + ')    ' + cm('# 1600'),
+  'print(' + cn('10') + ' // ' + cn('3') + ')       ' + cm('# 3  <- impartire intreaga'),
+  'print(' + cn('10') + ' % '  + cn('3') + ')        ' + cm('# 1  <- rest impartire'),
+]);
+
+setCode('cb-float', [
+  'nota        = ' + cn('9.5'),
+  'pret        = ' + cn('24.99'),
+  'temperatura = ' + cn('36.6'),
+  '',
+  cm('# Operatii:'),
+  'print(round(nota, ' + cn('0') + '))  ' + cm('# 10.0 <- rotunjire'),
+  'print(' + cn('1') + ' / ' + cn('3') + ')             ' + cm('# 0.3333...'),
+  'print(' + cn('0.1') + ' + ' + cn('0.2') + ')          ' + cm('# 0.30000000000000004  normal!'),
+]);
+
+setCode('cb-str', [
+  'nume  = ' + cs('"Ana"'),
+  'mesaj = ' + cs('"Salut, Python!"'),
+  '',
+  cm('# Operatii:'),
+  'print(nume + ' + cs('" Pop"') + ')    ' + cm('# Ana Pop  <- concatenare'),
+  'print(len(mesaj))        ' + cm('# 14 <- lungimea'),
+  'print(nume.upper())      ' + cm('# ANA'),
+  'print(mesaj[' + cn('0') + '])         ' + cm('# S <- primul caracter'),
+]);
+
+setCode('cb-bool', [
+  'castigat = ' + ck('True'),
+  'are_cont = ' + ck('False'),
+  '',
+  cm('# Comparatiile returneaza bool:'),
+  'print(' + cn('5') + ' > ' + cn('3') + ')              ' + cm('# True'),
+  'print(' + cn('10') + ' == ' + cn('10') + ')           ' + cm('# True'),
+  'print(' + cs('"Ana"') + ' == ' + cs('"Mihai"') + ')   ' + cm('# False'),
+  '',
+  ck('if') + ' castigat:',
+  '    print(' + cs('"Felicitari!"') + ')   ' + cm('# se afiseaza!'),
+]);
+
+setCode('cb-type', [
+  'print(type(' + cn('13') + '))        ' + cm("# <class 'int'>"),
+  'print(type(' + cn('9.5') + '))       ' + cm("# <class 'float'>"),
+  'print(type(' + cs('"Ana"') + '))     ' + cm("# <class 'str'>"),
+  'print(type(' + ck('True') + '))      ' + cm("# <class 'bool'>"),
+]);
+
+// Casting
+setCode('cb-cast-int', [
+  cm('# str -> int (util pentru input()!)'),
+  'varsta = int(' + cs('"13"') + ')',
+  'print(varsta + ' + cn('1') + ')     ' + cm('# 14'),
+  '',
+  cm('# float -> int (TAIE zecimalele, nu rotunjeste!)'),
+  'print(int(' + cn('9.8') + '))       ' + cm('# 9  <- NU 10!'),
+  '',
+  cm('# EROARE - "mere" nu e numar!'),
+  cm('# int("mere") -> ValueError'),
+]);
+
+setCode('cb-cast-float', [
+  'nota = float(' + cs('"9.5"') + ')',
+  'print(nota + ' + cn('0.5') + ')     ' + cm('# 10.0'),
+  '',
+  'scor = ' + cn('100'),
+  'print(float(scor))       ' + cm('# 100.0 <- adauga .0'),
+]);
+
+setCode('cb-cast-str', [
+  cm('# Cel mai folosit: numar + text'),
+  'scor  = ' + cn('1500'),
+  'print(' + cs('"Scor: "') + ' + str(scor))   ' + cm('# Scor: 1500'),
+  '',
+  cm('# Fara str() -> TypeError!'),
+  cm('# print("Scor: " + 1500)  <- EROARE'),
+]);
+
+setCode('cb-cast-bool', [
+  cm('# False: 0, "", [], None'),
+  'print(bool(' + cn('0') + '))          ' + cm('# False'),
+  'print(bool(' + cs('""') + '))         ' + cm('# False <- text gol'),
+  '',
+  cm('# True: orice altceva!'),
+  'print(bool(' + cn('42') + '))         ' + cm('# True'),
+  'print(bool(' + cs('"Ana"') + '))      ' + cm('# True'),
+]);
+
+// Exercitii
+setCode('cb-ex1', [
+  'nume   = ' + cs('"___"') + '        ' + cm('# str'),
+  'varsta = ' + cn('___') + '          ' + cm('# int'),
+  'clasa  = ' + cs('"___"') + '        ' + cm('# str'),
+  'medie  = ' + cn('___') + '          ' + cm('# float'),
+  '',
+  'print(' + cs('"Ma numesc"') + ', nume)',
+  'print(' + cs('"Am"') + ', varsta, ' + cs('"ani"') + ')',
+  'print(' + cs('"Clasa"') + ', clasa, ' + cs('"- media"') + ', medie)',
+]);
+
+setCode('cb-ex2', [
+  'varsta_text = input(' + cs('"Care e varsta ta? "') + ')',
+  'varsta      = ___(varsta_text)    ' + cm('# casting!'),
+  'an_nastere  = ' + cn('2025') + ' - ___',
+  'print(' + cs('"Te-ai nascut in"') + ', ___)',
+]);
+
+setCode('cb-ex3', [
+  'x = ' + cn('42') + '              ' + cm('# tipul: ___'),
+  'y = ' + cs('"buna ziua"') + '     ' + cm('# tipul: ___'),
+  'z = ' + cn('3.14') + '            ' + cm('# tipul: ___'),
+  'w = ' + ck('False') + '           ' + cm('# tipul: ___'),
+  'v = ' + cs('"7"') + '             ' + cm('# tipul: ___  <- atentie!'),
+]);
+
+setCode('cb-ex4', [
+  'nivel = ' + cn('5'),
+  'xp    = ' + cn('1250'),
+  'mesaj = ' + cs('"Esti la nivelul "') + ' + ___(nivel) + ' + cs('" cu "') + ' + ___(xp) + ' + cs('" XP"'),
+  'print(mesaj)   ' + cm('# Esti la nivelul 5 cu 1250 XP'),
+]);
+
+// Teme
+setCode('cb-hw1', [
+  cm('# Exemplu de structura (completeaza cu datele tale):'),
+  'nume       = ' + cs('"___"'),
+  'varsta     = ' + cn('___'),
+  'clasa      = ' + cs('"___"'),
+  'oras       = ' + cs('"___"'),
+  'medie      = ' + cn('___'),
+  'este_elev  = ' + ck('True'),
+  '',
+  'print(' + cs('"=== CARDUL MEU ==="') + ')',
+  'print(' + cs('"Nume:"') + ', nume)',
+  'print(' + cs('"Varsta:"') + ', varsta, ' + cs('"ani"') + ')',
+  'print(' + cs('"Clasa:"') + ', clasa)',
+  'print(' + cs('"Oras:"') + ', oras)',
+  'print(' + cs('"Medie:"') + ', medie)',
+  'print(' + cs('"Este elev:"') + ', este_elev)',
+]);
+
+setCode('cb-hw2', [
+  'celsius_text = input(' + cs('"Introduceti temperatura in Celsius: "') + ')',
+  'celsius      = float(celsius_text)',
+  '',
+  'fahrenheit   = celsius * ' + cn('9') + ' / ' + cn('5') + ' + ' + cn('32'),
+  'kelvin       = celsius + ' + cn('273.15'),
+  '',
+  'print(' + cs('"Celsius:    "') + ', celsius)',
+  'print(' + cs('"Fahrenheit: "') + ', fahrenheit)',
+  'print(' + cs('"Kelvin:     "') + ', kelvin)',
+]);
+
+setCode('cb-hw3', [
+  'nota1 = float(input(' + cs('"Nota 1: "') + '))',
+  'nota2 = float(input(' + cs('"Nota 2: "') + '))',
+  'nota3 = float(input(' + cs('"Nota 3: "') + '))',
+  'nota4 = float(input(' + cs('"Nota 4: "') + '))',
+  'nota5 = float(input(' + cs('"Nota 5: "') + '))',
+  '',
+  'medie = (nota1 + nota2 + nota3 + nota4 + nota5) / ' + cn('5'),
+  'print(' + cs('"Media ta este: "') + ' + str(medie))',
+  '',
+  cm('# Bonus:'),
+  ck('if') + ' medie >= ' + cn('5') + ':',
+  '    print(' + cs('"Promovat!"') + ')',
+  ck('else') + ':',
+  '    print(' + cs('"Nepromovat. Mai invata!"') + ')',
+]);
+
+// ── VARIABLE BUILDER ─────────────────────────────────────────────────────────
+function explainVar(key) {
+  var msgs = {
+    name: 'NUMELE variabilei: eticheta cutiei. Reguli: litere/cifre/underscore, nu incepe cu cifra, fara spatii.',
+    val:  'VALOAREA: ce pui in cutie. "Minecraft" este un str (string = text, mereu intre ghilimele).'
+  };
+  document.getElementById('vb-explain').innerHTML = msgs[key];
+}
+function runVar() {
+  var r = document.getElementById('vb-result');
+  r.style.display = 'block';
+  r.innerHTML = 'Output: Minecraft  <- valoarea afisata de print(joc_preferat)';
+}
+function typeVar() {
+  var r = document.getElementById('vb-result');
+  r.style.display = 'block';
+  r.innerHTML = "type(joc_preferat) -> <class 'str'>  <- este text (string)";
+}
+
+// ── TABS ─────────────────────────────────────────────────────────────────────
+var tabIds = ['int','float','str','bool'];
+var tabColors = {int:'#1B5E20', float:'#0D47A1', str:'#E65100', bool:'#880E4F'};
+function switchTab(name, btn) {
+  tabIds.forEach(function(id) {
+    var p = document.getElementById('tab-' + id);
+    if (p) p.classList.remove('active');
+  });
+  document.getElementById('tab-' + name).classList.add('active');
+  var btns = btn.parentElement.querySelectorAll('.tab-btn');
+  btns.forEach(function(b) { b.style.background='#f8f9fa'; b.style.color='#555'; b.style.borderColor='#dee2e6'; });
+  btn.style.background = tabColors[name];
+  btn.style.color = '#fff';
+  btn.style.borderColor = tabColors[name];
+}
+
+// ── CASTING ───────────────────────────────────────────────────────────────────
+var lastCast = null;
+function showCast(name, card) {
+  ['int','float','str','bool'].forEach(function(n) {
+    var d = document.getElementById('cast-' + n);
+    if (d) d.classList.remove('show');
+  });
+  document.querySelectorAll('.cast-card').forEach(function(c) { c.classList.remove('sel'); });
+  if (lastCast === name) { lastCast = null; return; }
+  document.getElementById('cast-' + name).classList.add('show');
+  card.classList.add('sel');
+  lastCast = name;
+}
+
+// ── RULES GAME ────────────────────────────────────────────────────────────────
+function revealRule(el, verdict) {
+  if (el.classList.contains('ok') || el.classList.contains('bad')) return;
+  el.classList.add(verdict);
+  el.querySelector('.rule-verdict').textContent = verdict === 'ok' ? '✅' : '❌';
+  el.onclick = null;
+}
+function revealAll() {
+  var items = document.querySelectorAll('.rule-item');
+  var verdicts = ['ok','bad','ok','bad','bad','ok','bad'];
+  items.forEach(function(el, i) {
+    if (!el.classList.contains('ok') && !el.classList.contains('bad')) {
+      el.classList.add(verdicts[i]);
+      el.querySelector('.rule-verdict').textContent = verdicts[i] === 'ok' ? '✅' : '❌';
+      el.onclick = null;
+    }
+  });
+}
+
+// ── QUIZ ──────────────────────────────────────────────────────────────────────
+var QUIZ = [
+  { q:'Ce tip de date este: nota = 8.75 ?',
+    opts:['int','float','str','bool'], ans:1,
+    fb:'8.75 are zecimale -> este float. Daca ar fi 8 (fara virgula), ar fi int.' },
+  { q:'Care variabila are un nume INCORECT?',
+    opts:['_scor = 100','varsta_mea = 13','2jocuri = 5','esteElev = True'], ans:2,
+    fb:'Variabilele nu pot incepe cu cifre! "2jocuri" e invalid. Corect: jocuri2 = 5' },
+  { q:'Ce face functia str(42) ?',
+    opts:['Transforma in float','Verifica daca e text','Transforma in textul "42"','Da eroare'], ans:2,
+    fb:'str() transforma orice in text. str(42) -> "42"' },
+  { q:'Ce afiseaza: print(int(9.9)) ?',
+    opts:['10','9','9.9','Eroare'], ans:1,
+    fb:'int() NU rotunjeste - TAIE zecimalele! 9.9 devine 9, nu 10. Pentru rotunjire: round().' },
+  { q:'Ce returneaza type(True) ?',
+    opts:["<class 'str'>","<class 'int'>","<class 'float'>","<class 'bool'>"], ans:3,
+    fb:'True si False sunt de tip bool (boolean).' },
+  { q:'Ce se intampla: print("Scor: " + 100) ?',
+    opts:['Afiseaza: Scor: 100','Afiseaza: Scor: ','Da TypeError','Afiseaza: 100'], ans:2,
+    fb:'Nu poti adauga str + int direct! Solutia: print("Scor: " + str(100)) sau print("Scor:", 100)' },
+];
+var score = 0, answered = 0;
+
+function renderQuiz() {
+  var html = '';
+  QUIZ.forEach(function(q, qi) {
+    html += '<div class="quiz-card" id="qc' + qi + '">';
+    html += '<div class="quiz-q">Intrebarea ' + (qi+1) + ': ' + q.q + '</div>';
+    q.opts.forEach(function(o, oi) {
+      html += '<div class="quiz-opt" id="qo' + qi + '-' + oi + '" onclick="answer(' + qi + ',' + oi + ')">';
+      html += '<div class="ql">' + 'ABCD'[oi] + '</div><span>' + o + '</span></div>';
+    });
+    html += '<div class="quiz-fb" id="qf' + qi + '"></div></div>';
+  });
+  document.getElementById('quiz-container').innerHTML = html;
+}
+
+function answer(qi, oi) {
+  var q = QUIZ[qi];
+  var i;
+  for (i = 0; i < q.opts.length; i++) {
+    var opt = document.getElementById('qo' + qi + '-' + i);
+    if (opt) opt.classList.add('locked');
+  }
+  var chosen  = document.getElementById('qo' + qi + '-' + oi);
+  var correct = document.getElementById('qo' + qi + '-' + q.ans);
+  var fb = document.getElementById('qf' + qi);
+  if (oi === q.ans) {
+    chosen.classList.add('correct'); score++;
+    fb.textContent = 'Corect! ' + q.fb; fb.className = 'quiz-fb fb-ok';
+  } else {
+    chosen.classList.add('wrong'); correct.classList.add('correct');
+    fb.textContent = 'Gresit! ' + q.fb; fb.className = 'quiz-fb fb-no';
+  }
+  answered++;
+  if (answered === QUIZ.length) setTimeout(showScore, 500);
+}
+
+function showScore() {
+  var box = document.getElementById('score-box');
+  box.style.display = 'block';
+  document.getElementById('score-num').textContent = score + '/' + QUIZ.length;
+  document.getElementById('prog-fill').style.width = (score / QUIZ.length * 100) + '%';
+  var msgs = [[6,'Perfect! Esti un Python wizard!'],[5,'Excelent! Aproape perfect!'],[4,'Bine! Mai exerseaza putin.'],[0,'Reciteste si mai incearca!']];
+  var i;
+  for (i = 0; i < msgs.length; i++) {
+    if (score >= msgs[i][0]) { document.getElementById('score-msg').textContent = msgs[i][1]; break; }
+  }
+  box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+renderQuiz();
+</script>
+</body>
+</html>
