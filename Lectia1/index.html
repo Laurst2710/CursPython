@@ -1,108 +1,7 @@
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🐍 Python Lecția 1 – Variabile, Tipuri & Casting</title>
-
-<style>
-body{
-  font-family: Arial, sans-serif;
-  background:#f4f6ff;
-  margin:0;
-  line-height:1.6;
-}
-
-header{
-  background:#1A237E;
-  color:#fff;
-  padding:30px;
-  text-align:center;
-}
-
-main{
-  max-width:900px;
-  margin:auto;
-  padding:20px;
-}
-
-h2{
-  color:#1A237E;
-  border-left:5px solid #3949AB;
-  padding-left:10px;
-}
-
-.code-block{
-  background:#1e272e;
-  color:#dfe6e9;
-  padding:16px;
-  border-radius:8px;
-  font-family:"Courier New", monospace;
-  font-size:14px;
-  white-space:pre;
-  overflow-x:auto;
-  margin:12px 0;
-}
-
-.rule-item{
-  border:2px solid #ccc;
-  border-radius:8px;
-  padding:12px;
-  margin-bottom:8px;
-  cursor:pointer;
-  background:#f8f9fa;
-}
-
-.rule-item.ok{
-  background:#E8F5E9;
-  border-color:#4CAF50;
-}
-
-.rule-item.bad{
-  background:#FFEBEE;
-  border-color:#F44336;
-}
-
-.rule-verdict{
-  float:right;
-  font-size:20px;
-}
-
-.rule-why{
-  margin-top:6px;
-  font-size:13px;
-  display:none;
-}
-
-.rule-item.ok .rule-why,
-.rule-item.bad .rule-why{
-  display:block;
-}
-
-button{
-  padding:8px 14px;
-  border:none;
-  border-radius:6px;
-  background:#3949AB;
-  color:#fff;
-  cursor:pointer;
-  font-weight:bold;
-}
-</style>
-</head>
-
-<body>
-
-<header>
-  <h1>🐍 Python – Lecția 1</h1>
-  <p>Variabile, Tipuri & Casting</p>
-</header>
-
 <main>
 
 <section>
 <h2>📦 Variabile</h2>
-
 <div class="code-block">
 scor = 0
 print(scor)
@@ -147,7 +46,6 @@ print(scor)
 
 <section>
 <h2>🏷️ Tipuri de date</h2>
-
 <div class="code-block">
 print(type(13))      # &lt;class 'int'&gt;
 print(type(9.5))     # &lt;class 'float'&gt;
@@ -158,7 +56,6 @@ print(type(True))    # &lt;class 'bool'&gt;
 
 <section>
 <h2>🔄 Casting</h2>
-
 <div class="code-block">
 varsta_text = "13"
 varsta = int(varsta_text)
@@ -171,27 +68,3 @@ print("Scor:", str(scor))
 </section>
 
 </main>
-
-<script>
-document.querySelectorAll('.rule-item').forEach(function(el){
-  el.onclick = function(){
-    if(el.classList.contains('ok') || el.classList.contains('bad')) return;
-    var verdict = el.dataset.verdict;
-    el.classList.add(verdict);
-    el.querySelector('.rule-verdict').textContent = verdict === 'ok' ? '✅' : '❌';
-  }
-});
-
-function revealAll(){
-  document.querySelectorAll('.rule-item').forEach(function(el){
-    if(!el.classList.contains('ok') && !el.classList.contains('bad')){
-      var verdict = el.dataset.verdict;
-      el.classList.add(verdict);
-      el.querySelector('.rule-verdict').textContent = verdict === 'ok' ? '✅' : '❌';
-    }
-  });
-}
-</script>
-
-</body>
-</html>
