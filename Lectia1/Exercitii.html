@@ -2,12 +2,13 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <title>Exercitii Python v1.1</title>
+    <title>Python Rezolvări v1.18</title>
     <style>
         body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 20px; }
         .ex { border-bottom: 1px solid #eee; padding: 15px; }
-        summary { cursor: pointer; color: blue; font-weight: bold; }
-        pre { background: #222; color: #fff; padding: 10px; border-radius: 5px; }
+        summary { cursor: pointer; color: #d9534f; font-weight: bold; }
+        pre { background: #1e1e1e; color: #dcdcdc; padding: 15px; border-radius: 4px; }
+        code { display: block; white-space: pre; font-family: monospace; }
     </style>
 </head>
 <body>
@@ -15,14 +16,14 @@
 
     <div class="ex">
         <span>1. Afișează numele tău dintr-o variabilă:</span>
-        <details><pre><code># Versiunea 1.1: Definim variabila si o afisam
+        <details><summary>Vezi rezolvarea</summary><pre><code># Stocam textul intr-o variabila si il afisam
 nume = "Alex"
 print(nume)</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>2. Afișează numele și prenumele:</span>
-        <details><pre><code># Versiunea 1.1: Lipim numele de prenume cu un spatiu
+        <span>2. Afișează numele și prenumele (Popescu Ion):</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Lipim doua variabile text cu spatiu intre ele
 nume = "Popescu"
 prenume = "Ion"
 print(nume + " " + prenume)</code></pre></details>
@@ -30,149 +31,149 @@ print(nume + " " + prenume)</code></pre></details>
 
     <div class="ex">
         <span>3. Salut, lume (virgulă lipită):</span>
-        <details><pre><code># Versiunea 1.1: Lipim virgula de primul sir pentru a evita spatiul automat
+        <details><summary>Vezi rezolvarea</summary><pre><code># Concatenam virgula de primul cuvant pentru a evita spatiul automat
 sir1 = "Salut"
 sir2 = "lume"
 print(sir1 + ",", sir2)</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>4. Litere mari:</span>
-        <details><pre><code># Versiunea 1.1: Utilizam functia upper pentru majuscule
+        <span>4. Transformă "python" în litere mari:</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Metoda upper transforma textul in majuscule
 txt = "python"
 print(txt.upper())</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>5. Lungime text:</span>
-        <details><pre><code># Versiunea 1.1: Numaram caracterele cu len
+        <span>5. Lungimea textului "Scoala":</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Functia len numara caracterele din sir
 print(len("Scoala"))</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>6. Sumă (10 și 3):</span>
-        <details><pre><code># Versiunea 1.1: Adunarea a doua numere intregi
+        <span>6. Suma a două numere (10 și 3):</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Operatie simpla de adunare intre intregi
 print(10 + 3)</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>7. Produs float:</span>
-        <details><pre><code># Versiunea 1.1: Inmultirea cu un numar zecimal
+        <span>7. Înmulțirea 4.5 cu 2:</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Inmultirea unui numar float cu un intreg
 print(4.5 * 2)</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>8. Câtul împărțirii:</span>
-        <details><pre><code># Versiunea 1.1: Aflarea catului fara rest
+        <span>8. Partea întreagă a împărțirii (10 la 3):</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Operatorul // returneaza doar catul
 print(10 // 3)</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>9. Restul împărțirii:</span>
-        <details><pre><code># Versiunea 1.1: Operatia modulo pentru rest
+        <span>9. Restul împărțirii (15 la 4):</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Modulo (%) returneaza restul impartirii
 print(15 % 4)</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>10. Putere:</span>
-        <details><pre><code># Versiunea 1.1: Ridicarea la putere
+        <span>10. 2 la puterea 10:</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Operatorul ** este folosit pentru ridicarea la putere
 print(2 ** 10)</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>11. Conversie float:</span>
-        <details><pre><code># Versiunea 1.1: Transformarea unui intreg in zecimal
+        <span>11. Transformă 5 în float:</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Convertim numarul intreg in numar cu virgula
 print(float(5))</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>12. Text în număr:</span>
-        <details><pre><code># Versiunea 1.1: Convertim textul pentru a putea face calcule
+        <span>12. Adună textul "100" cu numărul 50:</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Convertim textul in intreg inainte de adunare
 print(int("100") + 50)</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>13. Eliminare zecimale:</span>
-        <details><pre><code># Versiunea 1.1: Fortam transformarea in intreg
+        <span>13. Elimină zecimalele lui 25.7:</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Functia int taie zecimalele fara rotunjire
 print(int(25.7))</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>14. Input și dublu:</span>
-        <details><pre><code># Versiunea 1.1: Citim de la tastatura si dublam valoarea
-n = int(input("Numar: "))
+        <span>14. Citește un număr și afișează dublul lui:</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Citim input, convertim in int si inmultim cu 2
+n = int(input("Introdu numar: "))
 print("Rezultatul este:", n * 2)</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>15. Tip variabilă:</span>
-        <details><pre><code># Versiunea 1.1: Identificam tipul de date
+        <span>15. Afișează tipul variabilei x = 10.5:</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># type() ne arata clasa din care face parte variabila
 x = 10.5
 print(type(x))</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>16. Boolean:</span>
-        <details><pre><code># Versiunea 1.1: Alocarea unei valori de adevar
-v = True
-print(v)</code></pre></details>
+        <span>16. Creează o variabilă booleană:</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Atribuim valoarea True unei variabile
+adevar = True
+print(adevar)</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>17. Comparație:</span>
-        <details><pre><code># Versiunea 1.1: Verificarea unei inegalitati
+        <span>17. Verifică dacă 10 este mai mare ca 5:</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Afisarea rezultatului unei comparatii logice
 print(10 > 5)</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>18. Egalitate:</span>
-        <details><pre><code># Versiunea 1.1: Compararea a doua siruri
+        <span>18. Verifică dacă "A" este egal cu "a":</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Python este case-sensitive (face diferenta intre litere)
 print("A" == "a")</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>19. Diferit:</span>
-        <details><pre><code># Versiunea 1.1: Verificarea operatorului diferit
+        <span>19. Verifică dacă 7 este diferit de 8:</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Operatorul != verifica inegalitatea
 print(7 != 8)</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>20. Negare:</span>
-        <details><pre><code># Versiunea 1.1: Inversarea valorii booleane
+        <span>20. Inversează valoarea True:</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Operatorul not neaga valoarea logica
 print(not True)</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>21. Schimb variabile:</span>
-        <details><pre><code># Versiunea 1.1: Interschimbarea valorilor (swap)
+        <span>21. Schimb de variabile (Swap):</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Interschimbam x si y intr-o singura linie
 x, y = 5, 10
 x, y = y, x
 print(x, y)</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>22. Perimetru:</span>
-        <details><pre><code># Versiunea 1.1: Calculul perimetrului unui dreptunghi
+        <span>22. Perimetru dreptunghi (L=20, l=10):</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Calculam suma laturilor inmultita cu 2
 L, l = 20, 10
 print(2 * (L + l))</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>23. Medie:</span>
-        <details><pre><code># Versiunea 1.1: Media aritmetica a trei numere
+        <span>23. Media a trei note:</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Adunam notele si impartim la numarul lor
 print((8 + 9 + 10) / 3)</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>24. Lipire text și număr:</span>
-        <details><pre><code># Versiunea 1.1: Afisarea unui mesaj combinat
+        <span>24. Afișează "Preț: 100 lei":</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Combinam textul cu variabila numerica
 p = 100
 print("Pret:", p, "lei")</code></pre></details>
     </div>
 
     <div class="ex">
-        <span>25. Economii:</span>
-        <details><pre><code># Versiunea 1.1: Scaderea cheltuielilor din venit
+        <span>25. Calcul profit (Venit 5000, Cost 3200):</span>
+        <details><summary>Vezi rezolvarea</summary><pre><code># Scadem cheltuielile din venitul brut
 print(5000 - 3200)</code></pre></details>
     </div>
 
