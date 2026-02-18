@@ -2,17 +2,12 @@
 <html lang="ro">
 <head>
   <!--
-    Python Rezolvări v1.19 (2026 UI)
-    Schimbări majore față de v1.18:
-    - UI modern (carduri, tipografie, spacing)
-    - Search instant + highlight match
-    - Copy code per exercițiu
-    - Light/Dark toggle cu memorare
-    - Responsive + accesibilitate (focus, contrast)
+    Exerciții Practice – Lecția 1 (Variabile, Tipuri de date, Casting) v1.24
+    Format: carduri + "Vezi rezolvarea" + cod + Copy + Search + Light/Dark
   -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Python Rezolvări v1.19</title>
+  <title>Python – Lecția 1 – Exerciții Practice v1.24</title>
 
   <style>
     :root{
@@ -41,7 +36,6 @@
       --max: 1040px;
     }
 
-    /* Light theme tokens */
     [data-theme="light"]{
       --bg: #f6f7fb;
       --panel: rgba(17,24,39,0.05);
@@ -73,15 +67,12 @@
       line-height: 1.55;
     }
 
-    a{ color: inherit; }
-
     .wrap{
       max-width: var(--max);
       margin: 0 auto;
       padding: 26px 18px 70px;
     }
 
-    /* Header */
     .top{
       border: 1px solid var(--border);
       background: linear-gradient(180deg, var(--panel2), var(--panel));
@@ -112,16 +103,17 @@
       flex-wrap: wrap;
     }
 
-    .hgroup h1{
+    h1{
       margin: 0;
       font-size: clamp(20px, 2.2vw, 28px);
       letter-spacing: 0.2px;
     }
-    .hgroup p{
+    .sub{
       margin: 7px 0 0;
       color: var(--muted);
-      max-width: 72ch;
+      max-width: 80ch;
     }
+
     .badgeRow{
       display:flex;
       gap: 10px;
@@ -141,9 +133,7 @@
       font-size: 13px;
       user-select: none;
     }
-    [data-theme="light"] .badge{
-      background: rgba(17,24,39,0.03);
-    }
+    [data-theme="light"] .badge{ background: rgba(17,24,39,0.03); }
     .dot{
       width: 8px;
       height: 8px;
@@ -152,7 +142,6 @@
       box-shadow: 0 0 0 3px rgba(125,211,252,0.14);
     }
 
-    /* Controls */
     .controls{
       margin-top: 16px;
       display:flex;
@@ -171,11 +160,6 @@
       background: rgba(255,255,255,0.04);
     }
     [data-theme="light"] .search{ background: rgba(17,24,39,0.03); }
-
-    .search svg{
-      flex: 0 0 auto;
-      opacity: 0.85;
-    }
     .search input{
       width: 100%;
       border: 0;
@@ -202,10 +186,8 @@
       transition: transform 0.08s ease, background 0.12s ease, border-color 0.12s ease;
     }
     [data-theme="light"] .btn{ background: rgba(17,24,39,0.03); }
-
     .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.06); }
     [data-theme="light"] .btn:hover{ background: rgba(17,24,39,0.05); }
-
     .btn:active{ transform: translateY(0px); }
     .btn:focus-visible{ outline: none; box-shadow: var(--ring); }
 
@@ -219,7 +201,6 @@
     }
     .btnAccent:focus-visible{ box-shadow: var(--ring2); }
 
-    /* Stats line */
     .metaLine{
       margin-top: 10px;
       color: var(--muted);
@@ -229,16 +210,16 @@
       flex-wrap: wrap;
       align-items:center;
     }
-    .sep{
-      opacity: 0.5;
-    }
+    .sep{ opacity: 0.5; }
 
-    /* Grid list */
     .grid{
       margin-top: 18px;
       display:grid;
       grid-template-columns: 1fr;
       gap: 12px;
+    }
+    @media (min-width: 920px){
+      .grid{ grid-template-columns: 1fr 1fr; }
     }
 
     .card{
@@ -279,9 +260,7 @@
       background: rgba(2,132,199,0.10);
       border-color: rgba(2,132,199,0.22);
     }
-    .qText{
-      min-width: 0;
-    }
+    .qText{ min-width: 0; }
     .qText .label{
       font-size: 14px;
       font-weight: 650;
@@ -294,9 +273,7 @@
       color: var(--muted);
     }
 
-    details{
-      border-top: 1px solid var(--border);
-    }
+    details{ border-top: 1px solid var(--border); }
     summary{
       list-style: none;
       cursor: pointer;
@@ -328,7 +305,6 @@
       font-weight: 600;
       font-size: 12px;
     }
-
     .chev{
       width: 18px;
       height: 18px;
@@ -336,14 +312,9 @@
       transition: transform 0.16s ease;
       opacity: 0.9;
     }
-    details[open] .chev{
-      transform: rotate(180deg);
-    }
+    details[open] .chev{ transform: rotate(180deg); }
 
-    .codeWrap{
-      padding: 0 14px 14px;
-    }
-
+    .codeWrap{ padding: 0 14px 14px; }
     .codeBar{
       display:flex;
       align-items:center;
@@ -357,6 +328,7 @@
       display:flex;
       gap: 8px;
       align-items:center;
+      flex-wrap: wrap;
     }
     .pill{
       padding: 5px 9px;
@@ -403,18 +375,14 @@
       color: rgba(255,255,255,0.90);
     }
 
-    /* Highlight for search matches */
     mark{
       background: rgba(125,211,252,0.22);
       color: inherit;
       padding: 0 2px;
       border-radius: 4px;
     }
-    [data-theme="light"] mark{
-      background: rgba(2,132,199,0.18);
-    }
+    [data-theme="light"] mark{ background: rgba(2,132,199,0.18); }
 
-    /* Empty state */
     .empty{
       margin-top: 14px;
       padding: 16px 14px;
@@ -426,20 +394,12 @@
     }
     [data-theme="light"] .empty{ background: rgba(17,24,39,0.02); }
 
-    /* Footer */
     .foot{
       margin-top: 22px;
       color: var(--muted);
       font-size: 13px;
       text-align: center;
       opacity: 0.95;
-    }
-
-    @media (min-width: 920px){
-      .grid{
-        grid-template-columns: 1fr 1fr;
-      }
-      .card{ min-height: 120px; }
     }
   </style>
 </head>
@@ -448,17 +408,15 @@
   <div class="wrap">
     <header class="top">
       <div class="titleRow">
-        <div class="hgroup">
-          <h1>25 Exerciții Python – Lecția 1</h1>
-          <p>
-            Rezolvări afișate în carduri, cu căutare rapidă și copiere de cod.
-            Interfață modernă (2026), fără “design de 2010”.
-          </p>
+        <div>
+          <h1>25 Exerciții Practice – Lecția 1</h1>
+          <p class="sub">Variabile • Tipuri de date • type() • Reguli numire • Casting</p>
 
-          <div class="badgeRow" aria-label="Informații pagină">
-            <span class="badge"><span class="dot" aria-hidden="true"></span> Python Rezolvări <strong>v1.19</strong></span>
-            <span class="badge">UI 2026</span>
-            <span class="badge">Search + Copy</span>
+          <div class="badgeRow">
+            <span class="badge"><span class="dot" aria-hidden="true"></span> Format aprobat • <strong>v1.24</strong></span>
+            <span class="badge">Carduri</span>
+            <span class="badge">Search</span>
+            <span class="badge">Copy</span>
             <span class="badge">Light/Dark</span>
           </div>
         </div>
@@ -485,7 +443,7 @@
             <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2"/>
             <path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
-          <input id="q" type="text" placeholder='Caută: ex. "upper", "input", "perimetru", "10"' autocomplete="off" />
+          <input id="q" type="text" placeholder='Caută: ex. "type", "casting", "int", "float", "string", "underscore"' autocomplete="off" />
         </div>
 
         <button class="btn" id="clearSearch" type="button" title="Șterge căutarea">
@@ -497,14 +455,12 @@
       <div class="metaLine" aria-live="polite">
         <span><strong id="countShown">25</strong> / 25 afișate</span>
         <span class="sep">•</span>
-        <span>Căutarea filtrează după număr + enunț + cod</span>
+        <span>Filtrare după număr + enunț + cod</span>
       </div>
     </header>
 
     <main>
-      <div class="empty" id="emptyState">
-        Nu există rezultate pentru căutarea curentă.
-      </div>
+      <div class="empty" id="emptyState">Nu există rezultate pentru căutarea curentă.</div>
 
       <section class="grid" id="list">
 
@@ -514,26 +470,21 @@
             <div class="q">
               <div class="num">1</div>
               <div class="qText">
-                <p class="label" data-text>1. Afișează numele tău dintr-o variabilă:</p>
-                <p class="hint">Variabilă text + print()</p>
+                <p class="label" data-text>1. Creează variabila <b>oras</b> cu valoarea <b>"Bucuresti"</b> și afișeaz-o.</p>
+                <p class="hint">variabilă (str) • print()</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">print</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">variabile</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Stocam textul intr-o variabila si il afisam
-nume = "Alex"
-print(nume)</code></pre>
+              <pre><code># v1.24 - variabila text si afisare
+oras = "Bucuresti"
+print(oras)</code></pre>
             </div>
           </details>
         </article>
@@ -544,27 +495,21 @@ print(nume)</code></pre>
             <div class="q">
               <div class="num">2</div>
               <div class="qText">
-                <p class="label" data-text>2. Afișează numele și prenumele (Popescu Ion):</p>
-                <p class="hint">Concatenare / spațiu între cuvinte</p>
+                <p class="label" data-text>2. Creează variabila <b>numar_zile</b> cu valoarea <b>7</b> și afișeaz-o.</p>
+                <p class="hint">int • print()</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">string</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">int</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Lipim doua variabile text cu spatiu intre ele
-nume = "Popescu"
-prenume = "Ion"
-print(nume + " " + prenume)</code></pre>
+              <pre><code># v1.24 - variabila int si afisare
+numar_zile = 7
+print(numar_zile)</code></pre>
             </div>
           </details>
         </article>
@@ -575,27 +520,21 @@ print(nume + " " + prenume)</code></pre>
             <div class="q">
               <div class="num">3</div>
               <div class="qText">
-                <p class="label" data-text>3. Salut, lume (virgulă lipită):</p>
-                <p class="hint">Concatenare + virgulă</p>
+                <p class="label" data-text>3. Creează variabila <b>temperatura</b> cu valoarea <b>25.5</b> și afișeaz-o.</p>
+                <p class="hint">float • print()</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">print</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">float</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Concatenam virgula de primul cuvant pentru a evita spatiul automat
-sir1 = "Salut"
-sir2 = "lume"
-print(sir1 + ",", sir2)</code></pre>
+              <pre><code># v1.24 - variabila float si afisare
+temperatura = 25.5
+print(temperatura)</code></pre>
             </div>
           </details>
         </article>
@@ -606,26 +545,21 @@ print(sir1 + ",", sir2)</code></pre>
             <div class="q">
               <div class="num">4</div>
               <div class="qText">
-                <p class="label" data-text>4. Transformă "python" în litere mari:</p>
-                <p class="hint">Metoda upper()</p>
+                <p class="label" data-text>4. Creează variabila <b>este_deschis</b> cu valoarea <b>False</b> și afișeaz-o.</p>
+                <p class="hint">bool • print()</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">upper()</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">bool</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Metoda upper transforma textul in majuscule
-txt = "python"
-print(txt.upper())</code></pre>
+              <pre><code># v1.24 - variabila booleana si afisare
+este_deschis = False
+print(este_deschis)</code></pre>
             </div>
           </details>
         </article>
@@ -636,25 +570,21 @@ print(txt.upper())</code></pre>
             <div class="q">
               <div class="num">5</div>
               <div class="qText">
-                <p class="label" data-text>5. Lungimea textului "Scoala":</p>
-                <p class="hint">len()</p>
+                <p class="label" data-text>5. Creează variabila <b>varsta</b> cu valoarea <b>12</b> și afișează tipul ei folosind <b>type()</b>.</p>
+                <p class="hint">type()</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">len()</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">type()</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Functia len numara caracterele din sir
-print(len("Scoala"))</code></pre>
+              <pre><code># v1.24 - afisare tip pentru int
+varsta = 12
+print(type(varsta))</code></pre>
             </div>
           </details>
         </article>
@@ -665,25 +595,21 @@ print(len("Scoala"))</code></pre>
             <div class="q">
               <div class="num">6</div>
               <div class="qText">
-                <p class="label" data-text>6. Suma a două numere (10 și 3):</p>
-                <p class="hint">Adunare</p>
+                <p class="label" data-text>6. Creează variabila <b>pret</b> cu valoarea <b>19.99</b> și afișează tipul ei folosind <b>type()</b>.</p>
+                <p class="hint">type()</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">aritmetică</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">type()</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Operatie simpla de adunare intre intregi
-print(10 + 3)</code></pre>
+              <pre><code># v1.24 - afisare tip pentru float
+pret = 19.99
+print(type(pret))</code></pre>
             </div>
           </details>
         </article>
@@ -694,25 +620,21 @@ print(10 + 3)</code></pre>
             <div class="q">
               <div class="num">7</div>
               <div class="qText">
-                <p class="label" data-text>7. Înmulțirea 4.5 cu 2:</p>
-                <p class="hint">float * int</p>
+                <p class="label" data-text>7. Creează variabila <b>nume</b> cu valoarea <b>"Ana"</b> și afișează tipul ei folosind <b>type()</b>.</p>
+                <p class="hint">type()</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">float</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">type()</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Inmultirea unui numar float cu un intreg
-print(4.5 * 2)</code></pre>
+              <pre><code># v1.24 - afisare tip pentru string
+nume = "Ana"
+print(type(nume))</code></pre>
             </div>
           </details>
         </article>
@@ -723,25 +645,21 @@ print(4.5 * 2)</code></pre>
             <div class="q">
               <div class="num">8</div>
               <div class="qText">
-                <p class="label" data-text>8. Partea întreagă a împărțirii (10 la 3):</p>
-                <p class="hint">// (împărțire întreagă)</p>
+                <p class="label" data-text>8. Creează variabila <b>ok</b> cu valoarea <b>True</b> și afișează tipul ei folosind <b>type()</b>.</p>
+                <p class="hint">type()</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">//</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">type()</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Operatorul // returneaza doar catul
-print(10 // 3)</code></pre>
+              <pre><code># v1.24 - afisare tip pentru bool
+ok = True
+print(type(ok))</code></pre>
             </div>
           </details>
         </article>
@@ -752,25 +670,23 @@ print(10 // 3)</code></pre>
             <div class="q">
               <div class="num">9</div>
               <div class="qText">
-                <p class="label" data-text>9. Restul împărțirii (15 la 4):</p>
-                <p class="hint">%</p>
+                <p class="label" data-text>9. Creează două variabile: <b>x = 5</b> și <b>X = 10</b>, apoi afișează-le (sunt diferite).</p>
+                <p class="hint">case-sensitive</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">modulo</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">case</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Modulo (%) returneaza restul impartirii
-print(15 % 4)</code></pre>
+              <pre><code># v1.24 - litere mari si mici: variabile diferite
+x = 5
+X = 10
+print(x)
+print(X)</code></pre>
             </div>
           </details>
         </article>
@@ -781,25 +697,21 @@ print(15 % 4)</code></pre>
             <div class="q">
               <div class="num">10</div>
               <div class="qText">
-                <p class="label" data-text>10. 2 la puterea 10:</p>
-                <p class="hint">** (putere)</p>
+                <p class="label" data-text>10. Creează variabila <b>nume1</b> cu valoarea <b>"Mihai"</b> și afișeaz-o.</p>
+                <p class="hint">nume valid (litere+cifre)</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">**</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">nume</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Operatorul ** este folosit pentru ridicarea la putere
-print(2 ** 10)</code></pre>
+              <pre><code># v1.24 - cifra este permisa in nume (dar nu la inceput)
+nume1 = "Mihai"
+print(nume1)</code></pre>
             </div>
           </details>
         </article>
@@ -810,25 +722,21 @@ print(2 ** 10)</code></pre>
             <div class="q">
               <div class="num">11</div>
               <div class="qText">
-                <p class="label" data-text>11. Transformă 5 în float:</p>
-                <p class="hint">float()</p>
+                <p class="label" data-text>11. Creează variabila <b>_index</b> cu valoarea <b>3</b> și afișeaz-o.</p>
+                <p class="hint">underscore la început</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">conversie</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">underscore</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Convertim numarul intreg in numar cu virgula
-print(float(5))</code></pre>
+              <pre><code># v1.24 - variabila poate incepe cu underscore
+_index = 3
+print(_index)</code></pre>
             </div>
           </details>
         </article>
@@ -839,25 +747,21 @@ print(float(5))</code></pre>
             <div class="q">
               <div class="num">12</div>
               <div class="qText">
-                <p class="label" data-text>12. Adună textul "100" cu numărul 50:</p>
-                <p class="hint">int("100") + 50</p>
+                <p class="label" data-text>12. Creează variabila <b>numar_studenti2</b> cu valoarea <b>25</b> și afișeaz-o.</p>
+                <p class="hint">snake_case + cifre</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">int()</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">snake_case</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Convertim textul in intreg inainte de adunare
-print(int("100") + 50)</code></pre>
+              <pre><code># v1.24 - nume cu underscore si cifra la final
+numar_studenti2 = 25
+print(numar_studenti2)</code></pre>
             </div>
           </details>
         </article>
@@ -868,25 +772,21 @@ print(int("100") + 50)</code></pre>
             <div class="q">
               <div class="num">13</div>
               <div class="qText">
-                <p class="label" data-text>13. Elimină zecimalele lui 25.7:</p>
-                <p class="hint">int(25.7) taie zecimalele</p>
+                <p class="label" data-text>13. Creează variabila <b>valoare</b> cu valoarea <b>"10"</b> (text) și afișează tipul ei cu <b>type()</b>.</p>
+                <p class="hint">str vs int</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">int()</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">type()</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Functia int taie zecimalele fara rotunjire
-print(int(25.7))</code></pre>
+              <pre><code># v1.24 - "10" este text
+valoare = "10"
+print(type(valoare))</code></pre>
             </div>
           </details>
         </article>
@@ -897,26 +797,21 @@ print(int(25.7))</code></pre>
             <div class="q">
               <div class="num">14</div>
               <div class="qText">
-                <p class="label" data-text>14. Citește un număr și afișează dublul lui:</p>
-                <p class="hint">input() + int()</p>
+                <p class="label" data-text>14. Convertește textul <b>"10"</b> la <b>int</b> folosind <b>int()</b> și afișează rezultatul.</p>
+                <p class="hint">casting str → int</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">input</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">casting</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Citim input, convertim in int si inmultim cu 2
-n = int(input("Introdu numar: "))
-print("Rezultatul este:", n * 2)</code></pre>
+              <pre><code># v1.24 - casting: text -> int
+n = int("10")
+print(n)</code></pre>
             </div>
           </details>
         </article>
@@ -927,26 +822,21 @@ print("Rezultatul este:", n * 2)</code></pre>
             <div class="q">
               <div class="num">15</div>
               <div class="qText">
-                <p class="label" data-text>15. Afișează tipul variabilei x = 10.5:</p>
-                <p class="hint">type()</p>
+                <p class="label" data-text>15. Convertește textul <b>"3.14"</b> la <b>float</b> folosind <b>float()</b> și afișează rezultatul.</p>
+                <p class="hint">casting str → float</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">type()</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">casting</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># type() ne arata clasa din care face parte variabila
-x = 10.5
-print(type(x))</code></pre>
+              <pre><code># v1.24 - casting: text -> float
+x = float("3.14")
+print(x)</code></pre>
             </div>
           </details>
         </article>
@@ -957,26 +847,22 @@ print(type(x))</code></pre>
             <div class="q">
               <div class="num">16</div>
               <div class="qText">
-                <p class="label" data-text>16. Creează o variabilă booleană:</p>
-                <p class="hint">True / False</p>
+                <p class="label" data-text>16. Convertește numărul <b>20</b> la <b>float</b> folosind <b>float()</b> și afișează rezultatul.</p>
+                <p class="hint">casting int → float</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">bool</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">casting</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Atribuim valoarea True unei variabile
-adevar = True
-print(adevar)</code></pre>
+              <pre><code># v1.24 - casting: int -> float
+a = 20
+b = float(a)
+print(b)</code></pre>
             </div>
           </details>
         </article>
@@ -987,25 +873,22 @@ print(adevar)</code></pre>
             <div class="q">
               <div class="num">17</div>
               <div class="qText">
-                <p class="label" data-text>17. Verifică dacă 10 este mai mare ca 5:</p>
-                <p class="hint">Comparație</p>
+                <p class="label" data-text>17. Convertește numărul <b>10.7</b> la <b>int</b> folosind <b>int()</b> și afișează rezultatul.</p>
+                <p class="hint">casting float → int</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">comparare</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">casting</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Afisarea rezultatului unei comparatii logice
-print(10 > 5)</code></pre>
+              <pre><code># v1.24 - casting: float -> int (se taie partea zecimala)
+x = 10.7
+y = int(x)
+print(y)</code></pre>
             </div>
           </details>
         </article>
@@ -1016,25 +899,22 @@ print(10 > 5)</code></pre>
             <div class="q">
               <div class="num">18</div>
               <div class="qText">
-                <p class="label" data-text>18. Verifică dacă "A" este egal cu "a":</p>
-                <p class="hint">Case-sensitive</p>
+                <p class="label" data-text>18. Convertește numărul <b>100</b> la <b>str</b> folosind <b>str()</b> și afișează rezultatul.</p>
+                <p class="hint">casting int → str</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">string</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">casting</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Python este case-sensitive (face diferenta intre litere)
-print("A" == "a")</code></pre>
+              <pre><code># v1.24 - casting: int -> str
+n = 100
+t = str(n)
+print(t)</code></pre>
             </div>
           </details>
         </article>
@@ -1045,25 +925,21 @@ print("A" == "a")</code></pre>
             <div class="q">
               <div class="num">19</div>
               <div class="qText">
-                <p class="label" data-text>19. Verifică dacă 7 este diferit de 8:</p>
-                <p class="hint">!=</p>
+                <p class="label" data-text>19. Creează variabila <b>t = True</b>, convertește-o la <b>int</b> folosind <b>int()</b> și afișează rezultatul.</p>
+                <p class="hint">bool → int</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">!=</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">casting</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Operatorul != verifica inegalitatea
-print(7 != 8)</code></pre>
+              <pre><code># v1.24 - True devine 1
+t = True
+print(int(t))</code></pre>
             </div>
           </details>
         </article>
@@ -1074,25 +950,21 @@ print(7 != 8)</code></pre>
             <div class="q">
               <div class="num">20</div>
               <div class="qText">
-                <p class="label" data-text>20. Inversează valoarea True:</p>
-                <p class="hint">not</p>
+                <p class="label" data-text>20. Creează variabila <b>f = False</b>, convertește-o la <b>str</b> folosind <b>str()</b> și afișează rezultatul.</p>
+                <p class="hint">bool → str</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">not</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">casting</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Operatorul not neaga valoarea logica
-print(not True)</code></pre>
+              <pre><code># v1.24 - False ca text
+f = False
+print(str(f))</code></pre>
             </div>
           </details>
         </article>
@@ -1103,27 +975,21 @@ print(not True)</code></pre>
             <div class="q">
               <div class="num">21</div>
               <div class="qText">
-                <p class="label" data-text>21. Schimb de variabile (Swap):</p>
-                <p class="hint">x, y = y, x</p>
+                <p class="label" data-text>21. Creează variabila <b>scor</b> cu valoarea <b>10</b> și afișează textul <b>"Scorul este:"</b> împreună cu scorul folosind <b>print</b> cu virgulă.</p>
+                <p class="hint">print("text", număr)</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">tuple swap</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">print</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Interschimbam x si y intr-o singura linie
-x, y = 5, 10
-x, y = y, x
-print(x, y)</code></pre>
+              <pre><code># v1.24 - afisare text + numar cu print (separator spatiu)
+scor = 10
+print("Scorul este:", scor)</code></pre>
             </div>
           </details>
         </article>
@@ -1134,26 +1000,21 @@ print(x, y)</code></pre>
             <div class="q">
               <div class="num">22</div>
               <div class="qText">
-                <p class="label" data-text>22. Perimetru dreptunghi (L=20, l=10):</p>
-                <p class="hint">2*(L+l)</p>
+                <p class="label" data-text>22. Creează variabila <b>scor</b> cu valoarea <b>10</b> și afișează <b>"Scorul este: "</b> lipit de scor folosind <b>+</b> și <b>str(scor)</b>.</p>
+                <p class="hint">"text" + str(număr)</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">aritmetică</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">str()</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Calculam suma laturilor inmultita cu 2
-L, l = 20, 10
-print(2 * (L + l))</code></pre>
+              <pre><code># v1.24 - lipire text + numar cu casting la string
+scor = 10
+print("Scorul este: " + str(scor))</code></pre>
             </div>
           </details>
         </article>
@@ -1164,25 +1025,22 @@ print(2 * (L + l))</code></pre>
             <div class="q">
               <div class="num">23</div>
               <div class="qText">
-                <p class="label" data-text>23. Media a trei note:</p>
-                <p class="hint">(8+9+10)/3</p>
+                <p class="label" data-text>23. Creează variabila <b>v</b> cu valoarea <b>10</b>, apoi schimbă valoarea în <b>"zece"</b> și afișează tipul final cu <b>type()</b>.</p>
+                <p class="hint">reatribuire</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">medie</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">type()</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Adunam notele si impartim la numarul lor
-print((8 + 9 + 10) / 3)</code></pre>
+              <pre><code># v1.24 - aceeasi variabila poate primi alt tip
+v = 10
+v = "zece"
+print(type(v))</code></pre>
             </div>
           </details>
         </article>
@@ -1193,26 +1051,26 @@ print((8 + 9 + 10) / 3)</code></pre>
             <div class="q">
               <div class="num">24</div>
               <div class="qText">
-                <p class="label" data-text>24. Afișează "Preț: 100 lei":</p>
-                <p class="hint">print cu text + variabilă</p>
+                <p class="label" data-text>24. Creează <b>a = "7"</b> și <b>b = "8"</b>; convertește-le la <b>int</b> în <b>a_int</b> și <b>b_int</b>, apoi afișează tipurile lui <b>a_int</b> și <b>b_int</b>.</p>
+                <p class="hint">casting + type()</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">print</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">casting</span><span class="pill">type()</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Combinam textul cu variabila numerica
-p = 100
-print("Pret:", p, "lei")</code></pre>
+              <pre><code># v1.24 - convertim texte numerice in int si verificam tipurile
+a = "7"
+b = "8"
+a_int = int(a)
+b_int = int(b)
+
+print(type(a_int))
+print(type(b_int))</code></pre>
             </div>
           </details>
         </article>
@@ -1223,50 +1081,49 @@ print("Pret:", p, "lei")</code></pre>
             <div class="q">
               <div class="num">25</div>
               <div class="qText">
-                <p class="label" data-text>25. Calcul profit (Venit 5000, Cost 3200):</p>
-                <p class="hint">Scădere</p>
+                <p class="label" data-text>25. Creează variabilele <b>nume</b>, <b>varsta</b>, <b>inaltime</b>, <b>este_elev</b> cu valori potrivite și afișează tipul fiecăreia folosind <b>type()</b>.</p>
+                <p class="hint">str • int • float • bool</p>
               </div>
             </div>
           </div>
           <details>
-            <summary>
-              <span>Vezi rezolvarea</span>
-              <span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span>
-            </summary>
+            <summary><span>Vezi rezolvarea</span><span class="sumRight"><span>Cod</span><span class="chev" aria-hidden="true">▾</span></span></summary>
             <div class="codeWrap">
               <div class="codeBar">
-                <div class="lang"><span class="pill">Python</span><span class="pill">aritmetică</span></div>
-                <button class="copyBtn" type="button" data-copy>
-                  <span aria-hidden="true">📋</span><span>Copiază</span>
-                </button>
+                <div class="lang"><span class="pill">Python</span><span class="pill">type()</span></div>
+                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code># Scadem cheltuielile din venitul brut
-print(5000 - 3200)</code></pre>
+              <pre><code># v1.24 - patru tipuri de date si verificarea tipurilor
+nume = "Ana"
+varsta = 12
+inaltime = 1.55
+este_elev = True
+
+print(type(nume))
+print(type(varsta))
+print(type(inaltime))
+print(type(este_elev))</code></pre>
             </div>
           </details>
         </article>
 
       </section>
 
-      <div class="foot">
-        Python Rezolvări v1.19 • UI 2026 • Search + Copy + Light/Dark
-      </div>
+      <div class="foot">Python • Lecția 1 • Exerciții Practice • v1.24</div>
     </main>
   </div>
 
   <script>
     /*
-      JS v1.19
+      JS v1.24
       - Tema (memorare în localStorage)
       - Search instant + highlight
       - Expand/Collapse all
       - Copy code cu feedback
     */
-
     (function(){
       const root = document.documentElement;
 
-      // THEME
       const savedTheme = localStorage.getItem("py_page_theme");
       if(savedTheme === "light" || savedTheme === "dark"){
         root.setAttribute("data-theme", savedTheme);
@@ -1282,7 +1139,6 @@ print(5000 - 3200)</code></pre>
         localStorage.setItem("py_page_theme", next);
       });
 
-      // ELEMENTS
       const input = document.getElementById("q");
       const clearBtn = document.getElementById("clearSearch");
       const list = document.getElementById("list");
@@ -1290,7 +1146,6 @@ print(5000 - 3200)</code></pre>
       const countShown = document.getElementById("countShown");
       const emptyState = document.getElementById("emptyState");
 
-      // Backup original label HTML for highlight reset
       const labelNodes = cards.map(c => c.querySelector("[data-text]"));
       const originalLabelHTML = labelNodes.map(n => n.innerHTML);
 
@@ -1336,7 +1191,6 @@ print(5000 - 3200)</code></pre>
           card.style.display = ok ? "" : "none";
           if(ok) shown++;
 
-          // highlight only in label (simplu, stabil)
           highlightLabel(labelNodes[i], originalLabelHTML[i], q);
         });
 
@@ -1351,7 +1205,6 @@ print(5000 - 3200)</code></pre>
         input.focus();
       });
 
-      // EXPAND/COLLAPSE ALL
       const expandAll = document.getElementById("expandAll");
       const collapseAll = document.getElementById("collapseAll");
 
@@ -1370,7 +1223,6 @@ print(5000 - 3200)</code></pre>
         });
       });
 
-      // COPY
       function setCopyState(btn, text){
         const old = btn.innerHTML;
         btn.innerHTML = text;
@@ -1393,7 +1245,6 @@ print(5000 - 3200)</code></pre>
         }
       });
 
-      // INIT
       applyFilter();
     })();
   </script>
