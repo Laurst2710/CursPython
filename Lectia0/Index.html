@@ -1,1 +1,513 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thonny — Lectia 0</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #f0f4ff;
+    color: #222;
+    font-size: 16px;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #3b4fc8 0%, #5b6de8 50%, #4a5bd4 100%);
+    color: white;
+    text-align: center;
+    padding: 48px 20px 40px;
+  }
+
+  .hero-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .hero h1 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    opacity: 0.85;
+    margin-bottom: 16px;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  /* NAV TABS */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 16px;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .tabs a {
+    text-decoration: none;
+    color: #444;
+    font-size: 0.88rem;
+    font-weight: 700;
+    border: 1.5px solid #d0d7e8;
+    border-radius: 999px;
+    padding: 5px 16px;
+    transition: all 0.2s;
+  }
+
+  .tabs a:hover, .tabs a.active {
+    background: #3b4fc8;
+    color: white;
+    border-color: #3b4fc8;
+  }
+
+  /* CONTENT */
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 32px 16px 60px;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 36px;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: #3b4fc8;
+    border-left: 5px solid #3b4fc8;
+    padding-left: 14px;
+    margin-bottom: 16px;
+  }
+
+  /* INFO BOX */
+  .info-box {
+    background: white;
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 10px rgba(60,80,200,0.07);
+    border: 1.5px solid #e2e8f0;
+  }
+
+  .info-box .label {
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: #3b4fc8;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .info-box p {
+    color: #444;
+    line-height: 1.7;
+    font-size: 0.97rem;
+  }
+
+  .info-box p strong {
+    color: #222;
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: linear-gradient(135deg, #eef1ff, #f5f7ff);
+    border: 1.5px solid #c5ccf5;
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+  }
+
+  .highlight-box .label {
+    font-weight: 800;
+    color: #5b6de8;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+  }
+
+  .highlight-box p {
+    color: #333;
+    line-height: 1.7;
+    font-size: 0.97rem;
+  }
+
+  /* FEATURE CARDS */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1.5px solid #e2e8f0;
+    box-shadow: 0 2px 10px rgba(60,80,200,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(60,80,200,0.13);
+  }
+
+  .card-icon {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .card h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #222;
+    margin-bottom: 6px;
+  }
+
+  .card p {
+    font-size: 0.88rem;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  /* STEPS */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: white;
+    border-radius: 14px;
+    padding: 18px 20px;
+    border: 1.5px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(60,80,200,0.05);
+  }
+
+  .step-num {
+    background: #3b4fc8;
+    color: white;
+    font-weight: 900;
+    font-size: 1rem;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .step-content h4 {
+    font-weight: 800;
+    font-size: 0.97rem;
+    color: #222;
+    margin-bottom: 4px;
+  }
+
+  .step-content p {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: #1e2340;
+    color: #a8d8a8;
+    border-radius: 12px;
+    padding: 20px 24px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    margin-bottom: 14px;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #7a8ab0; }
+  .code-block .keyword { color: #7eb8f7; }
+  .code-block .string { color: #f9c74f; }
+  .code-block .func { color: #90e0ef; }
+
+  /* QUIZ */
+  .quiz-box {
+    background: white;
+    border-radius: 14px;
+    border: 2px solid #3b4fc8;
+    padding: 22px 24px;
+    margin-bottom: 14px;
+  }
+
+  .quiz-box .q {
+    font-weight: 800;
+    font-size: 1rem;
+    color: #222;
+    margin-bottom: 14px;
+  }
+
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .quiz-option {
+    background: #f0f4ff;
+    border: 1.5px solid #c5ccf5;
+    border-radius: 10px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: #333;
+    transition: all 0.2s;
+    text-align: left;
+  }
+
+  .quiz-option:hover {
+    background: #3b4fc8;
+    color: white;
+    border-color: #3b4fc8;
+  }
+
+  .quiz-option.correct {
+    background: #d4edda;
+    border-color: #4caf50;
+    color: #1b5e20;
+  }
+
+  .quiz-option.wrong {
+    background: #fde8e8;
+    border-color: #e53935;
+    color: #7f0000;
+  }
+
+  /* FOOTER NOTE */
+  .footer-note {
+    text-align: center;
+    color: #888;
+    font-size: 0.82rem;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 500px) {
+    .hero h1 { font-size: 1.6rem; }
+    .cards-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-icon">🐍</span>
+  <h1>Thonny — Lectia 0</h1>
+  <p>Mediul de programare Python pentru începători</p>
+  <span class="hero-badge">Lectia 0 &nbsp;|&nbsp; 10-14 ani &nbsp;|&nbsp; Nivel: Începător</span>
+</div>
+
+<!-- TABS -->
+<nav class="tabs">
+  <a href="#">Thonny</a>
+  <a href="#" class="active">Instalare</a>
+  <a href="#">Interfața</a>
+  <a href="#">Variabile</a>
+  <a href="#">Depanare</a>
+  <a href="#">Exerciții</a>
+  <a href="#">Quiz</a>
+  <a href="#">Teme</a>
+</nav>
+
+<div class="container">
+
+  <!-- 0. Ce este Thonny? -->
+  <div class="section">
+    <div class="section-title">0. Ce este Thonny?</div>
+    <div class="info-box">
+      <div class="label">💡 Gândește-te așa:</div>
+      <p>Thonny este un <strong>program special</strong> care te ajută să scrii cod Python. La fel cum folosești Word ca să scrii texte, folosești Thonny ca să scrii programe Python!</p>
+    </div>
+    <div class="highlight-box">
+      <div class="label">🎯 De ce Thonny?</div>
+      <p>Thonny a fost creat special pentru <strong>începători</strong>. Este simplu, curat și vine cu tot ce ai nevoie instalat deja — inclusiv Python!</p>
+    </div>
+  </div>
+
+  <!-- 1. Cum îl instalezi? -->
+  <div class="section">
+    <div class="section-title">1. Cum instalezi Thonny?</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Mergi pe site-ul oficial</h4>
+          <p>Deschide browserul și accesează <strong>thonny.org</strong>. Acolo vei găsi butonul de descărcare pentru Windows.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Descarcă fișierul .exe</h4>
+          <p>Apasă pe butonul de descărcare pentru Windows. Se va descărca un fișier de tip <strong>.exe</strong> pe calculatorul tău.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Rulează instalatorul</h4>
+          <p>Fă dublu clic pe fișierul descărcat și urmează pașii de instalare. Apasă <strong>Next</strong> și apoi <strong>Install</strong>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Deschide Thonny</h4>
+          <p>Găsește Thonny în meniul Start sau pe Desktop și apasă pe el. Ești gata să programezi!</p>
+        </div>
+      </div>
+    </div>
+    <div class="info-box" style="margin-top:14px;">
+      <div class="label">✅ Important de știut:</div>
+      <p><strong>Nu trebuie să instalezi Python separat!</strong> Thonny vine cu Python 3.10 deja inclus. Un singur program instalat și ești gata!</p>
+    </div>
+  </div>
+
+  <!-- 2. Ce găsești în Thonny? -->
+  <div class="section">
+    <div class="section-title">2. Ce funcții are Thonny?</div>
+    <div class="cards-grid">
+      <div class="card">
+        <span class="card-icon">🔢</span>
+        <h3>Variabile vizuale</h3>
+        <p>Poți vedea în timp real cum se schimbă variabilele programului tău prin meniul <strong>Vizualizare → Variabile</strong>.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🐛</span>
+        <h3>Depanator simplu</h3>
+        <p>Rulează programul pas cu pas cu <strong>Ctrl+F5</strong>. Nu ai nevoie de puncte de întrerupere!</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔍</span>
+        <h3>Erori evidențiate</h3>
+        <p>Ghilimelele și parantezele neînchise sunt marcate automat, ca să le găsești ușor.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">💡</span>
+        <h3>Completare automată</h3>
+        <p>Thonny îți sugerează automat comenzi și funcții Python pe măsură ce scrii codul.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📦</span>
+        <h3>Gestionare pachete</h3>
+        <p>Instalează biblioteci extra prin <strong>Instrumente → Gestionează pachete</strong>, simplu și rapid.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🪟</span>
+        <h3>Apeluri de funcții</h3>
+        <p>Intrarea în o funcție deschide o fereastră nouă — perfect pentru a înțelege recursivitatea!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Primul tău program -->
+  <div class="section">
+    <div class="section-title">3. Primul tău program în Thonny</div>
+    <div class="info-box">
+      <div class="label">📝 Scrie acest cod în Thonny:</div>
+    </div>
+    <div class="code-block">
+      <span class="comment"># Primul meu program Python</span><br>
+      <span class="keyword">print</span>(<span class="string">"Salut! Sunt gata să programez cu Thonny!"</span>)<br><br>
+      <span class="keyword">nume</span> = <span class="string">"Maria"</span><br>
+      <span class="keyword">varsta</span> = <span class="keyword">14</span><br>
+      <span class="func">print</span>(<span class="string">f"Mă numesc {nume} și am {varsta} ani."</span>)
+    </div>
+    <div class="highlight-box">
+      <div class="label">▶️ Cum rulezi programul?</div>
+      <p>Apasă tasta <strong>F5</strong> sau butonul verde ▶ din bara de instrumente. Rezultatul va apărea în partea de jos a ecranului, în zona numită <strong>Shell</strong>.</p>
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="section">
+    <div class="section-title">4. Quiz rapid</div>
+
+    <div class="quiz-box">
+      <div class="q">❓ Trebuie să instalezi Python separat dacă folosești Thonny?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answer(this, false)">Da, trebuie instalat separat</button>
+        <button class="quiz-option" onclick="answer(this, true)">Nu, Thonny include Python deja</button>
+        <button class="quiz-option" onclick="answer(this, false)">Depinde de versiunea Windows</button>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="q">❓ Ce tastă folosești pentru a rula programul pas cu pas în Thonny?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answer(this, false)">F5</button>
+        <button class="quiz-option" onclick="answer(this, true)">Ctrl+F5</button>
+        <button class="quiz-option" onclick="answer(this, false)">F10</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tema -->
+  <div class="section">
+    <div class="section-title">5. Tema pentru acasă</div>
+    <div class="info-box">
+      <div class="label">📚 De făcut:</div>
+      <p>1. Instalează Thonny pe calculatorul tău de acasă.<br><br>
+         2. Scrie un program care afișează numele tău, vârsta ta și orașul în care locuiești.<br><br>
+         3. Rulează programul și fă o captură de ecran cu rezultatul din Shell.<br><br>
+         4. Încearcă să ștergi o paranteză sau un ghilimele și observă cum Thonny îți arată eroarea!</p>
+    </div>
+  </div>
+
+  <div class="footer-note">Thonny — Python IDE pentru începători &nbsp;|&nbsp; thonny.org</div>
+
+</div>
+
+<script>
+  function answer(btn, correct) {
+    const parent = btn.closest('.quiz-options');
+    const btns = parent.querySelectorAll('.quiz-option');
+    btns.forEach(b => b.disabled = true);
+    btn.classList.add(correct ? 'correct' : 'wrong');
+    if (!correct) {
+      btns.forEach(b => {
+        if (b.getAttribute('onclick').includes('true')) b.classList.add('correct');
+      });
+    }
+  }
+</script>
+
+</body>
+</html>
