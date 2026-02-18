@@ -2,74 +2,160 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exercitii Python - Rezolvate</title>
+    <title>Exerciții Python Rezolvate</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: auto; padding: 20px; background-color: #f4f4f9; }
-        h1 { color: #2c3e50; text-align: center; }
-        .exercise-card { background: white; border-radius: 8px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 5px solid #3498db; }
-        .question { font-weight: bold; font-size: 1.1em; color: #2980b9; }
-        details { margin-top: 10px; cursor: pointer; }
-        summary { font-weight: bold; color: #27ae60; outline: none; }
-        pre { background: #2d3436; color: #fab1a0; padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 0.9em; margin-top: 10px; }
-        code { font-family: 'Courier New', Courier, monospace; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 850px; margin: 40px auto; padding: 20px; background: #fdfdfd; color: #333; }
+        h1 { color: #2c3e50; text-align: center; margin-bottom: 40px; }
+        .card { background: #fff; border: 1px solid #ddd; padding: 20px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .intrebare { font-weight: 600; font-size: 1.1em; color: #2c3e50; }
+        summary { color: #007bff; cursor: pointer; margin-top: 12px; font-weight: bold; outline: none; }
+        pre { background: #282c34; color: #abb2bf; padding: 15px; border-radius: 6px; overflow-x: auto; margin-top: 15px; }
+        code { font-family: 'Consolas', 'Monaco', monospace; line-height: 1.5; }
     </style>
 </head>
 <body>
 
     <h1>🐍 Exerciții Python: Variabile și Date Simple</h1>
-    <p style="text-align: center;">Rezolvări pentru începători - Gata pentru GitHub & Google Sites</p>
 
-    <div class="exercise-card">
-        <div class="question">1. Afișează numele tău dintr-o variabilă.</div>
-        <details>
-            <summary>Vezi rezolvarea</summary>
-            <pre><code>nume = "Andrei"
-print(nume)</code></pre>
-        </details>
+    <div class="card">
+        <div class="intrebare">1. Declară o variabilă cu numele tău și afișează-l.</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>nume = "Andrei"
+print(nume)</code></pre></details>
     </div>
 
-    <div class="exercise-card">
-        <div class="question">2. Unește prenumele și numele de familie.</div>
-        <details>
-            <summary>Vezi rezolvarea</summary>
-            <pre><code>prenume = "Ion"
-nume_familie = "Popescu"
-print(prenume, nume_familie)</code></pre>
-        </details>
+    <div class="card">
+        <div class="intrebare">2. Afișează numele și prenumele cu un spațiu între ele.</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>nume = "Popescu"
+prenume = "Ion"
+print(nume, prenume)</code></pre></details>
     </div>
 
-    <div class="exercise-card">
-        <div class="question">6. Suma a două numere (10 și 3).</div>
-        <details>
-            <summary>Vezi rezolvarea</summary>
-            <pre><code>a = 10
+    <div class="card">
+        <div class="intrebare">3. Afișează o propoziție care să includă variabila 'oras'.</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>oras = "Bucuresti"
+print(f"Locuiesc in {oras}")</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">4. Transformă textul "python" în litere mari.</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>limbaj = "python"
+print(limbaj.upper())</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">5. Afișează numărul de caractere din textul "Dezvoltare".</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>print(len("Dezvoltare"))</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">6. Calculează suma a două numere (10 și 3).</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>a = 10
 b = 3
-suma = a + b
-print("Suma este:", suma)</code></pre>
-        </details>
+print(a + b)</code></pre></details>
     </div>
 
-    <div class="exercise-card">
-        <div class="question">9. Restul împărțirii (Modulo).</div>
-        <details>
-            <summary>Vezi rezolvarea</summary>
-            <pre><code>rest = 15 % 4
-print("Restul lui 15 impartit la 4 este:", rest)</code></pre>
-        </details>
+    <div class="card">
+        <div class="intrebare">7. Calculează produsul dintre 4.5 și 2.</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>print(4.5 * 2)</code></pre></details>
     </div>
 
-    <div class="exercise-card">
-        <div class="question">14. Citirea unui număr și înmulțirea lui (Input).</div>
-        <details>
-            <summary>Vezi rezolvarea</summary>
-            <pre><code>numar = int(input("Introdu un numar: "))
-rezultat = numar * 2
-print("Dublul numarului este:", rezultat)</code></pre>
-        </details>
+    <div class="card">
+        <div class="intrebare">8. Afișează doar partea întreagă a împărțirii lui 10 la 3.</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>print(10 // 3)</code></pre></details>
     </div>
 
-    <p style="text-align: center; color: #7f8c8d;">... (continuă cu restul de 25 de exerciții) ...</p>
+    <div class="card">
+        <div class="intrebare">9. Află restul împărțirii lui 15 la 4 (Modulo).</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>print(15 % 4)</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">10. Ridică numărul 2 la puterea 10.</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>print(2 ** 10)</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">11. Transformă numărul întreg 5 în float.</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>x = 5
+print(float(x))</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">12. Transformă textul "100" în număr și adună-i 50.</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>print(int("100") + 50)</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">13. Elimină zecimalele numărului 25.7 (Casting la int).</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>print(int(25.7))</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">14. Citește un număr și afișează dublul lui (Input).</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>n = int(input("Introdu numar: "))
+print(n * 2)</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">15. Afișează tipul variabilei x = 10.5.</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>x = 10.5
+print(type(x))</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">16. Declară o variabilă booleană cu valoarea True.</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>activ = True
+print(activ)</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">17. Verifică dacă 10 este mai mare decât 5.</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>print(10 > 5)</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">18. Verifică dacă "A" este egal cu "a".</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>print("A" == "a")</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">19. Verifică dacă 7 este diferit de 8.</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>print(7 != 8)</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">20. Inversează valoarea True folosind 'not'.</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>print(not True)</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">21. Schimbă valorile între două variabile (Swap).</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>x, y = 5, 10
+x, y = y, x
+print(x, y)</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">22. Calculează perimetrul unui dreptunghi (L=20, l=10).</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>L, l = 20, 10
+print(2 * (L + l))</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">23. Calculează media a trei note (8, 9, 10).</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>print((8 + 9 + 10) / 3)</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">24. Folosește un f-string pentru a afișa produsul a două numere.</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>a, b = 4, 5
+print(f"Produsul este {a * b}")</code></pre></details>
+    </div>
+
+    <div class="card">
+        <div class="intrebare">25. Calcul economii (Venit=5000, Cheltuieli=3200).</div>
+        <details><summary>Vezi rezolvarea</summary><pre><code>print(5000 - 3200)</code></pre></details>
+    </div>
 
 </body>
 </html>
