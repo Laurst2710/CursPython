@@ -1,1 +1,956 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python – Lecția 2 – Exerciții Practice</title>
 
+  <style>
+    :root{
+      --blue:    #1A237E;
+      --blue-m:  #3949AB;
+      --blue-2:  #5C6BC0;
+      --blue-l:  #E8EAF6;
+      --green:   #1B5E20;
+      --green-m: #4CAF50;
+      --green-l: #E8F5E9;
+      --orange:  #E65100;
+      --orange-l:#FFF8E1;
+      --red:     #B71C1C;
+      --red-l:   #FFEBEE;
+      --bg:      #F4F6FF;
+      --panel:   #ffffff;
+      --panel2:  #eef1ff;
+      --text:    rgba(17,24,39,0.92);
+      --muted:   rgba(26,35,126,0.55);
+      --border:  rgba(57,73,171,0.15);
+      --shadow:  0 18px 60px rgba(26,35,126,0.10);
+      --codeBg:      #1e272e;
+      --codeBorder:  rgba(255,255,255,0.06);
+      --radius:  18px;
+      --radius2: 12px;
+      --mono: 'Courier New', Courier, monospace;
+      --sans: 'Segoe UI', Arial, sans-serif;
+      --max: 1040px;
+    }
+
+    [data-theme="dark"]{
+      --bg:     #0c0f1e;
+      --panel:  rgba(255,255,255,0.05);
+      --panel2: rgba(255,255,255,0.08);
+      --text:   rgba(255,255,255,0.92);
+      --muted:  rgba(255,255,255,0.60);
+      --border: rgba(255,255,255,0.10);
+      --shadow: 0 18px 60px rgba(0,0,0,0.40);
+      --codeBg: #0b1117;
+    }
+
+    *{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+
+    body{
+      margin: 0;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 26px 18px 70px;
+    }
+
+    /* HEADER */
+    .top{
+      background: linear-gradient(135deg, #1A237E, #3949AB, #5C6BC0);
+      border-radius: calc(var(--radius) + 4px);
+      padding: 28px 22px 22px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+    }
+    .top::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(700px 200px at 15% 0%, rgba(255,255,255,0.07), transparent 60%),
+        radial-gradient(500px 200px at 85% 0%, rgba(255,255,255,0.05), transparent 65%);
+      pointer-events:none;
+    }
+    .top > *{ position: relative; z-index: 1; }
+
+    .titleRow{
+      display:flex;
+      gap: 14px;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    h1{
+      margin: 0;
+      font-size: clamp(1.2rem, 2.2vw, 1.75rem);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      color: #fff;
+    }
+    .sub{
+      margin: 6px 0 0;
+      opacity: 0.85;
+      max-width: 80ch;
+      font-size: .95rem;
+    }
+    .badge{
+      display:inline-block;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 20px;
+      padding: 3px 14px;
+      font-size: .78rem;
+      margin-top: 8px;
+    }
+
+    .controls{
+      margin-top: 18px;
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      flex-wrap: wrap;
+    }
+
+    .search{
+      flex: 1 1 320px;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      border: 1.5px solid rgba(255,255,255,0.30);
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.12);
+    }
+    .search input{
+      width: 100%;
+      border: 0;
+      outline: none;
+      background: transparent;
+      color: #fff;
+      font-size: 14px;
+      font-family: var(--sans);
+    }
+    .search input::placeholder{ color: rgba(255,255,255,0.60); }
+    .search svg{ opacity: 0.75; flex-shrink:0; }
+
+    .btn{
+      border: 1.5px solid rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+      display:inline-flex;
+      align-items:center;
+      gap: 7px;
+      transition: background 0.12s, transform 0.08s;
+      font-family: var(--sans);
+      font-weight: 700;
+    }
+    .btn:hover{ background: rgba(255,255,255,0.22); transform: translateY(-1px); }
+    .btn:active{ transform: translateY(0); }
+
+    .btnPrimary{
+      background: rgba(255,255,255,0.20);
+      border-color: rgba(255,255,255,0.45);
+    }
+
+    /* FILTER CHIPS */
+    .chips{
+      margin-top: 12px;
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .chip{
+      border: 1.5px solid rgba(255,255,255,0.30);
+      background: rgba(255,255,255,0.10);
+      color: #fff;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: var(--sans);
+      font-weight: 700;
+      transition: background 0.12s;
+    }
+    .chip.active, .chip:hover{
+      background: rgba(255,255,255,0.28);
+      border-color: rgba(255,255,255,0.55);
+    }
+
+    /* GRID */
+    .grid{
+      margin-top: 20px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 920px){
+      .grid{ grid-template-columns: 1fr 1fr; }
+    }
+
+    /* CARD */
+    .card{
+      border: 1.5px solid var(--border);
+      background: var(--panel);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 18px rgba(26,35,126,0.08);
+      overflow: hidden;
+      transition: box-shadow .15s, transform .12s;
+    }
+    .card:hover{
+      box-shadow: 0 10px 36px rgba(26,35,126,0.13);
+      transform: translateY(-1px);
+    }
+
+    /* topic accent border */
+    .card[data-topic="lista"]   { border-left: 4px solid #4CAF50; }
+    .card[data-topic="tuple"]   { border-left: 4px solid #1565C0; }
+    .card[data-topic="dict"]    { border-left: 4px solid #E65100; }
+    .card[data-topic="set"]     { border-left: 4px solid #880E4F; }
+    .card[data-topic="comp"]    { border-left: 4px solid #F9A825; }
+
+    .cardHead{
+      padding: 14px 14px 10px;
+      display:flex;
+      align-items:flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .q{
+      display:flex;
+      gap: 12px;
+      align-items: flex-start;
+      min-width: 0;
+    }
+
+    .num{
+      flex: 0 0 auto;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display:grid;
+      place-items:center;
+      font-weight: 800;
+      font-size: .88rem;
+      background: var(--blue-l);
+      border: 1.5px solid rgba(57,73,171,0.22);
+      color: var(--blue);
+    }
+    [data-theme="dark"] .num{
+      background: rgba(92,107,192,0.15);
+      border-color: rgba(92,107,192,0.30);
+      color: #9fa8da;
+    }
+
+    .topic-pill{
+      display:inline-block;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    .pill-lista  { background:#E8F5E9; color:#1B5E20; }
+    .pill-tuple  { background:#E3F2FD; color:#0D47A1; }
+    .pill-dict   { background:#FFF8E1; color:#E65100; }
+    .pill-set    { background:#FCE4EC; color:#880E4F; }
+    .pill-comp   { background:#FFFDE7; color:#F57F17; }
+    [data-theme="dark"] .pill-lista  { background:rgba(76,175,80,0.15);  color:#81c784; }
+    [data-theme="dark"] .pill-tuple  { background:rgba(21,101,192,0.15); color:#64b5f6; }
+    [data-theme="dark"] .pill-dict   { background:rgba(230,81,0,0.15);   color:#ffb74d; }
+    [data-theme="dark"] .pill-set    { background:rgba(136,14,79,0.15);  color:#f48fb1; }
+    [data-theme="dark"] .pill-comp   { background:rgba(249,168,37,0.15); color:#fff176; }
+
+    .qText{ min-width: 0; }
+    .qText .label{
+      font-size: 14px;
+      font-weight: 650;
+      margin: 0;
+      letter-spacing: 0.1px;
+      color: var(--text);
+    }
+
+    details{ border-top: 1.5px solid var(--border); }
+    summary{
+      list-style: none;
+      cursor: pointer;
+      padding: 11px 14px;
+      user-select: none;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      font-weight: 700;
+      font-size: .85rem;
+      color: var(--blue-m);
+    }
+    [data-theme="dark"] summary{ color: #9fa8da; }
+    summary::-webkit-details-marker{ display:none; }
+
+    .chev{
+      width: 18px; height: 18px;
+      display:inline-block;
+      transition: transform 0.16s ease;
+      opacity: 0.85;
+    }
+    details[open] .chev{ transform: rotate(180deg); }
+
+    .codeWrap{ padding: 0 14px 14px; }
+    .codeBar{
+      display:flex;
+      align-items:center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin: 10px 0 8px;
+    }
+
+    .copyBtn{
+      border: 1.5px solid var(--border);
+      background: var(--blue-l);
+      color: var(--blue-m);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      cursor: pointer;
+      user-select: none;
+      display:inline-flex;
+      align-items:center;
+      gap: 6px;
+      transition: background 0.12s, transform 0.08s;
+      font-family: var(--sans);
+      font-weight: 700;
+    }
+    .copyBtn:hover{ background: var(--blue-m); color: #fff; transform: translateY(-1px); }
+    [data-theme="dark"] .copyBtn{ background: rgba(92,107,192,0.15); color: #9fa8da; }
+    [data-theme="dark"] .copyBtn:hover{ background: var(--blue-m); color: #fff; }
+
+    pre{
+      margin: 0;
+      background: var(--codeBg);
+      border: 1px solid var(--codeBorder);
+      border-radius: var(--radius2);
+      padding: 14px;
+      overflow: auto;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+    }
+    code{
+      display:block;
+      white-space: pre;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .empty{
+      margin-top: 14px;
+      padding: 16px 14px;
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius);
+      color: var(--muted);
+      background: rgba(232,234,246,0.30);
+      display:none;
+    }
+
+    .foot{
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    /* progress counter */
+    .progress-wrap{
+      margin-top: 14px;
+      display:flex;
+      align-items:center;
+      gap: 12px;
+    }
+    .progress-bar{
+      flex:1;
+      height: 8px;
+      background: rgba(255,255,255,0.20);
+      border-radius: 999px;
+      overflow:hidden;
+    }
+    .progress-fill{
+      height:100%;
+      background: rgba(255,255,255,0.80);
+      border-radius: 999px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+    .progress-label{
+      font-size: 12px;
+      color: rgba(255,255,255,0.80);
+      white-space: nowrap;
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="titleRow">
+        <div>
+          <h1>25 Exerciții Practice – Lecția 2</h1>
+          <p class="sub">Structuri de Date: Liste • Tuple • Dictionare • Seturi • Comprehension</p>
+          <div class="badge">Lecția 2 &nbsp;|&nbsp; 10-14 ani &nbsp;|&nbsp; Structuri de Date</div>
+        </div>
+
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <button class="btn btnPrimary" id="toggleTheme" type="button" title="Schimbă tema">
+            <span aria-hidden="true">🌓</span>
+            <span>Temă</span>
+          </button>
+          <button class="btn" id="expandAll" type="button">
+            <span aria-hidden="true">▾▾</span>
+            <span>Deschide</span>
+          </button>
+          <button class="btn" id="collapseAll" type="button">
+            <span aria-hidden="true">▸</span>
+            <span>Închide</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="controls" role="search">
+        <div class="search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
+            <path d="M16.5 16.5 21 21" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input id="q" type="text" placeholder="Caută exercițiu…" autocomplete="off" />
+        </div>
+        <button class="btn" id="clearSearch" type="button">
+          <span aria-hidden="true">✕</span>
+          <span>Reset</span>
+        </button>
+      </div>
+
+      <div class="chips">
+        <div class="chip active" data-filter="all">Toate (25)</div>
+        <div class="chip" data-filter="lista">🟢 Liste (7)</div>
+        <div class="chip" data-filter="comp">🟡 Comprehension (5)</div>
+        <div class="chip" data-filter="tuple">🔵 Tuple (4)</div>
+        <div class="chip" data-filter="dict">🟠 Dictionare (5)</div>
+        <div class="chip" data-filter="set">🩷 Seturi (4)</div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+        <div class="progress-label" id="progLabel">0 / 25 deschise</div>
+      </div>
+    </header>
+
+    <main>
+      <div class="empty" id="emptyState">Nu există rezultate pentru căutarea curentă.</div>
+
+      <section class="grid" id="list">
+
+        <!-- ═══════════════ LISTE ═══════════════ -->
+
+        <!-- 1 -->
+        <article class="card ex" data-idx="1" data-topic="lista">
+          <div class="cardHead"><div class="q"><div class="num">1</div><div class="qText">
+            <div class="topic-pill pill-lista">Lista</div>
+            <p class="label" data-text>1. Creează o listă numită <b>fructe</b> cu 4 fructe și afișeaz-o.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>fructe = ["mere", "pere", "cirese", "capsuni"]
+print(fructe)</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 2 -->
+        <article class="card ex" data-idx="2" data-topic="lista">
+          <div class="cardHead"><div class="q"><div class="num">2</div><div class="qText">
+            <div class="topic-pill pill-lista">Lista</div>
+            <p class="label" data-text>2. Afișează primul și ultimul element dintr-o listă cu 5 numere.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>numere = [10, 20, 30, 40, 50]
+print(numere[0])   # primul: 10
+print(numere[-1])  # ultimul: 50</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 3 -->
+        <article class="card ex" data-idx="3" data-topic="lista">
+          <div class="cardHead"><div class="q"><div class="num">3</div><div class="qText">
+            <div class="topic-pill pill-lista">Lista</div>
+            <p class="label" data-text>3. Adaugă elementul <b>"kiwi"</b> la sfârșitul listei <b>fructe</b> și afișeaz-o.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>fructe = ["mere", "pere", "cirese"]
+fructe.append("kiwi")
+print(fructe)</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 4 -->
+        <article class="card ex" data-idx="4" data-topic="lista">
+          <div class="cardHead"><div class="q"><div class="num">4</div><div class="qText">
+            <div class="topic-pill pill-lista">Lista</div>
+            <p class="label" data-text>4. Șterge elementul <b>"pere"</b> din lista <b>fructe</b> și afișeaz-o.</p>
+          </div></div></div>
+          <details><summary><span>Zobacz rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>fructe = ["mere", "pere", "cirese", "kiwi"]
+fructe.remove("pere")
+print(fructe)</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 5 -->
+        <article class="card ex" data-idx="5" data-topic="lista">
+          <div class="cardHead"><div class="q"><div class="num">5</div><div class="qText">
+            <div class="topic-pill pill-lista">Lista</div>
+            <p class="label" data-text>5. Sortează lista <b>numere = [5, 2, 8, 1, 9, 3]</b> și afișeaz-o.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>numere = [5, 2, 8, 1, 9, 3]
+numere.sort()
+print(numere)  # [1, 2, 3, 5, 8, 9]</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 6 -->
+        <article class="card ex" data-idx="6" data-topic="lista">
+          <div class="cardHead"><div class="q"><div class="num">6</div><div class="qText">
+            <div class="topic-pill pill-lista">Lista</div>
+            <p class="label" data-text>6. Parcurge lista <b>culori = ["rosu", "verde", "albastru"]</b> cu <b>for</b> și afișează fiecare culoare.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>culori = ["rosu", "verde", "albastru"]
+for culoare in culori:
+    print(culoare)</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 7 -->
+        <article class="card ex" data-idx="7" data-topic="lista">
+          <div class="cardHead"><div class="q"><div class="num">7</div><div class="qText">
+            <div class="topic-pill pill-lista">Lista</div>
+            <p class="label" data-text>7. Afișează elementele listei <b>jocuri</b> împreună cu indexul lor folosind <b>enumerate()</b>.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>jocuri = ["Minecraft", "Roblox", "Fortnite", "Among Us"]
+for i, joc in enumerate(jocuri):
+    print(i, "->", joc)</code></pre></div>
+          </details>
+        </article>
+
+        <!-- ═══════════════ COMPREHENSION ═══════════════ -->
+
+        <!-- 8 -->
+        <article class="card ex" data-idx="8" data-topic="comp">
+          <div class="cardHead"><div class="q"><div class="num">8</div><div class="qText">
+            <div class="topic-pill pill-comp">Comprehension</div>
+            <p class="label" data-text>8. Folosind list comprehension, creează o listă cu pătratele numerelor de la 1 la 8.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>patrate = [n ** 2 for n in range(1, 9)]
+print(patrate)
+# [1, 4, 9, 16, 25, 36, 49, 64]</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 9 -->
+        <article class="card ex" data-idx="9" data-topic="comp">
+          <div class="cardHead"><div class="q"><div class="num">9</div><div class="qText">
+            <div class="topic-pill pill-comp">Comprehension</div>
+            <p class="label" data-text>9. Folosind list comprehension, obține doar numerele pare din lista <b>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</b>.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>numere = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+pare = [n for n in numere if n % 2 == 0]
+print(pare)
+# [2, 4, 6, 8, 10]</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 10 -->
+        <article class="card ex" data-idx="10" data-topic="comp">
+          <div class="cardHead"><div class="q"><div class="num">10</div><div class="qText">
+            <div class="topic-pill pill-comp">Comprehension</div>
+            <p class="label" data-text>10. Transformă lista de cuvinte <b>["python", "lista", "set"]</b> în majuscule folosind list comprehension.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>cuvinte = ["python", "lista", "set"]
+majuscule = [c.upper() for c in cuvinte]
+print(majuscule)
+# ['PYTHON', 'LISTA', 'SET']</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 11 -->
+        <article class="card ex" data-idx="11" data-topic="comp">
+          <div class="cardHead"><div class="q"><div class="num">11</div><div class="qText">
+            <div class="topic-pill pill-comp">Comprehension</div>
+            <p class="label" data-text>11. Folosind list comprehension cu filtru, obține cuvintele cu mai mult de 4 litere din <b>["cat", "python", "ai", "lista", "if"]</b>.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>cuvinte = ["cat", "python", "ai", "lista", "if"]
+lungi = [c for c in cuvinte if len(c) > 4]
+print(lungi)
+# ['python', 'lista']</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 12 -->
+        <article class="card ex" data-idx="12" data-topic="comp">
+          <div class="cardHead"><div class="q"><div class="num">12</div><div class="qText">
+            <div class="topic-pill pill-comp">Comprehension</div>
+            <p class="label" data-text>12. Creează o listă cu cuburile numerelor impare de la 1 la 10 folosind list comprehension.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>cuburi_impare = [n ** 3 for n in range(1, 11) if n % 2 != 0]
+print(cuburi_impare)
+# [1, 27, 125, 343, 729]</code></pre></div>
+          </details>
+        </article>
+
+        <!-- ═══════════════ TUPLE ═══════════════ -->
+
+        <!-- 13 -->
+        <article class="card ex" data-idx="13" data-topic="tuple">
+          <div class="cardHead"><div class="q"><div class="num">13</div><div class="qText">
+            <div class="topic-pill pill-tuple">Tuple</div>
+            <p class="label" data-text>13. Creează un tuple cu 3 culori și afișează primul și ultimul element.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>culori = ("rosu", "verde", "albastru")
+print(culori[0])   # rosu
+print(culori[-1])  # albastru</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 14 -->
+        <article class="card ex" data-idx="14" data-topic="tuple">
+          <div class="cardHead"><div class="q"><div class="num">14</div><div class="qText">
+            <div class="topic-pill pill-tuple">Tuple</div>
+            <p class="label" data-text>14. Folosind unpacking, extrage latitudinea și longitudinea din tuple-ul <b>(44.43, 26.10)</b>.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>coordonate = (44.43, 26.10)
+lat, lon = coordonate
+print("Latitudine:", lat)
+print("Longitudine:", lon)</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 15 -->
+        <article class="card ex" data-idx="15" data-topic="tuple">
+          <div class="cardHead"><div class="q"><div class="num">15</div><div class="qText">
+            <div class="topic-pill pill-tuple">Tuple</div>
+            <p class="label" data-text>15. Fă swap (schimb) între variabilele <b>a = 5</b> și <b>b = 10</b> folosind unpacking de tuple, fără variabilă temporară.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>a = 5
+b = 10
+a, b = b, a
+print("a =", a)  # 10
+print("b =", b)  # 5</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 16 -->
+        <article class="card ex" data-idx="16" data-topic="tuple">
+          <div class="cardHead"><div class="q"><div class="num">16</div><div class="qText">
+            <div class="topic-pill pill-tuple">Tuple</div>
+            <p class="label" data-text>16. Verifică că un tuple NU poate fi modificat: încearcă să schimbi primul element și explică eroarea.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>podium = ("Ana", "Mihai", "Elena")
+# Urmatoarea linie da eroare:
+# podium[0] = "Dan"  -> TypeError!
+
+# Tuple este INGHETAT - nu poate fi modificat.
+print("Lungime podium:", len(podium))</code></pre></div>
+          </details>
+        </article>
+
+        <!-- ═══════════════ DICTIONARE ═══════════════ -->
+
+        <!-- 17 -->
+        <article class="card ex" data-idx="17" data-topic="dict">
+          <div class="cardHead"><div class="q"><div class="num">17</div><div class="qText">
+            <div class="topic-pill pill-dict">Dictionar</div>
+            <p class="label" data-text>17. Creează un dictionar cu datele unui elev (nume, vârstă, medie) și afișează fiecare valoare.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>elev = {"nume": "Maria", "varsta": 13, "medie": 9.5}
+print(elev["nume"])    # Maria
+print(elev["varsta"])  # 13
+print(elev["medie"])   # 9.5</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 18 -->
+        <article class="card ex" data-idx="18" data-topic="dict">
+          <div class="cardHead"><div class="q"><div class="num">18</div><div class="qText">
+            <div class="topic-pill pill-dict">Dictionar</div>
+            <p class="label" data-text>18. Adaugă cheia <b>"oras"</b> cu valoarea <b>"Cluj"</b> în dictionarul <b>elev</b> și afișeaz-o.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>elev = {"nume": "Maria", "varsta": 13, "medie": 9.5}
+elev["oras"] = "Cluj"
+print(elev["oras"])  # Cluj
+print(elev)</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 19 -->
+        <article class="card ex" data-idx="19" data-topic="dict">
+          <div class="cardHead"><div class="q"><div class="num">19</div><div class="qText">
+            <div class="topic-pill pill-dict">Dictionar</div>
+            <p class="label" data-text>19. Parcurge dictionarul <b>elev</b> cu <b>for</b> și <b>.items()</b> și afișează fiecare cheie și valoare.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>elev = {"nume": "Maria", "varsta": 13, "medie": 9.5}
+for cheie, valoare in elev.items():
+    print(cheie, "->", valoare)</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 20 -->
+        <article class="card ex" data-idx="20" data-topic="dict">
+          <div class="cardHead"><div class="q"><div class="num">20</div><div class="qText">
+            <div class="topic-pill pill-dict">Dictionar</div>
+            <p class="label" data-text>20. Creează dictionarul <b>clasa = {"Ana": 9.5, "Mihai": 8.0, "Elena": 10.0}</b> și găsește elevul cu cea mai mare medie.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>clasa = {"Ana": 9.5, "Mihai": 8.0, "Elena": 10.0}
+best = max(clasa, key=clasa.get)
+print("Cel mai bun elev:", best)  # Elena</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 21 -->
+        <article class="card ex" data-idx="21" data-topic="dict">
+          <div class="cardHead"><div class="q"><div class="num">21</div><div class="qText">
+            <div class="topic-pill pill-dict">Dictionar</div>
+            <p class="label" data-text>21. Șterge cheia <b>"varsta"</b> din dictionarul <b>elev</b> folosind <b>del</b> și afișează dictionarul rezultat.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>elev = {"nume": "Maria", "varsta": 13, "medie": 9.5}
+del elev["varsta"]
+print(elev)
+# {'nume': 'Maria', 'medie': 9.5}</code></pre></div>
+          </details>
+        </article>
+
+        <!-- ═══════════════ SETURI ═══════════════ -->
+
+        <!-- 22 -->
+        <article class="card ex" data-idx="22" data-topic="set">
+          <div class="cardHead"><div class="q"><div class="num">22</div><div class="qText">
+            <div class="topic-pill pill-set">Set</div>
+            <p class="label" data-text>22. Elimină duplicatele din lista <b>note = [9, 8, 9, 10, 8, 7, 10]</b> folosind <b>set()</b> și afișează notele unice.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>note = [9, 8, 9, 10, 8, 7, 10]
+note_unice = set(note)
+print(note_unice)         # {7, 8, 9, 10}
+print(len(note_unice))    # 4</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 23 -->
+        <article class="card ex" data-idx="23" data-topic="set">
+          <div class="cardHead"><div class="q"><div class="num">23</div><div class="qText">
+            <div class="topic-pill pill-set">Set</div>
+            <p class="label" data-text>23. Adaugă sportul <b>"fotbal"</b> de două ori în setul <b>sporturi</b>. Ce se întâmplă?</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>sporturi = {"tenis", "baschet"}
+sporturi.add("fotbal")
+sporturi.add("fotbal")  # ignorat, deja exista!
+print(sporturi)
+# {'tenis', 'baschet', 'fotbal'} - apare o singura data</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 24 -->
+        <article class="card ex" data-idx="24" data-topic="set">
+          <div class="cardHead"><div class="q"><div class="num">24</div><div class="qText">
+            <div class="topic-pill pill-set">Set</div>
+            <p class="label" data-text>24. Găsește elevii comuni din două clase folosind intersecția de seturi.</p>
+          </div></div></div>
+          <details><summary><span>Zobacz rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>clasa_a = {"Ana", "Mihai", "Elena", "Dan"}
+clasa_b = {"Mihai", "Dan", "Radu", "Ioana"}
+
+comuni = clasa_a & clasa_b
+print("Elevi comuni:", comuni)
+# {'Mihai', 'Dan'}</code></pre></div>
+          </details>
+        </article>
+
+        <!-- 25 -->
+        <article class="card ex" data-idx="25" data-topic="set">
+          <div class="cardHead"><div class="q"><div class="num">25</div><div class="qText">
+            <div class="topic-pill pill-set">Set</div>
+            <p class="label" data-text>25. Citește o propoziție de la tastatură, împarte-o în cuvinte și afișează câte cuvinte unice conține.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <pre><code>propozitie = input("Scrie o propozitie: ")
+cuvinte = propozitie.split()
+unice = set(cuvinte)
+print("Cuvinte unice:", len(unice))
+print(unice)</code></pre></div>
+          </details>
+        </article>
+
+      </section>
+
+      <div class="empty" id="emptyState">Nu există rezultate pentru căutarea curentă.</div>
+      <div class="foot">Python • Lecția 2 • Structuri de Date</div>
+    </main>
+  </div>
+
+  <script>
+    (function(){
+      var root = document.documentElement;
+
+      // Theme
+      var savedTheme = localStorage.getItem("py_l2_theme") || "light";
+      root.setAttribute("data-theme", savedTheme);
+      document.getElementById("toggleTheme").addEventListener("click", function(){
+        var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("py_l2_theme", next);
+      });
+
+      var input      = document.getElementById("q");
+      var clearBtn   = document.getElementById("clearSearch");
+      var listEl     = document.getElementById("list");
+      var cards      = Array.from(listEl.querySelectorAll(".ex"));
+      var emptyState = document.getElementById("emptyState");
+      var chips      = Array.from(document.querySelectorAll(".chip"));
+      var currentFilter = "all";
+
+      function normalize(s){ return (s||"").toString().toLowerCase().trim(); }
+
+      function applyFilter(){
+        var q = normalize(input.value);
+        var shown = 0;
+        cards.forEach(function(card){
+          var topic = card.getAttribute("data-topic") || "";
+          var idx   = card.getAttribute("data-idx") || "";
+          var label = (card.querySelector("[data-text]")||{}).textContent || "";
+          var code  = (card.querySelector("pre code")||{}).textContent || "";
+          var hay   = normalize(idx + " " + label + " " + code + " " + topic);
+          var topicOk = currentFilter === "all" || topic === currentFilter;
+          var searchOk = !q || hay.indexOf(q) > -1;
+          card.style.display = (topicOk && searchOk) ? "" : "none";
+          if(topicOk && searchOk) shown++;
+        });
+        emptyState.style.display = shown === 0 ? "block" : "none";
+      }
+
+      // Chips filter
+      chips.forEach(function(chip){
+        chip.addEventListener("click", function(){
+          chips.forEach(function(c){ c.classList.remove("active"); });
+          chip.classList.add("active");
+          currentFilter = chip.getAttribute("data-filter");
+          applyFilter();
+        });
+      });
+
+      input.addEventListener("input", applyFilter);
+      clearBtn.addEventListener("click", function(){
+        input.value = "";
+        applyFilter();
+        input.focus();
+      });
+
+      // Expand / Collapse
+      document.getElementById("expandAll").addEventListener("click", function(){
+        cards.forEach(function(c){
+          if(c.style.display === "none") return;
+          var d = c.querySelector("details");
+          if(d) d.open = true;
+        });
+      });
+      document.getElementById("collapseAll").addEventListener("click", function(){
+        cards.forEach(function(c){
+          var d = c.querySelector("details");
+          if(d) d.open = false;
+        });
+      });
+
+      // Copy
+      listEl.addEventListener("click", function(e){
+        var btn = e.target.closest("[data-copy]");
+        if(!btn) return;
+        var codeEl = (btn.closest(".ex")||{}).querySelector("pre code");
+        var text = codeEl ? codeEl.textContent : "";
+        var old = btn.innerHTML;
+        if(navigator.clipboard){
+          navigator.clipboard.writeText(text).then(function(){
+            btn.innerHTML = "&#10003; Copiat";
+            setTimeout(function(){ btn.innerHTML = old; }, 900);
+          });
+        }
+      });
+
+      // Progress bar - track open details
+      function updateProgress(){
+        var total = cards.length;
+        var opened = cards.filter(function(c){
+          return c.querySelector("details") && c.querySelector("details").open;
+        }).length;
+        document.getElementById("prog").style.width = (opened / total * 100) + "%";
+        document.getElementById("progLabel").textContent = opened + " / " + total + " deschise";
+      }
+
+      listEl.addEventListener("toggle", updateProgress, true);
+
+      applyFilter();
+      updateProgress();
+    })();
+  </script>
+</body>
+</html>
