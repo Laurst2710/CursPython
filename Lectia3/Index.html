@@ -1,1 +1,1024 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Lectia 3 - Operatori & Expresii</title>
+<style>
+:root{
+  --blue:#1A237E;--blue-m:#3949AB;--blue-l:#E8EAF6;
+  --green:#1B5E20;--green-l:#E8F5E9;--green-m:#4CAF50;
+  --orange:#E65100;--orange-l:#FFF8E1;
+  --purple:#4A148C;--purple-l:#EDE7F6;
+  --red:#B71C1C;--red-l:#FFEBEE;
+  --teal:#006064;--teal-l:#E0F7FA;
+  --pink:#880E4F;--pink-l:#FCE4EC;
+  --bg:#F4F6FF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:#333;line-height:1.75;font-size:15px}
+header{background:linear-gradient(135deg,#1A237E,#3949AB,#5C6BC0);color:#fff;text-align:center;padding:44px 20px 36px;position:relative;overflow:hidden}
+header::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 200px at 15% 0%,rgba(255,255,255,0.07),transparent 60%),radial-gradient(500px 200px at 85% 0%,rgba(255,255,255,0.05),transparent 65%);pointer-events:none}
+header>*{position:relative;z-index:1}
+header h1{font-size:2rem;font-weight:900;margin-bottom:6px}
+header p{opacity:.85;margin-bottom:4px}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:4px 16px;font-size:.82rem;margin-top:6px}
+nav{background:#fff;border-bottom:2px solid var(--blue-l);padding:10px 12px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+nav a{color:var(--blue-m);text-decoration:none;font-size:.82rem;padding:5px 12px;border-radius:20px;border:1px solid var(--blue-l);transition:all .2s}
+nav a:hover{background:var(--blue);color:#fff}
+main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+section{margin-bottom:48px}
+h2{font-size:1.45rem;color:var(--blue);font-weight:800;border-left:5px solid var(--blue-m);padding-left:14px;margin-bottom:18px}
+h3{font-size:1.05rem;color:var(--blue-m);margin:18px 0 8px;font-weight:700}
+p{margin-bottom:10px}
+.box{border-radius:10px;padding:16px 20px;margin:14px 0;border:1px solid rgba(0,0,0,.07)}
+.box-blue  {background:var(--blue-l);border-left:5px solid var(--blue-m)}
+.box-green {background:var(--green-l);border-left:5px solid var(--green-m)}
+.box-orange{background:var(--orange-l);border-left:5px solid var(--orange)}
+.box-red   {background:var(--red-l);border-left:5px solid var(--red)}
+.box-purple{background:var(--purple-l);border-left:5px solid var(--purple)}
+.box-teal  {background:var(--teal-l);border-left:5px solid var(--teal)}
+.box-title {font-weight:700;font-size:.98rem;margin-bottom:7px}
+.cb{background:#1e272e;color:#dfe6e9;border-radius:10px;padding:16px 20px;margin:12px 0;overflow-x:auto;font-family:'Courier New',monospace;font-size:.88rem;line-height:1.75;white-space:pre}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.tbl th{background:var(--blue);color:#fff;padding:10px 12px;font-size:.88rem;text-align:left}
+.tbl td{padding:9px 12px;font-size:.88rem;border-bottom:1px solid #e9ecef}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:nth-child(even) td{background:rgba(0,0,0,.02)}
+.tbl code{font-family:'Courier New',monospace;font-weight:700;color:var(--green)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+@media(max-width:540px){.two-col{grid-template-columns:1fr}}
+/* QUIZ */
+.quiz-card{background:#fff;border-radius:12px;padding:20px 22px;margin:14px 0;border:2px solid var(--orange-l);box-shadow:0 2px 8px rgba(230,81,0,.07)}
+.quiz-q{font-weight:700;color:var(--orange);margin-bottom:12px;font-size:.97rem}
+.quiz-q code{background:#f0f2ff;color:var(--blue);padding:2px 7px;border-radius:5px;font-family:'Courier New',monospace;font-size:.92em}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:500px){.quiz-opts{grid-template-columns:1fr}}
+.quiz-opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:7px;cursor:pointer;border:2px solid #dee2e6;background:#f8f9fa;font-size:.92rem;user-select:none;transition:border-color .15s,background .15s}
+.quiz-opt:hover:not(.locked){border-color:var(--blue-m);background:var(--blue-l)}
+.quiz-opt.correct{background:#E8F5E9;border-color:#4CAF50;color:var(--green)}
+.quiz-opt.wrong  {background:#FFEBEE;border-color:#F44336;color:var(--red)}
+.quiz-opt.locked{pointer-events:none}
+.quiz-opt:not(.correct):not(.wrong).locked{opacity:.5}
+.ql{width:26px;height:26px;border-radius:50%;background:#dee2e6;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0}
+.correct .ql{background:#4CAF50;color:#fff}
+.wrong   .ql{background:#F44336;color:#fff}
+.quiz-fb{margin-top:8px;padding:9px 12px;border-radius:7px;font-weight:600;font-size:.88rem;display:none}
+.fb-ok{background:#E8F5E9;color:var(--green);display:block}
+.fb-no{background:#FFEBEE;color:var(--red);display:block}
+/* CAT HEADER */
+.cat-header{display:flex;align-items:center;gap:12px;padding:12px 18px;border-radius:12px;color:#fff;font-weight:800;font-size:1rem;margin:28px 0 14px}
+.cat-arit  {background:linear-gradient(135deg,#1B5E20,#388E3C)}
+.cat-comp  {background:linear-gradient(135deg,#0D47A1,#1976D2)}
+.cat-logic {background:linear-gradient(135deg,#E65100,#F57C00)}
+.cat-ord   {background:linear-gradient(135deg,#4A148C,#7B1FA2)}
+.cat-attr  {background:linear-gradient(135deg,#006064,#00838F)}
+.cat-icon{font-size:1.4rem}
+.cat-score{margin-left:auto;background:rgba(255,255,255,0.2);border-radius:20px;padding:3px 12px;font-size:.82rem}
+/* PROGRESS */
+.prog-wrap{background:#dee2e6;border-radius:10px;height:12px;overflow:hidden;margin:12px 0 6px}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue-m),var(--green-m));border-radius:10px;transition:width .6s ease;width:0}
+/* SCORE */
+.score-box{background:#fff;border-radius:16px;padding:32px;margin-top:24px;border:2px solid var(--blue-l);text-align:center;display:none;box-shadow:0 8px 32px rgba(26,35,126,0.10)}
+.score-num{font-size:3rem;font-weight:900;color:var(--blue)}
+.score-lbl{color:#757575;font-size:.9rem;margin-top:4px}
+.score-msg{font-weight:800;font-size:1.05rem;margin-top:10px;color:var(--blue)}
+.cat-results{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:500px){.cat-results{grid-template-columns:1fr}}
+.cat-result-item{padding:10px 14px;border-radius:10px;font-size:.85rem;font-weight:700;display:flex;justify-content:space-between}
+.restart-btn{margin-top:18px;padding:12px 28px;background:var(--blue);color:#fff;border:none;border-radius:999px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:'Segoe UI',Arial,sans-serif;transition:background .15s,transform .1s}
+.restart-btn:hover{background:var(--blue-m);transform:translateY(-2px)}
+/* EXERCISE */
+.exercise{background:#fff;border-radius:12px;padding:20px;margin:18px 0;border:2px solid var(--blue-l);box-shadow:0 2px 8px rgba(26,35,126,.06)}
+.ex-num{display:inline-flex;align-items:center;justify-content:center;background:var(--blue);color:#fff;border-radius:50%;width:30px;height:30px;font-weight:700;margin-right:8px;flex-shrink:0;font-size:.9rem}
+.hw-card{background:#fff;border-radius:12px;padding:20px;margin:18px 0;border:2px solid #880E4F;box-shadow:0 2px 8px rgba(136,14,79,.08)}
+.hw-num{display:inline-flex;align-items:center;justify-content:center;background:#880E4F;color:#fff;border-radius:50%;width:30px;height:30px;font-weight:700;margin-right:8px;flex-shrink:0;font-size:.9rem}
+.hw-badge{display:inline-block;padding:2px 10px;border-radius:10px;font-size:.75rem;font-weight:700;margin-left:8px;vertical-align:middle}
+.hw-easy{background:#E8F5E9;color:#1B5E20}
+.hw-med {background:#FFF8E1;color:#E65100}
+.hw-hard{background:#FFEBEE;color:#B71C1C}
+footer{background:var(--blue);color:rgba(255,255,255,.8);text-align:center;padding:18px;font-size:.85rem}
+</style>
+</head>
+<body>
 
+<header>
+  <div style="font-size:2.8rem;margin-bottom:8px">🧮</div>
+  <h1>Python — Lecția 3</h1>
+  <p>Operatori & Expresii</p>
+  <p style="font-size:.9rem;opacity:.75">Aritmetici • Comparație • Logici • Ordine • Atribuire</p>
+  <div class="badge">Lecția 3 &nbsp;|&nbsp; 10-14 ani &nbsp;|&nbsp; Incepator - Intermediar</div>
+</header>
+
+<nav>
+  <a href="#intro">Intro</a>
+  <a href="#aritmetici">Aritmetici</a>
+  <a href="#comparatie">Comparație</a>
+  <a href="#logici">Logici</a>
+  <a href="#ordine">Ordine</a>
+  <a href="#atribuire">Atribuire</a>
+  <a href="#exercitii">Exerciții</a>
+  <a href="#quiz">Quiz</a>
+  <a href="#teme">Teme</a>
+</nav>
+
+<main>
+
+<!-- 0. INTRO -->
+<section id="intro">
+  <h2>0. De ce avem nevoie de operatori?</h2>
+  <div class="box box-blue">
+    <div class="box-title">Calculatorul face exact ce îi spui tu.</div>
+    <p>Dar ca să îi spui <em>"dacă nota e mai mare ca 5, treci clasa"</em> sau <em>"calculează media"</em>, ai nevoie de <strong>operatori</strong> — simbolurile care fac calculele și comparațiile în Python.</p>
+  </div>
+
+  <h3>Tipuri de operatori — vedere de ansamblu:</h3>
+  <table class="tbl">
+    <thead><tr><th>Tip</th><th>Operatori</th><th>Ce fac?</th><th>Rezultat</th></tr></thead>
+    <tbody>
+      <tr><td>Aritmetici</td><td><code>+ - * / // % **</code></td><td>Calcule matematice</td><td>Număr</td></tr>
+      <tr><td>Comparație</td><td><code>== != &lt; &gt; &lt;= &gt;=</code></td><td>Compară valori</td><td>True / False</td></tr>
+      <tr><td>Logici</td><td><code>and or not</code></td><td>Combină condiții</td><td>True / False</td></tr>
+      <tr><td>Atribuire</td><td><code>+= -= *= /=</code></td><td>Scurtături de modificare</td><td>—</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 1. ARITMETICI -->
+<section id="aritmetici">
+  <h2>1. Operatori Aritmetici</h2>
+  <p>Sunt cei pe care îi știi deja din matematică — cu mici surprize!</p>
+
+  <table class="tbl">
+    <thead><tr><th>Operator</th><th>Semnificație</th><th>Exemplu</th><th>Rezultat</th></tr></thead>
+    <tbody>
+      <tr><td><code>+</code></td><td>Adunare</td><td><code>5 + 3</code></td><td>8</td></tr>
+      <tr><td><code>-</code></td><td>Scădere</td><td><code>10 - 4</code></td><td>6</td></tr>
+      <tr><td><code>*</code></td><td>Înmulțire</td><td><code>3 * 4</code></td><td>12</td></tr>
+      <tr><td><code>/</code></td><td>Împărțire</td><td><code>10 / 4</code></td><td>2.5</td></tr>
+      <tr><td><code>//</code></td><td>Împărțire întreagă</td><td><code>10 // 4</code></td><td>2</td></tr>
+      <tr><td><code>%</code></td><td>Rest împărțire</td><td><code>10 % 3</code></td><td>1</td></tr>
+      <tr><td><code>**</code></td><td>Putere</td><td><code>2 ** 8</code></td><td>256</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box box-orange">
+    <div class="box-title">Atenție la <code>/</code> vs <code>//</code>!</div>
+    <p><code>10 / 4</code> = 2.5 (împărțire normală, cu zecimale)<br>
+    <code>10 // 4</code> = 2 (câtul întreg, fără zecimale)</p>
+  </div>
+
+  <h3>Exemplu din viața reală — La magazin:</h3>
+  <div class="cb" id="cb-arit1"></div>
+
+  <h3>Exemplu din viața reală — Joc video:</h3>
+  <div class="cb" id="cb-arit2"></div>
+</section>
+
+<!-- 2. COMPARATIE -->
+<section id="comparatie">
+  <h2>2. Operatori de Comparație</h2>
+  <p>Compară două valori și întorc întotdeauna <strong>True</strong> sau <strong>False</strong>.</p>
+
+  <table class="tbl">
+    <thead><tr><th>Operator</th><th>Semnificație</th><th>Exemplu</th><th>Rezultat</th></tr></thead>
+    <tbody>
+      <tr><td><code>==</code></td><td>Egal cu</td><td><code>5 == 5</code></td><td>True</td></tr>
+      <tr><td><code>!=</code></td><td>Diferit de</td><td><code>5 != 3</code></td><td>True</td></tr>
+      <tr><td><code>&gt;</code></td><td>Mai mare</td><td><code>8 &gt; 3</code></td><td>True</td></tr>
+      <tr><td><code>&lt;</code></td><td>Mai mic</td><td><code>2 &lt; 1</code></td><td>False</td></tr>
+      <tr><td><code>&gt;=</code></td><td>Mai mare sau egal</td><td><code>5 &gt;= 5</code></td><td>True</td></tr>
+      <tr><td><code>&lt;=</code></td><td>Mai mic sau egal</td><td><code>4 &lt;= 3</code></td><td>False</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box box-red">
+    <div class="box-title">⚠️ Greșeala clasică!</div>
+    <p><code>=</code> înseamnă <strong>atribuire</strong> → <code>nota = 8</code> (dă valoarea 8 variabilei nota)<br>
+    <code>==</code> înseamnă <strong>comparație</strong> → <code>nota == 8</code> (verifică dacă nota este 8)</p>
+  </div>
+
+  <h3>Exemplu din viața reală — Note la școală:</h3>
+  <div class="cb" id="cb-comp1"></div>
+
+  <h3>Exemplu din viața reală — Acces la film:</h3>
+  <div class="cb" id="cb-comp2"></div>
+</section>
+
+<!-- 3. LOGICI -->
+<section id="logici">
+  <h2>3. Operatori Logici</h2>
+  <p>Combină mai multe condiții împreună.</p>
+
+  <table class="tbl">
+    <thead><tr><th>Operator</th><th>Semnificație</th><th>Când e True?</th><th>Exemplu</th></tr></thead>
+    <tbody>
+      <tr><td><code>and</code></td><td>Și</td><td>Ambele condiții True</td><td><code>True and True</code> → True</td></tr>
+      <tr><td><code>or</code></td><td>Sau</td><td>Cel puțin una True</td><td><code>True or False</code> → True</td></tr>
+      <tr><td><code>not</code></td><td>Nu</td><td>Inversează valoarea</td><td><code>not True</code> → False</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Tabel complet — and:</h3>
+  <table class="tbl">
+    <thead><tr><th>A</th><th>B</th><th>A and B</th></tr></thead>
+    <tbody>
+      <tr><td>True</td><td>True</td><td><strong style="color:#1B5E20">True</strong></td></tr>
+      <tr><td>True</td><td>False</td><td><strong style="color:#B71C1C">False</strong></td></tr>
+      <tr><td>False</td><td>True</td><td><strong style="color:#B71C1C">False</strong></td></tr>
+      <tr><td>False</td><td>False</td><td><strong style="color:#B71C1C">False</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Exemplu din viața reală — Fotbal în parc:</h3>
+  <div class="cb" id="cb-logic1"></div>
+
+  <h3>Exemplu din viața reală — Intrare gratuită la muzeu:</h3>
+  <div class="cb" id="cb-logic2"></div>
+
+  <h3>Exemplu din viața reală — Parola corectă:</h3>
+  <div class="cb" id="cb-logic3"></div>
+</section>
+
+<!-- 4. ORDINE -->
+<section id="ordine">
+  <h2>4. Ordinea Operațiilor</h2>
+  <p>Ca în matematică, Python are o ordine strictă în care calculează expresiile:</p>
+
+  <div class="box box-purple">
+    <div class="box-title">Ordinea de prioritate (de sus = primul calculat):</div>
+    <p><strong>1.</strong> <code>( )</code> — Parantezele — primele întotdeauna<br>
+    <strong>2.</strong> <code>**</code> — Puterea<br>
+    <strong>3.</strong> <code>* / // %</code> — Înmulțire și împărțire<br>
+    <strong>4.</strong> <code>+ -</code> — Adunare și scădere<br>
+    <strong>5.</strong> <code>== != &lt; &gt; &lt;= &gt;=</code> — Comparații<br>
+    <strong>6.</strong> <code>not</code> — Negare<br>
+    <strong>7.</strong> <code>and</code> — Și<br>
+    <strong>8.</strong> <code>or</code> — Sau</p>
+  </div>
+
+  <h3>Exemplu — Fără și cu paranteze:</h3>
+  <div class="cb" id="cb-ord1"></div>
+
+  <h3>Exemplu din viața reală — Media la două materii:</h3>
+  <div class="cb" id="cb-ord2"></div>
+
+  <div class="box box-green">
+    <div class="box-title">🏆 Regula de aur:</div>
+    <p>Dacă nu ești sigur de ordinea operațiilor — <strong>pune paranteze!</strong> Codul devine și mai ușor de citit.</p>
+  </div>
+</section>
+
+<!-- 5. ATRIBUIRE -->
+<section id="atribuire">
+  <h2>5. Operatori de Atribuire</h2>
+  <p>Scurtături utile pentru modificarea variabilelor — îți economisesc timp și cod!</p>
+
+  <table class="tbl">
+    <thead><tr><th>Operator</th><th>Echivalent cu</th><th>Exemplu</th><th>Rezultat</th></tr></thead>
+    <tbody>
+      <tr><td><code>+=</code></td><td><code>x = x + 5</code></td><td><code>scor += 10</code></td><td>scor crește cu 10</td></tr>
+      <tr><td><code>-=</code></td><td><code>x = x - 5</code></td><td><code>vieti -= 1</code></td><td>vieți scade cu 1</td></tr>
+      <tr><td><code>*=</code></td><td><code>x = x * 2</code></td><td><code>viteza *= 2</code></td><td>viteza se dublează</td></tr>
+      <tr><td><code>/=</code></td><td><code>x = x / 2</code></td><td><code>pret /= 2</code></td><td>prețul se înjumătățește</td></tr>
+      <tr><td><code>//=</code></td><td><code>x = x // 2</code></td><td><code>bani //= 2</code></td><td>împărțire întreagă</td></tr>
+      <tr><td><code>%=</code></td><td><code>x = x % 2</code></td><td><code>n %= 2</code></td><td>restul împărțirii</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Exemplu din viața reală — Scor într-un joc:</h3>
+  <div class="cb" id="cb-attr1"></div>
+
+  <h3>Exemplu din viața reală — Reduceri la magazin:</h3>
+  <div class="cb" id="cb-attr2"></div>
+</section>
+
+<!-- 6. EXERCITII -->
+<section id="exercitii">
+  <h2>6. Exerciții Practice</h2>
+
+  <div class="exercise">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><div class="ex-num">1</div><h3 style="margin:0;color:var(--blue)">Calculatorul de buzunar</h3></div>
+    <div class="cb" id="cb-ex1"></div>
+    <div class="box box-green" style="margin-top:10px"><div class="box-title">Indiciu:</div>Folosește <code>**</code> pentru putere, <code>//</code> pentru câtul întreg, <code>%</code> pentru rest.</div>
+  </div>
+
+  <div class="exercise">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><div class="ex-num">2</div><h3 style="margin:0;color:var(--blue)">Verificări cu comparație și logici</h3></div>
+    <div class="cb" id="cb-ex2"></div>
+    <div class="box box-green" style="margin-top:10px">
+      <div class="box-title">Răspuns:</div>
+      a) <code>nota >= 5 and nota &lt;= 10</code><br>
+      b) <code>varsta >= 18 or are_permisiune</code>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><div class="ex-num">3</div><h3 style="margin:0;color:var(--blue)">Scorul unui joc cu operatori de atribuire</h3></div>
+    <div class="cb" id="cb-ex3"></div>
+  </div>
+</section>
+
+<!-- 7. QUIZ -->
+<section id="quiz">
+  <h2>7. Mini-Quiz</h2>
+  <p style="margin-bottom:16px">Apasă pe răspunsul corect. 5 întrebări din fiecare categorie!</p>
+
+  <!-- ARITMETICI -->
+  <div class="cat-header cat-arit">
+    <span class="cat-icon">➕</span>
+    <span>Operatori Aritmetici</span>
+    <span class="cat-score" id="score-arit">0/5</span>
+  </div>
+
+  <div class="quiz-card" id="qc0">
+    <div class="quiz-q">1. Ce returnează <code>10 % 3</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(0,0)"><div class="ql">A</div><span>3</span></div>
+      <div class="quiz-opt" onclick="answer(0,1)"><div class="ql">B</div><span>1</span></div>
+      <div class="quiz-opt" onclick="answer(0,2)"><div class="ql">C</div><span>0</span></div>
+      <div class="quiz-opt" onclick="answer(0,3)"><div class="ql">D</div><span>10</span></div>
+    </div>
+    <div class="quiz-fb" id="qf0"></div>
+  </div>
+
+  <div class="quiz-card" id="qc1">
+    <div class="quiz-q">2. Ce returnează <code>2 ** 10</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(1,0)"><div class="ql">A</div><span>20</span></div>
+      <div class="quiz-opt" onclick="answer(1,1)"><div class="ql">B</div><span>100</span></div>
+      <div class="quiz-opt" onclick="answer(1,2)"><div class="ql">C</div><span>1024</span></div>
+      <div class="quiz-opt" onclick="answer(1,3)"><div class="ql">D</div><span>210</span></div>
+    </div>
+    <div class="quiz-fb" id="qf1"></div>
+  </div>
+
+  <div class="quiz-card" id="qc2">
+    <div class="quiz-q">3. Ce returnează <code>17 // 5</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(2,0)"><div class="ql">A</div><span>3</span></div>
+      <div class="quiz-opt" onclick="answer(2,1)"><div class="ql">B</div><span>3.4</span></div>
+      <div class="quiz-opt" onclick="answer(2,2)"><div class="ql">C</div><span>2</span></div>
+      <div class="quiz-opt" onclick="answer(2,3)"><div class="ql">D</div><span>5</span></div>
+    </div>
+    <div class="quiz-fb" id="qf2"></div>
+  </div>
+
+  <div class="quiz-card" id="qc3">
+    <div class="quiz-q">4. Maria are 73 de lei și vrea ciocolate de 8 lei. Câte poate cumpăra? <code>73 // 8</code></div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(3,0)"><div class="ql">A</div><span>9</span></div>
+      <div class="quiz-opt" onclick="answer(3,1)"><div class="ql">B</div><span>8</span></div>
+      <div class="quiz-opt" onclick="answer(3,2)"><div class="ql">C</div><span>10</span></div>
+      <div class="quiz-opt" onclick="answer(3,3)"><div class="ql">D</div><span>73</span></div>
+    </div>
+    <div class="quiz-fb" id="qf3"></div>
+  </div>
+
+  <div class="quiz-card" id="qc4">
+    <div class="quiz-q">5. Ce operator folosești pentru <strong>restul la împărțire</strong>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(4,0)"><div class="ql">A</div><span>/</span></div>
+      <div class="quiz-opt" onclick="answer(4,1)"><div class="ql">B</div><span>//</span></div>
+      <div class="quiz-opt" onclick="answer(4,2)"><div class="ql">C</div><span>%</span></div>
+      <div class="quiz-opt" onclick="answer(4,3)"><div class="ql">D</div><span>**</span></div>
+    </div>
+    <div class="quiz-fb" id="qf4"></div>
+  </div>
+
+  <!-- COMPARATIE -->
+  <div class="cat-header cat-comp">
+    <span class="cat-icon">⚖️</span>
+    <span>Operatori de Comparație</span>
+    <span class="cat-score" id="score-comp">0/5</span>
+  </div>
+
+  <div class="quiz-card" id="qc5">
+    <div class="quiz-q">6. Ce returnează <code>5 == 5</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(5,0)"><div class="ql">A</div><span>5</span></div>
+      <div class="quiz-opt" onclick="answer(5,1)"><div class="ql">B</div><span>True</span></div>
+      <div class="quiz-opt" onclick="answer(5,2)"><div class="ql">C</div><span>False</span></div>
+      <div class="quiz-opt" onclick="answer(5,3)"><div class="ql">D</div><span>Eroare</span></div>
+    </div>
+    <div class="quiz-fb" id="qf5"></div>
+  </div>
+
+  <div class="quiz-card" id="qc6">
+    <div class="quiz-q">7. Care e diferența dintre <code>=</code> și <code>==</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(6,0)"><div class="ql">A</div><span>Nu există diferență</span></div>
+      <div class="quiz-opt" onclick="answer(6,1)"><div class="ql">B</div><span><code>=</code> atribuie, <code>==</code> compară</span></div>
+      <div class="quiz-opt" onclick="answer(6,2)"><div class="ql">C</div><span><code>==</code> atribuie, <code>=</code> compară</span></div>
+      <div class="quiz-opt" onclick="answer(6,3)"><div class="ql">D</div><span>Ambele compară</span></div>
+    </div>
+    <div class="quiz-fb" id="qf6"></div>
+  </div>
+
+  <div class="quiz-card" id="qc7">
+    <div class="quiz-q">8. Ce returnează <code>10 != 10</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(7,0)"><div class="ql">A</div><span>True</span></div>
+      <div class="quiz-opt" onclick="answer(7,1)"><div class="ql">B</div><span>0</span></div>
+      <div class="quiz-opt" onclick="answer(7,2)"><div class="ql">C</div><span>False</span></div>
+      <div class="quiz-opt" onclick="answer(7,3)"><div class="ql">D</div><span>Eroare</span></div>
+    </div>
+    <div class="quiz-fb" id="qf7"></div>
+  </div>
+
+  <div class="quiz-card" id="qc8">
+    <div class="quiz-q">9. Nota lui Andrei e 7. Ce returnează <code>nota >= 5</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(8,0)"><div class="ql">A</div><span>7</span></div>
+      <div class="quiz-opt" onclick="answer(8,1)"><div class="ql">B</div><span>False</span></div>
+      <div class="quiz-opt" onclick="answer(8,2)"><div class="ql">C</div><span>True</span></div>
+      <div class="quiz-opt" onclick="answer(8,3)"><div class="ql">D</div><span>Eroare</span></div>
+    </div>
+    <div class="quiz-fb" id="qf8"></div>
+  </div>
+
+  <div class="quiz-card" id="qc9">
+    <div class="quiz-q">10. Ce returnează <code>3 > 3</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(9,0)"><div class="ql">A</div><span>True</span></div>
+      <div class="quiz-opt" onclick="answer(9,1)"><div class="ql">B</div><span>False</span></div>
+      <div class="quiz-opt" onclick="answer(9,2)"><div class="ql">C</div><span>3</span></div>
+      <div class="quiz-opt" onclick="answer(9,3)"><div class="ql">D</div><span>Eroare</span></div>
+    </div>
+    <div class="quiz-fb" id="qf9"></div>
+  </div>
+
+  <!-- LOGICI -->
+  <div class="cat-header cat-logic">
+    <span class="cat-icon">🧠</span>
+    <span>Operatori Logici</span>
+    <span class="cat-score" id="score-logic">0/5</span>
+  </div>
+
+  <div class="quiz-card" id="qc10">
+    <div class="quiz-q">11. Ce returnează <code>True and False</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(10,0)"><div class="ql">A</div><span>True</span></div>
+      <div class="quiz-opt" onclick="answer(10,1)"><div class="ql">B</div><span>False</span></div>
+      <div class="quiz-opt" onclick="answer(10,2)"><div class="ql">C</div><span>None</span></div>
+      <div class="quiz-opt" onclick="answer(10,3)"><div class="ql">D</div><span>Eroare</span></div>
+    </div>
+    <div class="quiz-fb" id="qf10"></div>
+  </div>
+
+  <div class="quiz-card" id="qc11">
+    <div class="quiz-q">12. Ce returnează <code>True or False</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(11,0)"><div class="ql">A</div><span>True</span></div>
+      <div class="quiz-opt" onclick="answer(11,1)"><div class="ql">B</div><span>False</span></div>
+      <div class="quiz-opt" onclick="answer(11,2)"><div class="ql">C</div><span>None</span></div>
+      <div class="quiz-opt" onclick="answer(11,3)"><div class="ql">D</div><span>Eroare</span></div>
+    </div>
+    <div class="quiz-fb" id="qf11"></div>
+  </div>
+
+  <div class="quiz-card" id="qc12">
+    <div class="quiz-q">13. Ce returnează <code>not True</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(12,0)"><div class="ql">A</div><span>True</span></div>
+      <div class="quiz-opt" onclick="answer(12,1)"><div class="ql">B</div><span>0</span></div>
+      <div class="quiz-opt" onclick="answer(12,2)"><div class="ql">C</div><span>False</span></div>
+      <div class="quiz-opt" onclick="answer(12,3)"><div class="ql">D</div><span>Eroare</span></div>
+    </div>
+    <div class="quiz-fb" id="qf12"></div>
+  </div>
+
+  <div class="quiz-card" id="qc13">
+    <div class="quiz-q">14. E weekend și nu plouă. Condiția e <code>este_weekend and not ploua</code>. Pot merge la fotbal?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(13,0)"><div class="ql">A</div><span>False</span></div>
+      <div class="quiz-opt" onclick="answer(13,1)"><div class="ql">B</div><span>True</span></div>
+      <div class="quiz-opt" onclick="answer(13,2)"><div class="ql">C</div><span>Eroare</span></div>
+      <div class="quiz-opt" onclick="answer(13,3)"><div class="ql">D</div><span>Nu se poate ști</span></div>
+    </div>
+    <div class="quiz-fb" id="qf13"></div>
+  </div>
+
+  <div class="quiz-card" id="qc14">
+    <div class="quiz-q">15. Ce returnează <code>False or False</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(14,0)"><div class="ql">A</div><span>True</span></div>
+      <div class="quiz-opt" onclick="answer(14,1)"><div class="ql">B</div><span>None</span></div>
+      <div class="quiz-opt" onclick="answer(14,2)"><div class="ql">C</div><span>False</span></div>
+      <div class="quiz-opt" onclick="answer(14,3)"><div class="ql">D</div><span>Eroare</span></div>
+    </div>
+    <div class="quiz-fb" id="qf14"></div>
+  </div>
+
+  <!-- ORDINE -->
+  <div class="cat-header cat-ord">
+    <span class="cat-icon">📋</span>
+    <span>Ordinea Operațiilor</span>
+    <span class="cat-score" id="score-ord">0/5</span>
+  </div>
+
+  <div class="quiz-card" id="qc15">
+    <div class="quiz-q">16. Ce returnează <code>2 + 3 * 4</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(15,0)"><div class="ql">A</div><span>20</span></div>
+      <div class="quiz-opt" onclick="answer(15,1)"><div class="ql">B</div><span>14</span></div>
+      <div class="quiz-opt" onclick="answer(15,2)"><div class="ql">C</div><span>24</span></div>
+      <div class="quiz-opt" onclick="answer(15,3)"><div class="ql">D</div><span>10</span></div>
+    </div>
+    <div class="quiz-fb" id="qf15"></div>
+  </div>
+
+  <div class="quiz-card" id="qc16">
+    <div class="quiz-q">17. Ce returnează <code>(2 + 3) * 4</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(16,0)"><div class="ql">A</div><span>14</span></div>
+      <div class="quiz-opt" onclick="answer(16,1)"><div class="ql">B</div><span>24</span></div>
+      <div class="quiz-opt" onclick="answer(16,2)"><div class="ql">C</div><span>20</span></div>
+      <div class="quiz-opt" onclick="answer(16,3)"><div class="ql">D</div><span>10</span></div>
+    </div>
+    <div class="quiz-fb" id="qf16"></div>
+  </div>
+
+  <div class="quiz-card" id="qc17">
+    <div class="quiz-q">18. Care se calculează primul în <code>2 ** 3 + 1</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(17,0)"><div class="ql">A</div><span>3 + 1</span></div>
+      <div class="quiz-opt" onclick="answer(17,1)"><div class="ql">B</div><span>2 ** 3</span></div>
+      <div class="quiz-opt" onclick="answer(17,2)"><div class="ql">C</div><span>Ambele simultan</span></div>
+      <div class="quiz-opt" onclick="answer(17,3)"><div class="ql">D</div><span>Nu contează</span></div>
+    </div>
+    <div class="quiz-fb" id="qf17"></div>
+  </div>
+
+  <div class="quiz-card" id="qc18">
+    <div class="quiz-q">19. Ce returnează <code>10 - 2 * 3</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(18,0)"><div class="ql">A</div><span>24</span></div>
+      <div class="quiz-opt" onclick="answer(18,1)"><div class="ql">B</div><span>4</span></div>
+      <div class="quiz-opt" onclick="answer(18,2)"><div class="ql">C</div><span>6</span></div>
+      <div class="quiz-opt" onclick="answer(18,3)"><div class="ql">D</div><span>8</span></div>
+    </div>
+    <div class="quiz-fb" id="qf18"></div>
+  </div>
+
+  <div class="quiz-card" id="qc19">
+    <div class="quiz-q">20. Regula de aur când nu ești sigur de ordinea operațiilor?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(19,0)"><div class="ql">A</div><span>Scrii totul pe linii separate</span></div>
+      <div class="quiz-opt" onclick="answer(19,1)"><div class="ql">B</div><span>Pui paranteze</span></div>
+      <div class="quiz-opt" onclick="answer(19,2)"><div class="ql">C</div><span>Folosești //</span></div>
+      <div class="quiz-opt" onclick="answer(19,3)"><div class="ql">D</div><span>Întrebi profesorul</span></div>
+    </div>
+    <div class="quiz-fb" id="qf19"></div>
+  </div>
+
+  <!-- ATRIBUIRE -->
+  <div class="cat-header cat-attr">
+    <span class="cat-icon">✏️</span>
+    <span>Operatori de Atribuire</span>
+    <span class="cat-score" id="score-attr">0/5</span>
+  </div>
+
+  <div class="quiz-card" id="qc20">
+    <div class="quiz-q">21. <code>scor = 0</code> apoi <code>scor += 100</code>. Ce valoare are <code>scor</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(20,0)"><div class="ql">A</div><span>0</span></div>
+      <div class="quiz-opt" onclick="answer(20,1)"><div class="ql">B</div><span>100</span></div>
+      <div class="quiz-opt" onclick="answer(20,2)"><div class="ql">C</div><span>1</span></div>
+      <div class="quiz-opt" onclick="answer(20,3)"><div class="ql">D</div><span>Eroare</span></div>
+    </div>
+    <div class="quiz-fb" id="qf20"></div>
+  </div>
+
+  <div class="quiz-card" id="qc21">
+    <div class="quiz-q">22. Ce înseamnă <code>vieti -= 1</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(21,0)"><div class="ql">A</div><span>vieti = vieti + 1</span></div>
+      <div class="quiz-opt" onclick="answer(21,1)"><div class="ql">B</div><span>vieti = vieti - 1</span></div>
+      <div class="quiz-opt" onclick="answer(21,2)"><div class="ql">C</div><span>vieti = -1</span></div>
+      <div class="quiz-opt" onclick="answer(21,3)"><div class="ql">D</div><span>Eroare</span></div>
+    </div>
+    <div class="quiz-fb" id="qf21"></div>
+  </div>
+
+  <div class="quiz-card" id="qc22">
+    <div class="quiz-q">23. <code>pret = 100</code> apoi <code>pret /= 2</code>. Ce valoare are <code>pret</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(22,0)"><div class="ql">A</div><span>200</span></div>
+      <div class="quiz-opt" onclick="answer(22,1)"><div class="ql">B</div><span>2</span></div>
+      <div class="quiz-opt" onclick="answer(22,2)"><div class="ql">C</div><span>50.0</span></div>
+      <div class="quiz-opt" onclick="answer(22,3)"><div class="ql">D</div><span>100</span></div>
+    </div>
+    <div class="quiz-fb" id="qf22"></div>
+  </div>
+
+  <div class="quiz-card" id="qc23">
+    <div class="quiz-q">24. <code>viteza = 3</code> apoi <code>viteza *= 2</code>. Ce valoare are <code>viteza</code>?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(23,0)"><div class="ql">A</div><span>32</span></div>
+      <div class="quiz-opt" onclick="answer(23,1)"><div class="ql">B</div><span>5</span></div>
+      <div class="quiz-opt" onclick="answer(23,2)"><div class="ql">C</div><span>6</span></div>
+      <div class="quiz-opt" onclick="answer(23,3)"><div class="ql">D</div><span>2</span></div>
+    </div>
+    <div class="quiz-fb" id="qf23"></div>
+  </div>
+
+  <div class="quiz-card" id="qc24">
+    <div class="quiz-q">25. Care operator <strong>dublează</strong> valoarea unei variabile?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(24,0)"><div class="ql">A</div><span>+=</span></div>
+      <div class="quiz-opt" onclick="answer(24,1)"><div class="ql">B</div><span>**=</span></div>
+      <div class="quiz-opt" onclick="answer(24,2)"><div class="ql">C</div><span>*= 2</span></div>
+      <div class="quiz-opt" onclick="answer(24,3)"><div class="ql">D</div><span>//=</span></div>
+    </div>
+    <div class="quiz-fb" id="qf24"></div>
+  </div>
+
+  <!-- SCOR -->
+  <div class="score-box" id="score-box">
+    <div style="font-size:2.8rem;margin-bottom:8px">🏆</div>
+    <div class="score-num" id="score-num">0/25</div>
+    <div class="score-lbl">răspunsuri corecte</div>
+    <div class="prog-wrap"><div class="prog-fill" id="prog-fill"></div></div>
+    <div class="score-msg" id="score-msg"></div>
+    <div class="cat-results" id="cat-results"></div>
+    <button class="restart-btn" onclick="restart()">🔄 Încearcă din nou</button>
+  </div>
+</section>
+
+<!-- 8. TEME -->
+<section id="teme">
+  <h2>8. Teme pentru Acasă</h2>
+  <div class="box box-pink" style="background:var(--pink-l);border-left:5px solid var(--pink)">
+    <div class="box-title" style="color:#880E4F">Instrucțiuni:</div>
+    <p>Rezolvă temele în Thonny. Salvează fișierele cu numele indicate și adaugă-le în Google Classroom până <strong>vineri</strong>.</p>
+  </div>
+
+  <div class="hw-card">
+    <div style="display:flex;align-items:center;margin-bottom:12px">
+      <div class="hw-num">1</div>
+      <h3 style="margin:0;color:#880E4F">Calculatorul de buzunar</h3>
+      <span class="hw-badge hw-easy">Ușor</span>
+    </div>
+    <p>Citește două numere de la tastatură și afișează suma, diferența, produsul, câtul, restul și primul număr la puterea celui de-al doilea.</p>
+    <div class="cb" id="cb-hw1"></div>
+    <p style="margin-top:10px;font-size:.85rem;color:#555">Salvează ca: <code>tema1_numetau.py</code></p>
+  </div>
+
+  <div class="hw-card">
+    <div style="display:flex;align-items:center;margin-bottom:12px">
+      <div class="hw-num">2</div>
+      <h3 style="margin:0;color:#880E4F">Verificatorul de note</h3>
+      <span class="hw-badge hw-med">Mediu</span>
+    </div>
+    <p>Citește o notă de la tastatură și afișează dacă e validă (între 1 și 10), dacă e de trecere (>= 5) și dacă e de 10.</p>
+    <div class="cb" id="cb-hw2"></div>
+    <p style="margin-top:10px;font-size:.85rem;color:#555">Salvează ca: <code>tema2_numetau.py</code></p>
+  </div>
+
+  <div class="hw-card">
+    <div style="display:flex;align-items:center;margin-bottom:12px">
+      <div class="hw-num">3</div>
+      <h3 style="margin:0;color:#880E4F">Simulatorul de joc</h3>
+      <span class="hw-badge hw-hard">Provocare</span>
+    </div>
+    <p>Simulează un joc cu scor și vieți folosind operatorii de atribuire. Pornești cu scor 0 și 3 vieți, câștigi puncte și pierzi vieți.</p>
+    <div class="cb" id="cb-hw3"></div>
+    <p style="margin-top:10px;font-size:.85rem;color:#555">Salvează ca: <code>tema3_numetau.py</code></p>
+  </div>
+</section>
+
+<div class="box box-blue" style="margin-top:8px">
+  <div class="box-title" style="font-size:1.05rem">Rezumat — Ce ai învățat azi!</div>
+  <p>Aritmetici: + - * / // % ** — fac calcule matematice</p>
+  <p>Comparație: == != &lt; &gt; &lt;= &gt;= — returnează True sau False</p>
+  <p>Logici: and or not — combină condiții</p>
+  <p>Ordine: () &gt; ** &gt; * / &gt; + - &gt; comparații &gt; not &gt; and &gt; or</p>
+  <p>Atribuire: += -= *= /= — scurtături elegante</p>
+</div>
+
+</main>
+<footer>Python Lecția 3 — Operatori & Expresii | 10-14 ani | Începător - Intermediar</footer>
+
+<script>
+var BLUE='#74b9ff', GREEN='#55efc4', PINK='#fd79a8', GOLD='#fdcb6e';
+function span(c,t){return '<span style="color:'+c+'">'+t+'</span>';}
+var cm=function(t){return span(BLUE,t);};
+var cs=function(t){return span(GREEN,t);};
+var ck=function(t){return span(PINK,t);};
+var cn=function(t){return span(GOLD,t);};
+
+function setCode(id,lines){var el=document.getElementById(id);if(el)el.innerHTML=lines.join('\n');}
+
+setCode('cb-arit1',[
+  cm('# La magazin — câte ciocolate poți cumpăra?'),
+  'bani = '+cn('50'),
+  'pret_ciocolata = '+cn('7'),
+  '',
+  'ciocolate = bani '+ck('//')+' pret_ciocolata   '+cm('# 7 ciocolate'),
+  'rest = bani '+ck('%')+' pret_ciocolata         '+cm('# 1 leu rest'),
+  '',
+  'print('+cs('"Pot cumpăra:"')+', ciocolate, '+cs('"ciocolate"')+')',
+  'print('+cs('"Îmi rămân:"')+', rest, '+cs('"lei"')+')',
+]);
+
+setCode('cb-arit2',[
+  cm('# Joc video — calcule de scor'),
+  'inamici_omori = '+cn('5'),
+  'puncte_per_inamic = '+cn('150'),
+  'bonus = '+cn('2')+'  '+cm('# multiplicator bonus'),
+  '',
+  'scor = inamici_omori '+ck('*')+' puncte_per_inamic '+ck('*')+' bonus',
+  'print('+cs('"Scor:"')+', scor)             '+cm('# 1500'),
+  '',
+  'print('+cs('"La putere 2:"')+', scor '+ck('**')+' '+cn('2')+') '+cm('# pentru clasament special'),
+  'print('+cs('"Împărțit în 3 echipe:"')+', scor '+ck('//')+' '+cn('3')+')',
+]);
+
+setCode('cb-comp1',[
+  'nota = '+cn('6'),
+  'print(nota '+ck('>=')+' '+cn('5')+')    '+cm('# True  - a trecut'),
+  'print(nota '+ck('==')+' '+cn('10')+')   '+cm('# False - nu e zece'),
+  'print(nota '+ck('!=')+' '+cn('4')+')    '+cm('# True  - nu e patru'),
+  'print(nota '+ck('<')+' '+cn('5')+')     '+cm('# False - nu e corigent'),
+]);
+
+setCode('cb-comp2',[
+  cm('# Acces la film pentru maturi'),
+  'varsta = '+cn('16'),
+  'varsta_minima = '+cn('18'),
+  '',
+  'poate_intra = varsta '+ck('>=')+' varsta_minima',
+  'print('+cs('"Poate intra?"')+', poate_intra)   '+cm('# False'),
+  '',
+  'print('+cs('"Mai are de așteptat:"')+', varsta_minima '+ck('-')+' varsta, '+cs('"ani"')+')',
+]);
+
+setCode('cb-logic1',[
+  cm('# Fotbal în parc — trebuie să fie weekend ȘI să nu plouă'),
+  'este_weekend = '+ck('True'),
+  'ploua = '+ck('False'),
+  '',
+  'pot_merge = este_weekend '+ck('and not')+' ploua',
+  'print(pot_merge)    '+cm('# True — mergem la fotbal!'),
+  '',
+  cm('# Dacă plouă:'),
+  'ploua = '+ck('True'),
+  'pot_merge = este_weekend '+ck('and not')+' ploua',
+  'print(pot_merge)    '+cm('# False — stăm acasă'),
+]);
+
+setCode('cb-logic2',[
+  cm('# Intrare gratuită la muzeu — elev SAU sub 7 ani'),
+  'este_elev = '+ck('True'),
+  'varsta = '+cn('12'),
+  '',
+  'intrare_gratuita = este_elev '+ck('or')+' varsta '+ck('<')+' '+cn('7'),
+  'print(intrare_gratuita)    '+cm('# True — elev = intrare gratuită'),
+  '',
+  cm('# Un adult de 30 de ani, nu e elev:'),
+  'este_elev = '+ck('False'),
+  'varsta = '+cn('30'),
+  'intrare_gratuita = este_elev '+ck('or')+' varsta '+ck('<')+' '+cn('7'),
+  'print(intrare_gratuita)    '+cm('# False — plătește bilet'),
+]);
+
+setCode('cb-logic3',[
+  cm('# Verificare parolă — trebuie să fie corectă ȘI să nu fie goală'),
+  'parola_introdusa = '+cs('"python123"'),
+  'parola_corecta = '+cs('"python123"'),
+  '',
+  'este_corecta = parola_introdusa '+ck('==')+' parola_corecta',
+  'nu_e_goala = '+ck('not')+' (parola_introdusa '+ck('==')+' '+cs('""')+')',
+  '',
+  'acces = este_corecta '+ck('and')+' nu_e_goala',
+  'print('+cs('"Acces permis:"')+', acces)    '+cm('# True'),
+]);
+
+setCode('cb-ord1',[
+  cm('# Fără paranteze — înmulțirea are prioritate!'),
+  'rezultat = '+cn('2')+' + '+cn('3')+' * '+cn('4'),
+  'print(rezultat)      '+cm('# 14, nu 20!'),
+  '',
+  cm('# Cu paranteze — controlezi tu ordinea'),
+  'rezultat = ('+cn('2')+' + '+cn('3')+') * '+cn('4'),
+  'print(rezultat)      '+cm('# 20'),
+  '',
+  cm('# Regula de aur: dacă nu ești sigur, pune paranteze!'),
+]);
+
+setCode('cb-ord2',[
+  cm('# Media la două materii — greșit vs corect'),
+  'nota_mate1, nota_mate2 = '+cn('8')+', '+cn('9'),
+  'nota_info1, nota_info2 = '+cn('10')+', '+cn('7'),
+  '',
+  cm('# GREȘIT — fără paranteze:'),
+  'medie_gresita = nota_mate1 + nota_mate2 / '+cn('2')+' + nota_info1 + nota_info2 / '+cn('2'),
+  'print('+cs('"Greșit:"')+', medie_gresita)    '+cm('# 21.5 — fals!'),
+  '',
+  cm('# CORECT — cu paranteze:'),
+  'medie_corecta = (nota_mate1 + nota_mate2) / '+cn('2')+' + (nota_info1 + nota_info2) / '+cn('2'),
+  'print('+cs('"Corect:"')+', medie_corecta)    '+cm('# 17.0'),
+]);
+
+setCode('cb-attr1',[
+  cm('# Scorul unui joc video'),
+  'scor = '+cn('0'),
+  'vieti = '+cn('3'),
+  '',
+  'scor += '+cn('100')+'    '+cm('# ai omorât un inamic'),
+  'scor += '+cn('50')+'     '+cm('# ai luat un bonus'),
+  'scor += '+cn('200')+'    '+cm('# ai trecut nivelul'),
+  'vieti -= '+cn('1')+'     '+cm('# ai pierdut o viață'),
+  '',
+  'print('+cs('"Scor:"')+', scor)        '+cm('# 350'),
+  'print('+cs('"Vieți rămase:"')+', vieti)   '+cm('# 2'),
+]);
+
+setCode('cb-attr2',[
+  cm('# Reduceri la magazin'),
+  'pret = '+cn('200'),
+  'print('+cs('"Preț inițial:"')+', pret)',
+  '',
+  'pret *= '+cn('0.9')+'    '+cm('# reducere 10%'),
+  'print('+cs('"După reducere 10%:"')+', pret)    '+cm('# 180.0'),
+  '',
+  'pret -= '+cn('20')+'     '+cm('# cupon de 20 lei'),
+  'print('+cs('"După cupon:"')+', pret)           '+cm('# 160.0'),
+]);
+
+setCode('cb-ex1',[
+  cm('# Calculatorul de buzunar — completează'),
+  'a = '+cn('15'),
+  'b = '+cn('4'),
+  '',
+  'print('+cs('"Suma:"')+', ___ + ___)',
+  'print('+cs('"Diferența:"')+', ___ - ___)',
+  'print('+cs('"Produsul:"')+', ___ * ___)',
+  'print('+cs('"Câtul întreg:"')+', ___ // ___)',
+  'print('+cs('"Restul:"')+', ___ % ___)',
+  'print('+cs('"Puterea:"')+', ___ ** ___)',
+]);
+
+setCode('cb-ex2',[
+  cm('# a) Verifică dacă o notă este validă și de trecere'),
+  'nota = '+cn('7'),
+  'valida = nota '+ck('>=')+' '+cn('1')+' '+ck('and')+' ___',
+  'trecere = ___',
+  'print('+cs('"Validă:"')+', valida)',
+  'print('+cs('"De trecere:"')+', trecere)',
+  '',
+  cm('# b) Verifică dacă poate intra — major SAU cu permisiune'),
+  'varsta = '+cn('16'),
+  'are_permisiune = '+ck('True'),
+  'poate_intra = ___',
+  'print('+cs('"Poate intra:"')+', poate_intra)',
+]);
+
+setCode('cb-ex3',[
+  'scor = '+cn('0'),
+  'vieti = '+cn('3'),
+  '',
+  cm('# Completează cu operatorii de atribuire potriviți:'),
+  'scor ___ '+cn('100')+'   '+cm('# câștigă 100 puncte'),
+  'scor ___ '+cn('50')+'    '+cm('# câștigă 50 puncte bonus'),
+  'vieti ___ '+cn('1')+'    '+cm('# pierde o viață'),
+  'scor ___ '+cn('2')+'     '+cm('# scorul se dublează (multiplicator)'),
+  '',
+  'print('+cs('"Scor final:"')+', scor)',
+  'print('+cs('"Vieți rămase:"')+', vieti)',
+]);
+
+setCode('cb-hw1',[
+  'a = int(input('+cs('"Primul număr: "')+')',
+  'b = int(input('+cs('"Al doilea număr: "')+')',
+  '',
+  'print('+cs('"Suma:"')+', a + b)',
+  'print('+cs('"Diferența:"')+', a - b)',
+  'print('+cs('"Produsul:"')+', a * b)',
+  'print('+cs('"Câtul:"')+', a / b)',
+  'print('+cs('"Câtul întreg:"')+', a // b)',
+  'print('+cs('"Restul:"')+', a % b)',
+  'print('+cs('"Puterea:"')+', a ** b)',
+]);
+
+setCode('cb-hw2',[
+  'nota = int(input('+cs('"Introdu nota (1-10): "')+')',
+  '',
+  'valida = nota '+ck('>=')+' '+cn('1')+' '+ck('and')+' nota '+ck('<=')+' '+cn('10'),
+  'trecere = nota '+ck('>=')+' '+cn('5'),
+  'zece = nota '+ck('==')+' '+cn('10'),
+  '',
+  'print('+cs('"Notă validă:"')+', valida)',
+  'print('+cs('"De trecere:"')+', trecere)',
+  'print('+cs('"Este 10:"')+', zece)',
+]);
+
+setCode('cb-hw3',[
+  'scor = '+cn('0'),
+  'vieti = '+cn('3'),
+  '',
+  'print('+cs('"START — Scor:"')+', scor, '+cs('"| Vieți:"')+', vieti)',
+  '',
+  'scor += '+cn('100')+'    '+cm('# nivel 1 trecut'),
+  'vieti -= '+cn('1')+'     '+cm('# căzut în groapă'),
+  'scor += '+cn('250')+'    '+cm('# boss învins'),
+  'scor *= '+cn('2')+'      '+cm('# bonus x2'),
+  'vieti -= '+cn('1')+'     '+cm('# lovit de inamic'),
+  '',
+  'print('+cs('"FINAL — Scor:"')+', scor, '+cs('"| Vieți:"')+', vieti)',
+  'print('+cs('"Ai câștigat?"')+', scor '+ck('>=')+' '+cn('500')+' '+ck('and')+' vieti '+ck('>')+' '+cn('0')+')',
+]);
+
+// QUIZ
+var QUIZ=[
+  {ans:1,cat:'arit',fb:'10 împărțit la 3 = 3 rest 1. Operatorul % returnează restul împărțirii!'},
+  {ans:2,cat:'arit',fb:'2**10 = 2×2×2×2×2×2×2×2×2×2 = 1024. Operatorul ** ridică la putere!'},
+  {ans:0,cat:'arit',fb:'17 // 5 = 3 (câtul întreg). 3×5=15, rămâne 2 rest. Partea zecimală se taie!'},
+  {ans:0,cat:'arit',fb:'73 // 8 = 9 (9×8=72). Cu 1 leu rest!'},
+  {ans:2,cat:'arit',fb:'% este operatorul modulo - returnează restul împărțirii!'},
+  {ans:1,cat:'comp',fb:'5 == 5 este True. Operatorii de comparație returnează întotdeauna True sau False!'},
+  {ans:1,cat:'comp',fb:'= atribuie o valoare (x = 5), == compară două valori (x == 5)!'},
+  {ans:2,cat:'comp',fb:'10 != 10 este False. != înseamnă "diferit de". 10 este egal cu 10!'},
+  {ans:2,cat:'comp',fb:'nota = 7, iar 7 >= 5 este True. Andrei a trecut!'},
+  {ans:1,cat:'comp',fb:'3 > 3 este False. 3 nu este mai mare decât 3! Folosește >= pentru "mai mare sau egal".'},
+  {ans:1,cat:'logic',fb:'and returnează True DOAR dacă ambele sunt True. True and False = False!'},
+  {ans:0,cat:'logic',fb:'or returnează True dacă CEL PUȚIN UNA e True. True or False = True!'},
+  {ans:2,cat:'logic',fb:'not inversează valoarea. not True = False!'},
+  {ans:1,cat:'logic',fb:'este_weekend=True, ploua=False. True and not False = True and True = True!'},
+  {ans:2,cat:'logic',fb:'or returnează True dacă cel puțin una e True. False or False = False!'},
+  {ans:1,cat:'ord',fb:'Înmulțirea are prioritate față de adunare! 3*4=12 primul, apoi 2+12=14!'},
+  {ans:2,cat:'ord',fb:'Parantezele au cea mai mare prioritate! (2+3)=5 primul, apoi 5*4=20!'},
+  {ans:1,cat:'ord',fb:'Puterea (**) are prioritate față de adunare! 2**3=8 primul, apoi 8+1=9!'},
+  {ans:1,cat:'ord',fb:'Înmulțirea prima: 2*3=6, apoi 10-6=4!'},
+  {ans:1,cat:'ord',fb:'Regula de aur: dacă nu ești sigur, pune paranteze!'},
+  {ans:1,cat:'attr',fb:'scor += 100 înseamnă scor = scor + 100 = 0 + 100 = 100!'},
+  {ans:1,cat:'attr',fb:'vieti -= 1 înseamnă vieti = vieti - 1. Scade cu 1!'},
+  {ans:2,cat:'attr',fb:'pret /= 2 înseamnă pret = pret / 2 = 100 / 2 = 50.0!'},
+  {ans:2,cat:'attr',fb:'viteza *= 2 înseamnă viteza = viteza * 2 = 3 * 2 = 6!'},
+  {ans:2,cat:'attr',fb:'*= 2 dublează valoarea: x *= 2 înseamnă x = x * 2!'},
+];
+
+var catScores={arit:0,comp:0,logic:0,ord:0,attr:0};
+var answered=0, totalScore=0;
+
+function answer(qi,oi){
+  var q=QUIZ[qi];
+  var opts=document.querySelectorAll('#qc'+qi+' .quiz-opt');
+  opts.forEach(function(o){o.classList.add('locked');});
+  opts[oi].classList.add(oi===q.ans?'correct':'wrong');
+  if(oi!==q.ans) opts[q.ans].classList.add('correct');
+  var fb=document.getElementById('qf'+qi);
+  if(oi===q.ans){
+    fb.textContent='✅ Corect! '+q.fb; fb.className='quiz-fb fb-ok';
+    totalScore++; catScores[q.cat]++;
+    var ids={arit:'score-arit',comp:'score-comp',logic:'score-logic',ord:'score-ord',attr:'score-attr'};
+    document.getElementById(ids[q.cat]).textContent=catScores[q.cat]+'/5';
+  } else {
+    fb.textContent='❌ Greșit! '+q.fb; fb.className='quiz-fb fb-no';
+  }
+  answered++;
+  if(answered===QUIZ.length) setTimeout(showScore,600);
+}
+
+function showScore(){
+  var box=document.getElementById('score-box');
+  box.style.display='block';
+  document.getElementById('score-num').textContent=totalScore+'/25';
+  document.getElementById('prog-fill').style.width=(totalScore/25*100)+'%';
+  var msgs=[[23,'🏆 Extraordinar! Ești campion la operatori!'],[20,'🌟 Excelent! Aproape perfect!'],[15,'👍 Bine! Mai exersează puțin.'],[10,'📚 Recitește lecția și încearcă din nou.'],[0,'💪 Nu-ți fă griji! Vei reuși!']];
+  for(var i=0;i<msgs.length;i++){if(totalScore>=msgs[i][0]){document.getElementById('score-msg').textContent=msgs[i][1];break;}}
+  var cats=[
+    {key:'arit',label:'➕ Aritmetici',bg:'#E8F5E9',color:'#1B5E20'},
+    {key:'comp',label:'⚖️ Comparație',bg:'#E3F2FD',color:'#0D47A1'},
+    {key:'logic',label:'🧠 Logici',bg:'#FFF8E1',color:'#E65100'},
+    {key:'ord',label:'📋 Ordine',bg:'#EDE7F6',color:'#4A148C'},
+    {key:'attr',label:'✏️ Atribuire',bg:'#E0F7FA',color:'#006064'},
+  ];
+  var html='';
+  cats.forEach(function(c){html+='<div class="cat-result-item" style="background:'+c.bg+';color:'+c.color+'"><span>'+c.label+'</span><span>'+catScores[c.key]+'/5</span></div>';});
+  document.getElementById('cat-results').innerHTML=html;
+  box.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function restart(){
+  answered=0; totalScore=0;
+  catScores={arit:0,comp:0,logic:0,ord:0,attr:0};
+  for(var i=0;i<25;i++){
+    var opts=document.querySelectorAll('#qc'+i+' .quiz-opt');
+    opts.forEach(function(o,oi){
+      o.className='quiz-opt';
+      (function(qi,optIdx){o.onclick=function(){answer(qi,optIdx);};})(i,oi);
+    });
+    var fb=document.getElementById('qf'+i);
+    fb.className='quiz-fb'; fb.textContent='';
+  }
+  ['score-arit','score-comp','score-logic','score-ord','score-attr'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.textContent='0/5';
+  });
+  document.getElementById('score-box').style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
