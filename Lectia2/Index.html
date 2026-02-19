@@ -1,1 +1,729 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Lectia 2 - Structuri de Date</title>
+<style>
+:root{
+  --blue:#1A237E;--blue-m:#3949AB;--blue-l:#E8EAF6;
+  --green:#1B5E20;--green-l:#E8F5E9;--green-m:#4CAF50;
+  --orange:#E65100;--orange-l:#FFF8E1;
+  --purple:#4A148C;--purple-l:#EDE7F6;
+  --red:#B71C1C;--red-l:#FFEBEE;
+  --teal:#006064;--teal-l:#E0F7FA;
+  --pink:#880E4F;--pink-l:#FCE4EC;
+  --bg:#F4F6FF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:#333;line-height:1.75;font-size:15px}
+header{background:linear-gradient(135deg,#1A237E,#3949AB,#5C6BC0);color:#fff;text-align:center;padding:44px 20px 36px}
+header h1{font-size:2rem;font-weight:900;margin-bottom:6px}
+header p{opacity:.85;margin-bottom:4px}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:4px 16px;font-size:.82rem;margin-top:6px}
+nav{background:#fff;border-bottom:2px solid var(--blue-l);padding:10px 12px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+nav a{color:var(--blue-m);text-decoration:none;font-size:.82rem;padding:5px 12px;border-radius:20px;border:1px solid var(--blue-l);transition:all .2s}
+nav a:hover{background:var(--blue);color:#fff}
+main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+section{margin-bottom:48px}
+h2{font-size:1.45rem;color:var(--blue);font-weight:800;border-left:5px solid var(--blue-m);padding-left:14px;margin-bottom:18px}
+h3{font-size:1.05rem;color:var(--blue-m);margin:18px 0 8px;font-weight:700}
+p{margin-bottom:10px}
+.box{border-radius:10px;padding:16px 20px;margin:14px 0;border:1px solid rgba(0,0,0,.07)}
+.box-blue  {background:var(--blue-l);border-left:5px solid var(--blue-m)}
+.box-green {background:var(--green-l);border-left:5px solid var(--green-m)}
+.box-orange{background:var(--orange-l);border-left:5px solid var(--orange)}
+.box-red   {background:var(--red-l);border-left:5px solid var(--red)}
+.box-pink  {background:var(--pink-l);border-left:5px solid var(--pink)}
+.box-title {font-weight:700;font-size:.98rem;margin-bottom:7px}
+/* CODE BLOCKS */
+.cb{background:#1e272e;color:#dfe6e9;border-radius:10px;padding:16px 20px;margin:12px 0;overflow-x:auto;font-family:'Courier New',monospace;font-size:.88rem;line-height:1.75;white-space:pre}
+/* TABLES */
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.tbl th{background:var(--blue);color:#fff;padding:10px 12px;font-size:.88rem;text-align:left}
+.tbl td{padding:9px 12px;font-size:.88rem;border-bottom:1px solid #e9ecef}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:nth-child(even) td{background:rgba(0,0,0,.02)}
+.tbl code{font-family:'Courier New',monospace;font-weight:700;color:var(--green)}
+/* TABS */
+.tab-btns{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:-1px}
+.tab-btn{padding:9px 18px;border:2px solid #dee2e6;border-bottom:none;border-radius:8px 8px 0 0;background:#f8f9fa;cursor:pointer;font-weight:700;font-size:.88rem;color:#555;font-family:'Segoe UI',Arial,sans-serif}
+.tab-pane{border:2px solid #dee2e6;border-radius:0 8px 8px 8px;padding:20px;background:#fff;display:none}
+.tab-pane.active{display:block}
+/* COMP BUILDER */
+.cb-builder{background:#1e272e;border-radius:10px;padding:20px;margin:14px 0}
+.cb-lbl{color:#a0aab4;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.cb-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.cb-part{padding:9px 14px;border-radius:7px;font-family:'Courier New',monospace;font-size:.95rem;font-weight:700;cursor:pointer;border:2px solid transparent;transition:transform .15s}
+.cb-part:hover{transform:translateY(-2px)}
+.cb-bracket{color:#fff;font-size:1.3rem;padding:0 2px;font-family:'Courier New',monospace}
+.cb-expr{background:#2d3f4e;color:#55efc4;border-color:#55efc4}
+.cb-for {background:#2d3f4e;color:#fd79a8;border-color:#fd79a8}
+.cb-var {background:#2d3f4e;color:#fdcb6e;border-color:#fdcb6e}
+.cb-in  {background:#2d3f4e;color:#fd79a8;border-color:#fd79a8}
+.cb-iter{background:#2d3f4e;color:#74b9ff;border-color:#74b9ff}
+.cb-if  {background:#2d3f4e;color:#fd79a8;border-color:#fd79a8;display:none}
+.cb-cond{background:#2d3f4e;color:#ffeaa7;border-color:#ffeaa7;display:none}
+.cb-out{background:#0d1117;border-radius:7px;padding:10px 14px;color:#55efc4;font-family:'Courier New',monospace;font-size:.88rem;min-height:36px;margin-top:8px}
+.cb-btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.cb-btn{padding:7px 16px;border-radius:7px;border:none;cursor:pointer;font-weight:700;font-size:.85rem;font-family:'Segoe UI',Arial,sans-serif}
+/* QUIZ */
+.quiz-card{background:#fff;border-radius:12px;padding:20px 22px;margin:16px 0;border:2px solid var(--orange-l);box-shadow:0 2px 8px rgba(230,81,0,.07)}
+.quiz-q{font-weight:700;color:var(--orange);margin-bottom:12px;font-size:.97rem}
+.quiz-opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:7px;margin-bottom:7px;cursor:pointer;border:2px solid #dee2e6;background:#f8f9fa;font-size:.92rem;user-select:none;transition:border-color .15s,background .15s}
+.quiz-opt:hover:not(.locked){border-color:var(--blue-m);background:var(--blue-l)}
+.quiz-opt.correct{background:#E8F5E9;border-color:#4CAF50;color:var(--green)}
+.quiz-opt.wrong  {background:#FFEBEE;border-color:#F44336;color:var(--red)}
+.quiz-opt.locked{pointer-events:none}
+.quiz-opt.correct.locked,.quiz-opt.wrong.locked{opacity:1}
+.quiz-opt:not(.correct):not(.wrong).locked{opacity:.5}
+.ql{width:26px;height:26px;border-radius:50%;background:#dee2e6;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0}
+.correct .ql{background:#4CAF50;color:#fff}
+.wrong   .ql{background:#F44336;color:#fff}
+.quiz-fb{margin-top:8px;padding:9px 12px;border-radius:7px;font-weight:600;font-size:.88rem;display:none}
+.fb-ok{background:#E8F5E9;color:var(--green);display:block}
+.fb-no{background:#FFEBEE;color:var(--red);display:block}
+.score-box{background:#fff;border-radius:12px;padding:24px;margin-top:24px;border:2px solid var(--blue-l);text-align:center;display:none}
+.score-num{font-size:2.8rem;font-weight:900;color:var(--blue)}
+.score-lbl{color:#757575;font-size:.9rem}
+.prog-wrap{background:#dee2e6;border-radius:10px;height:12px;overflow:hidden;margin:12px 0 6px}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue-m),var(--green-m));border-radius:10px;transition:width .6s ease;width:0}
+.score-msg{font-weight:700;font-size:1rem;margin-top:6px}
+.exercise{background:#fff;border-radius:12px;padding:20px;margin:18px 0;border:2px solid var(--blue-l);box-shadow:0 2px 8px rgba(26,35,126,.06)}
+.ex-num{display:inline-flex;align-items:center;justify-content:center;background:var(--blue);color:#fff;border-radius:50%;width:30px;height:30px;font-weight:700;margin-right:8px;flex-shrink:0;font-size:.9rem}
+.hw-card{background:#fff;border-radius:12px;padding:20px;margin:18px 0;border:2px solid #880E4F;box-shadow:0 2px 8px rgba(136,14,79,.08)}
+.hw-num{display:inline-flex;align-items:center;justify-content:center;background:#880E4F;color:#fff;border-radius:50%;width:30px;height:30px;font-weight:700;margin-right:8px;flex-shrink:0;font-size:.9rem}
+.hw-badge{display:inline-block;padding:2px 10px;border-radius:10px;font-size:.75rem;font-weight:700;margin-left:8px;vertical-align:middle}
+.hw-easy{background:#E8F5E9;color:#1B5E20}
+.hw-med {background:#FFF8E1;color:#E65100}
+.hw-hard{background:#FFEBEE;color:#B71C1C}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+@media(max-width:540px){.two-col{grid-template-columns:1fr}}
+footer{background:var(--blue);color:rgba(255,255,255,.8);text-align:center;padding:18px;font-size:.85rem}
+</style>
+</head>
+<body>
 
+<header>
+  <div style="font-size:2.8rem;margin-bottom:8px">🐍</div>
+  <h1>Python — Lectia 2</h1>
+  <p>Structuri de Date</p>
+  <p style="font-size:.9rem;opacity:.75">Liste • Tuple • Dictionare • Seturi</p>
+  <div class="badge">Lectia 2 &nbsp;|&nbsp; 10-14 ani &nbsp;|&nbsp; Incepator - Intermediar</div>
+</header>
+
+<nav>
+  <a href="#intro">Intro</a>
+  <a href="#liste">Liste</a>
+  <a href="#comprehension">Comprehension</a>
+  <a href="#tuple">Tuple</a>
+  <a href="#dict">Dict</a>
+  <a href="#set">Set</a>
+  <a href="#exercitii">Exercitii</a>
+  <a href="#quiz">Quiz</a>
+  <a href="#teme">Teme</a>
+</nav>
+
+<main>
+
+<!-- 0. INTRO -->
+<section id="intro">
+  <h2>0. De ce avem nevoie de structuri de date?</h2>
+  <div class="box box-blue">
+    <div class="box-title">Problema variabilelor simple</div>
+    <p>Din Lectia 1 stim ca o variabila tine <strong>un singur obiect</strong>. Dar ce facem cu 100 de jocuri?</p>
+    <div class="cb" id="cb-intro"></div>
+  </div>
+
+  <h3>Cele 4 structuri - vedere de ansamblu:</h3>
+  <table class="tbl">
+    <thead><tr><th>Structura</th><th>Tip Python</th><th>Sintaxa</th><th>Ordonat?</th><th>Modificabil?</th><th>Duplicate?</th></tr></thead>
+    <tbody>
+      <tr><td>Lista</td><td><code>list</code></td><td><code>[1, 2, 3]</code></td><td>Da</td><td>Da</td><td>Da</td></tr>
+      <tr><td>Tuple</td><td><code>tuple</code></td><td><code>(1, 2, 3)</code></td><td>Da</td><td>Nu</td><td>Da</td></tr>
+      <tr><td>Dictionar</td><td><code>dict</code></td><td><code>{"a": 1}</code></td><td>Da</td><td>Da</td><td>Chei unice</td></tr>
+      <tr><td>Multime</td><td><code>set</code></td><td><code>{1, 2, 3}</code></td><td>Nu</td><td>Da</td><td>Nu</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Exploreaza fiecare structura - apasa pe tab:</h3>
+  <div>
+    <div class="tab-btns">
+      <button class="tab-btn" style="background:#1B5E20;color:#fff;border-color:#1B5E20" onclick="switchTab('struct','list',this,'#1B5E20')">Lista</button>
+      <button class="tab-btn" onclick="switchTab('struct','tuple',this,'#0D47A1')">Tuple</button>
+      <button class="tab-btn" onclick="switchTab('struct','dict',this,'#E65100')">Dict</button>
+      <button class="tab-btn" onclick="switchTab('struct','set',this,'#880E4F')">Set</button>
+    </div>
+    <div id="struct-list" class="tab-pane active">
+      <strong style="color:#1B5E20">Analogie: Cosul de cumparaturi</strong> - poti adauga, scoate si reordona oricand.<br><br>
+      <code>fructe = ["mere", "pere", "cirese"]</code><br><br>
+      Ordonat, modificabil, permite duplicate. Ideal pentru colectii dinamice.
+    </div>
+    <div id="struct-tuple" class="tab-pane">
+      <strong style="color:#0D47A1">Analogie: Podiumul olimpic</strong> - locul 1, 2, 3 nu se mai schimba dupa premiere!<br><br>
+      <code>podium = ("Ana", "Mihai", "Elena")</code><br><br>
+      Ordonat, <strong>INGHETAT</strong>, permite duplicate. Ideal pentru date care nu se schimba.
+    </div>
+    <div id="struct-dict" class="tab-pane">
+      <strong style="color:#E65100">Analogie: Agenda telefonica</strong> - cauti dupa NUME si gasesti NUMARUL direct!<br><br>
+      <code>elev = {"nume": "Maria", "medie": 9.5}</code><br><br>
+      Accesezi prin cheie, nu prin pozitie. Ideal pentru date structurate.
+    </div>
+    <div id="struct-set" class="tab-pane">
+      <strong style="color:#880E4F">Analogie: Colectia de stickere unice</strong> - fiecare stickerăapare o singura data!<br><br>
+      <code>sporturi = {"fotbal", "tenis", "baschet"}</code><br><br>
+      Fara duplicate, neordonat. Ideal pentru eliminarea duplicatelor.
+    </div>
+  </div>
+</section>
+
+<!-- 1. LISTE -->
+<section id="liste">
+  <h2>1. Lista (list)</h2>
+
+  <h3>Creare si indexare</h3>
+  <div class="cb" id="cb-lista-index"></div>
+  <div class="box box-orange">
+    <div class="box-title">Atentie! Indexarea incepe de la 0, nu de la 1!</div>
+    <p>Primul element e la lista[0], al doilea la lista[1] etc.</p>
+  </div>
+
+  <h3>Metode esentiale</h3>
+  <div class="cb" id="cb-lista-metode"></div>
+
+  <h3>Iterare cu for</h3>
+  <div class="cb" id="cb-lista-for"></div>
+</section>
+
+<!-- 2. COMPREHENSION -->
+<section id="comprehension">
+  <h2>2. List Comprehension - Magia intr-o linie</h2>
+  <div class="box box-orange">
+    <div class="box-title">Ce este?</div>
+    <p>O modalitate eleganta de a crea o lista noua dintr-una existenta, <strong>intr-o singura linie</strong>. Mai scurt, mai rapid, mai Pythonic!</p>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div style="background:#FFEBEE;border-radius:7px 7px 0 0;padding:7px 12px;font-weight:700;color:var(--red);font-size:.85rem">Varianta lunga (4 linii)</div>
+      <div class="cb" id="cb-comp-long" style="margin:0;border-radius:0 0 7px 7px"></div>
+    </div>
+    <div>
+      <div style="background:#E8F5E9;border-radius:7px 7px 0 0;padding:7px 12px;font-weight:700;color:var(--green);font-size:.85rem">Comprehension (1 linie!)</div>
+      <div class="cb" id="cb-comp-short" style="margin:0;border-radius:0 0 7px 7px"></div>
+    </div>
+  </div>
+
+  <h3>Constructor interactiv - apasa pe fiecare parte:</h3>
+  <div class="cb-builder">
+    <div class="cb-lbl">Apasa pe o parte colorata pentru explicatie</div>
+    <div class="cb-row">
+      <span class="cb-bracket">[</span>
+      <div class="cb-part cb-expr" onclick="explainComp('expr')">n * n</div>
+      <div class="cb-part cb-for"  onclick="explainComp('for')">for</div>
+      <div class="cb-part cb-var"  onclick="explainComp('var')">n</div>
+      <div class="cb-part cb-in"   onclick="explainComp('in')">in</div>
+      <div class="cb-part cb-iter" onclick="explainComp('iter')">range(1, 6)</div>
+      <div class="cb-part cb-if"   id="cb-if"   onclick="explainComp('if')">if</div>
+      <div class="cb-part cb-cond" id="cb-cond" onclick="explainComp('cond')">n % 2 == 0</div>
+      <span class="cb-bracket">]</span>
+    </div>
+    <div class="cb-out" id="cb-explain">Apasa pe una din partile colorate de mai sus!</div>
+    <div class="cb-btns">
+      <button class="cb-btn" style="background:#4CAF50;color:#fff" onclick="runComp()">Ruleaza</button>
+      <button class="cb-btn" style="background:#636e72;color:#fff" id="filter-btn" onclick="toggleFilter()">+ Adauga filtru</button>
+    </div>
+    <div class="cb-out" id="cb-result" style="display:none"></div>
+  </div>
+
+  <h3>Cu conditie (filtru):</h3>
+  <div class="cb" id="cb-comp-filter"></div>
+</section>
+
+<!-- 3. TUPLE -->
+<section id="tuple">
+  <h2>3. Tuple (tuple)</h2>
+  <div class="box" style="background:#E3F2FD;border-left:5px solid #0D47A1">
+    <div class="box-title" style="color:#0D47A1">Analogie - Podiumul olimpic:</div>
+    <p>Locul 1, 2, 3 sunt fixate pentru totdeauna. Nu poti muta medalia de aur! <strong>Tuple = lista INGHETATA.</strong></p>
+  </div>
+  <div class="cb" id="cb-tuple"></div>
+
+  <h3>Unpacking - despachetarea eleganta</h3>
+  <div class="cb" id="cb-tuple-unpack"></div>
+
+  <div class="two-col" style="margin-top:14px">
+    <div class="box" style="background:#E3F2FD;border-left:5px solid #0D47A1">
+      <div class="box-title" style="color:#0D47A1">Foloseste TUPLE cand...</div>
+      <p>Datele <strong>nu se schimba</strong></p>
+      <p>Ex: coordonate GPS, data nastere, culori RGB</p>
+    </div>
+    <div class="box box-green">
+      <div class="box-title">Foloseste LIST cand...</div>
+      <p>Datele <strong>se modifica</strong></p>
+      <p>Ex: cos cumparaturi, scor joc, participanti</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. DICT -->
+<section id="dict">
+  <h2>4. Dictionar (dict)</h2>
+  <div class="box box-orange">
+    <div class="box-title">Analogie - Agenda telefonica</div>
+    <p>Cauti dupa <strong>NUME</strong> (cheie) si gasesti <strong>NUMARUL</strong> (valoare) direct!</p>
+  </div>
+  <div class="cb" id="cb-dict"></div>
+</section>
+
+<!-- 5. SET -->
+<section id="set">
+  <h2>5. Multime (set)</h2>
+  <div class="box box-pink">
+    <div class="box-title" style="color:#880E4F">Analogie - Colectia de stickere unice</div>
+    <p>Fiecare sticker apare <strong>o singura data</strong>, indiferent de cate ori il primesti!</p>
+  </div>
+  <div class="cb" id="cb-set"></div>
+
+  <h3>Operatii matematice cu seturi:</h3>
+  <div class="cb" id="cb-set-ops"></div>
+</section>
+
+<!-- 6. EXERCITII -->
+<section id="exercitii">
+  <h2>6. Exercitii Practice</h2>
+
+  <div class="exercise">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><div class="ex-num">1</div><h3 style="margin:0;color:var(--blue)">Lista echipei + comprehension</h3></div>
+    <div class="cb" id="cb-ex1"></div>
+    <div class="box box-green" style="margin-top:10px"><div class="box-title">Indiciu:</div><code>sort()</code> pentru sortare, <code>n.upper()</code> pentru majuscule</div>
+  </div>
+
+  <div class="exercise">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><div class="ex-num">2</div><h3 style="margin:0;color:var(--blue)">Comprehension cu filtru</h3></div>
+    <div class="cb" id="cb-ex2"></div>
+    <div class="box box-green" style="margin-top:10px">
+      <div class="box-title">Raspuns:</div>
+      a) <code>[n**3 for n in numere if n % 2 != 0]</code><br>
+      b) <code>[c.upper() for c in cuvinte if len(c) > 5]</code>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><div class="ex-num">3</div><h3 style="margin:0;color:var(--blue)">Set - deduplicare</h3></div>
+    <div class="cb" id="cb-ex3"></div>
+    <div class="box box-green" style="margin-top:10px"><div class="box-title">Raspuns:</div><code>set(note)</code> si <code>len(note_unice)</code></div>
+  </div>
+</section>
+
+<!-- 7. QUIZ -->
+<section id="quiz">
+  <h2>7. Mini-Quiz</h2>
+  <p>Apasa pe raspunsul corect:</p>
+  <div id="quiz-container"></div>
+  <div class="score-box" id="score-box">
+    <div class="score-num" id="score-num">0/5</div>
+    <div class="score-lbl">raspunsuri corecte</div>
+    <div class="prog-wrap"><div class="prog-fill" id="prog-fill"></div></div>
+    <div class="score-msg" id="score-msg"></div>
+  </div>
+</section>
+
+<!-- 8. TEME -->
+<section id="teme">
+  <h2>8. Teme pentru Acasa</h2>
+  <div class="box box-pink">
+    <div class="box-title" style="color:#880E4F">Instructiuni:</div>
+    <p>Rezolva temele in IDLE sau Thonny. Salveaza fisierele cu numele indicate si adauga-le in Google Classroom pana <strong>vineri</strong>.</p>
+  </div>
+
+  <div class="hw-card">
+    <div style="display:flex;align-items:center;margin-bottom:12px">
+      <div class="hw-num">1</div>
+      <h3 style="margin:0;color:#880E4F">Playlist-ul meu</h3>
+      <span class="hw-badge hw-easy">Usor</span>
+    </div>
+    <p>Creeaza o lista cu <strong>minim 6 melodii</strong> preferate. Sorteaz-o, afis-o, adauga una noua si sterge prima melodie.</p>
+    <div class="cb" id="cb-hw1"></div>
+    <p style="margin-top:10px;font-size:.85rem;color:#555">Salveaza ca: <code>tema1_numetau.py</code></p>
+  </div>
+
+  <div class="hw-card">
+    <div style="display:flex;align-items:center;margin-bottom:12px">
+      <div class="hw-num">2</div>
+      <h3 style="margin:0;color:#880E4F">Agenda clasei</h3>
+      <span class="hw-badge hw-med">Mediu</span>
+    </div>
+    <p>Creeaza un dictionar cu <strong>5 colegi</strong> si mediile lor. Afiseaza toate perechile si gaseste cine are cea mai mare medie.</p>
+    <div class="cb" id="cb-hw2"></div>
+    <p style="margin-top:10px;font-size:.85rem;color:#555">Salveaza ca: <code>tema2_numetau.py</code></p>
+  </div>
+
+  <div class="hw-card">
+    <div style="display:flex;align-items:center;margin-bottom:12px">
+      <div class="hw-num">3</div>
+      <h3 style="margin:0;color:#880E4F">Analizatorul de text</h3>
+      <span class="hw-badge hw-hard">Provocare</span>
+    </div>
+    <p>Citeste o propozitie, desparte-o in cuvinte, afiseaza cuvintele unice (set), numara-le si sorteaza-le.</p>
+    <div class="cb" id="cb-hw3"></div>
+    <div class="box box-orange" style="margin-top:10px">
+      <div class="box-title">Bonus:</div>
+      <p>Foloseste list comprehension ca sa obtii doar cuvintele cu mai mult de 3 litere.</p>
+    </div>
+    <p style="margin-top:10px;font-size:.85rem;color:#555">Salveaza ca: <code>tema3_numetau.py</code></p>
+  </div>
+</section>
+
+<div class="box box-blue" style="margin-top:8px">
+  <div class="box-title" style="font-size:1.05rem">Rezumat - Ce ai invatat azi!</div>
+  <p>list - ordonat, modificabil, duplicate ok [1,2,3]</p>
+  <p>tuple - ordonat, INGHETAT, duplicate ok (1,2,3)</p>
+  <p>dict - perechi cheie:valoare {"k":v}</p>
+  <p>set - neordonat, fara duplicate {1,2,3}</p>
+  <p>List comprehension: [expr for x in lst if cond]</p>
+</div>
+
+</main>
+<footer>Python Lectia 2 - Structuri de Date | 10-14 ani | Incepator - Intermediar</footer>
+
+<script>
+var BLUE  = '#74b9ff';
+var GREEN = '#55efc4';
+var PINK  = '#fd79a8';
+var GOLD  = '#fdcb6e';
+var YELL  = '#ffeaa7';
+
+function span(color, text) { return '<span style="color:' + color + '">' + text + '</span>'; }
+var cm = function(t){ return span(BLUE,  t); };
+var cs = function(t){ return span(GREEN, t); };
+var ck = function(t){ return span(PINK,  t); };
+var cn = function(t){ return span(GOLD,  t); };
+
+function setCode(id, lines) {
+  var el = document.getElementById(id);
+  if (el) el.innerHTML = lines.join('\n');
+}
+
+// INTRO
+setCode('cb-intro', [
+  cm('# Variante proaste:'),
+  'joc1 = ' + cs('"Minecraft"'),
+  'joc2 = ' + cs('"Fortnite"'),
+  'joc3 = ' + cs('"Roblox"') + '    ' + cm('# daca am 100 jocuri?!'),
+  '',
+  cm('# Varianta buna - structuri de date:'),
+  'jocuri = [' + cs('"Minecraft"') + ', ' + cs('"Fortnite"') + ', ' + cs('"Roblox"') + ']',
+]);
+
+// LISTE
+setCode('cb-lista-index', [
+  'jocuri = [' + cs('"Minecraft"') + ', ' + cs('"Fortnite"') + ', ' + cs('"Roblox"') + ', ' + cs('"Among Us"') + ']',
+  '',
+  'print(jocuri[' + cn('0') + '])      ' + cm('# Minecraft  <- primul (index 0!)'),
+  'print(jocuri[' + cn('-1') + '])     ' + cm('# Among Us   <- ultimul'),
+  'print(jocuri[' + cn('1') + ':' + cn('3') + '])    ' + cm("# ['Fortnite', 'Roblox'] <- slice"),
+  'print(len(jocuri))    ' + cm('# 4'),
+]);
+
+setCode('cb-lista-metode', [
+  'fructe = [' + cs('"mere"') + ', ' + cs('"pere"') + ', ' + cs('"cirese"') + ']',
+  '',
+  'fructe.append(' + cs('"capsuni"') + ')     ' + cm('# adauga la final'),
+  'fructe.insert(' + cn('1') + ', ' + cs('"kiwi"') + ')      ' + cm('# adauga la pozitia 1'),
+  'fructe.remove(' + cs('"pere"') + ')        ' + cm('# sterge prima aparitie'),
+  'scos = fructe.pop()             ' + cm('# scoate si returneaza ultimul'),
+  'fructe.sort()                   ' + cm('# sorteaza'),
+  'print(' + cs('"mere"') + ' ' + ck('in') + ' fructe)         ' + cm('# True / False'),
+]);
+
+setCode('cb-lista-for', [
+  ck('for') + ' fruct ' + ck('in') + ' fructe:',
+  '    print(' + cs('"Am"') + ', fruct, ' + cs('"in cos"') + ')',
+  '',
+  cm('# Cu index - enumerate():'),
+  ck('for') + ' i, fruct ' + ck('in') + ' enumerate(fructe):',
+  '    print(i, "->", fruct)',
+]);
+
+// COMPREHENSION
+setCode('cb-comp-long', [
+  'patrate = []',
+  ck('for') + ' n ' + ck('in') + ' range(' + cn('1') + ', ' + cn('6') + '):',
+  '    patrate.append(n * n)',
+  cm('# [1, 4, 9, 16, 25]'),
+]);
+
+setCode('cb-comp-short', [
+  'patrate = [n * n',
+  '    ' + ck('for') + ' n ' + ck('in') + ' range(' + cn('1') + ', ' + cn('6') + ')]',
+  cm('# [1, 4, 9, 16, 25]'),
+]);
+
+setCode('cb-comp-filter', [
+  cm('# Doar numerele pare din 1-10'),
+  'pare = [n ' + ck('for') + ' n ' + ck('in') + ' range(' + cn('1') + ', ' + cn('11') + ') ' + ck('if') + ' n % ' + cn('2') + ' == ' + cn('0') + ']',
+  cm('# [2, 4, 6, 8, 10]'),
+  '',
+  cm('# Cuvinte lungi cu majuscule'),
+  'cuvinte = [' + cs('"python"') + ', ' + cs('"lista"') + ', ' + cs('"if"') + ', ' + cs('"structura"') + ']',
+  'lungi = [c.upper() ' + ck('for') + ' c ' + ck('in') + ' cuvinte ' + ck('if') + ' len(c) > ' + cn('4') + ']',
+  cm("# ['PYTHON', 'LISTA', 'STRUCTURA']"),
+]);
+
+// TUPLE
+setCode('cb-tuple', [
+  'podium = (' + cs('"Ana"') + ', ' + cs('"Mihai"') + ', ' + cs('"Elena"') + ')',
+  'print(podium[' + cn('0') + '])     ' + cm('# Ana'),
+  'print(len(podium))   ' + cm('# 3'),
+  '',
+  cm('# podium[0] = "Dan"  -> TypeError! Nu poti modifica!'),
+]);
+
+setCode('cb-tuple-unpack', [
+  'coordonate = (' + cn('44.43') + ', ' + cn('26.10') + ')',
+  'lat, lon = coordonate',
+  'print(' + cs('"Latitudine:"') + ', lat)    ' + cm('# 44.43'),
+  '',
+  cm('# Swap elegant cu tuple:'),
+  'a, b = ' + cn('5') + ', ' + cn('10'),
+  'a, b = b, a      ' + cm('# a=10, b=5 - fara variabila temporara!'),
+]);
+
+// DICT
+setCode('cb-dict', [
+  'elev = {',
+  '    ' + cs('"nume"') + ':   ' + cs('"Maria"') + ',',
+  '    ' + cs('"varsta"') + ': ' + cn('13') + ',',
+  '    ' + cs('"medie"') + ':  ' + cn('9.5'),
+  '}',
+  'print(elev[' + cs('"nume"') + '])     ' + cm('# Maria'),
+  'print(elev[' + cs('"medie"') + '])    ' + cm('# 9.5'),
+  '',
+  cm('# Adauga / modifica:'),
+  'elev[' + cs('"oras"') + '] = ' + cs('"Bucuresti"'),
+  'elev[' + cs('"varsta"') + '] = ' + cn('14'),
+  '',
+  cm('# Sterge:'),
+  ck('del') + ' elev[' + cs('"oras"') + ']',
+  '',
+  cm('# Iterare:'),
+  ck('for') + ' cheie, val ' + ck('in') + ' elev.items():',
+  '    print(cheie, "->", val)',
+]);
+
+// SET
+setCode('cb-set', [
+  'sporturi = {' + cs('"fotbal"') + ', ' + cs('"tenis"') + ', ' + cs('"baschet"') + '}',
+  'sporturi.add(' + cs('"fotbal"') + ')    ' + cm('# deja exista -> ignorat!'),
+  'sporturi.add(' + cs('"volei"') + ')',
+  '',
+  cm('# Super util: eliminare duplicate dintr-o lista'),
+  'note = [' + cn('9') + ', ' + cn('8') + ', ' + cn('9') + ', ' + cn('10') + ', ' + cn('8') + ', ' + cn('7') + ', ' + cn('10') + ']',
+  'note_unice = set(note)',
+  'print(note_unice)    ' + cm('# {7, 8, 9, 10}'),
+]);
+
+setCode('cb-set-ops', [
+  'cls_a = {' + cs('"Ana"') + ', ' + cs('"Mihai"') + ', ' + cs('"Elena"') + ', ' + cs('"Dan"') + '}',
+  'cls_b = {' + cs('"Mihai"') + ', ' + cs('"Dan"') + ', ' + cs('"Radu"') + ', ' + cs('"Ioana"') + '}',
+  '',
+  'toti   = cls_a | cls_b    ' + cm('# Reuniune: toti elevii'),
+  'comuni = cls_a & cls_b    ' + cm("# Intersectie: {'Mihai', 'Dan'}"),
+  'doar_a = cls_a - cls_b    ' + cm("# Diferenta: {'Ana', 'Elena'}"),
+]);
+
+// EXERCITII
+setCode('cb-ex1', [
+  'echipa = [___, ___, ___, ___, ___]',
+  'echipa.___()                             ' + cm('# sorteaza'),
+  'majuscule = [n.___ ' + ck('for') + ' n ' + ck('in') + ' echipa]   ' + cm('# comprehension'),
+  'print(majuscule)',
+]);
+
+setCode('cb-ex2', [
+  'numere = [' + cn('1') + ', ' + cn('2') + ', ' + cn('3') + ', ' + cn('4') + ', ' + cn('5') + ', ' + cn('6') + ', ' + cn('7') + ', ' + cn('8') + ', ' + cn('9') + ', ' + cn('10') + ']',
+  '',
+  cm('# a) Cuburile numerelor impare:'),
+  'impare_cub = [___ ' + ck('for') + ' n ' + ck('in') + ' numere ' + ck('if') + ' ___]',
+  '',
+  cm('# b) Cuvinte cu mai mult de 5 litere, majuscule:'),
+  'cuvinte = [' + cs('"python"') + ', ' + cs('"lista"') + ', ' + cs('"calcul"') + ', ' + cs('"if"') + ', ' + cs('"structura"') + ']',
+  'lungi = [___ ' + ck('for') + ' c ' + ck('in') + ' cuvinte ' + ck('if') + ' ___]',
+]);
+
+setCode('cb-ex3', [
+  'note = [' + cn('7') + ', ' + cn('8') + ', ' + cn('9') + ', ' + cn('7') + ', ' + cn('10') + ', ' + cn('8') + ', ' + cn('9') + ', ' + cn('9') + ', ' + cn('6') + ', ' + cn('10') + ']',
+  'note_unice = ___(note)',
+  'print(' + cs('"Note unice:"') + ', note_unice)',
+  'print(' + cs('"Cate note diferite:"') + ', ___(note_unice))',
+]);
+
+// TEME
+setCode('cb-hw1', [
+  'playlist = [' + cs('"___"') + ', ' + cs('"___"') + ', ' + cs('"___"') + ', ' + cs('"___"') + ', ' + cs('"___"') + ', ' + cs('"___"') + ']',
+  '',
+  'playlist.sort()',
+  'print(' + cs('"Playlist sortat:"') + ', playlist)',
+  '',
+  'playlist.append(' + cs('"melodie noua"') + ')',
+  'print(' + cs('"Dupa adaugare:"') + ', playlist)',
+  '',
+  'prima = playlist.pop(' + cn('0') + ')',
+  'print(' + cs('"Am sters:"') + ', prima)',
+  'print(' + cs('"Playlist final:"') + ', playlist)',
+]);
+
+setCode('cb-hw2', [
+  'clasa = {',
+  '    ' + cs('"___"') + ': ' + cn('___') + ',',
+  '    ' + cs('"___"') + ': ' + cn('___') + ',',
+  '    ' + cs('"___"') + ': ' + cn('___') + ',',
+  '    ' + cs('"___"') + ': ' + cn('___') + ',',
+  '    ' + cs('"___"') + ': ' + cn('___'),
+  '}',
+  '',
+  ck('for') + ' nume, medie ' + ck('in') + ' clasa.items():',
+  '    print(nume, ' + cs('"are media"') + ', medie)',
+  '',
+  cm('# Bonus: gaseste cea mai mare medie'),
+  'best = max(clasa, key=clasa.get)',
+  'print(' + cs('"Cel mai bun elev:"') + ', best)',
+]);
+
+setCode('cb-hw3', [
+  'propozitie = input(' + cs('"Scrie o propozitie: "') + ')',
+  'cuvinte    = propozitie.split()',
+  '',
+  'print(' + cs('"Toate cuvintele:"') + ', cuvinte)',
+  'print(' + cs('"Cuvinte unice:"') + ', set(cuvinte))',
+  'print(' + cs('"Numar cuvinte unice:"') + ', len(set(cuvinte)))',
+  '',
+  'sortate = sorted(set(cuvinte))',
+  'print(' + cs('"Sortate alfabetic:"') + ', sortate)',
+  '',
+  cm('# Bonus - list comprehension:'),
+  'lungi = [c ' + ck('for') + ' c ' + ck('in') + ' cuvinte ' + ck('if') + ' len(c) > ' + cn('3') + ']',
+  'print(' + cs('"Cuvinte mai lungi de 3 litere:"') + ', lungi)',
+]);
+
+// ── TABS ─────────────────────────────────────────────────────────────────────
+var tabColors2 = {list:'#1B5E20', tuple:'#0D47A1', dict:'#E65100', set:'#880E4F'};
+function switchTab(group, name, btn, color) {
+  var panes = document.querySelectorAll('[id^="' + group + '-"]');
+  panes.forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById(group + '-' + name).classList.add('active');
+  var btns = btn.parentElement.querySelectorAll('.tab-btn');
+  btns.forEach(function(b) { b.style.background='#f8f9fa'; b.style.color='#555'; b.style.borderColor='#dee2e6'; });
+  btn.style.background = color;
+  btn.style.color = '#fff';
+  btn.style.borderColor = color;
+}
+
+// ── COMPREHENSION BUILDER ─────────────────────────────────────────────────────
+var filterOn = false;
+var compExplain = {
+  expr: 'EXPRESIA: ce se calculeaza pentru fiecare element. n*n = n la patrat.',
+  for:  '"for": cuvantul cheie care porneste iterarea.',
+  var:  'VARIABILA: numele dat fiecarui element. Poate fi orice (n, x, fruct...).',
+  in:   '"in": specifica de unde luam elementele.',
+  iter: 'ITERABILUL: lista/range-ul din care luam elemente. range(1,6) = 1,2,3,4,5',
+  if:   '"if": filtru optional - include elementul DOAR daca conditia e adevarata.',
+  cond: 'CONDITIA: n%2==0 = doar numerele pare.',
+};
+function explainComp(key) {
+  document.getElementById('cb-explain').textContent = compExplain[key];
+}
+function toggleFilter() {
+  filterOn = !filterOn;
+  document.getElementById('cb-if').style.display   = filterOn ? 'block' : 'none';
+  document.getElementById('cb-cond').style.display = filterOn ? 'block' : 'none';
+  document.getElementById('filter-btn').textContent = filterOn ? '- Elimina filtru' : '+ Adauga filtru';
+  document.getElementById('cb-explain').textContent = filterOn
+    ? 'Filtrul adaugat! Acum se includ doar elementele care trec conditia.'
+    : 'Filtrul eliminat. Toate elementele vor fi incluse.';
+}
+function runComp() {
+  var results = [];
+  var i;
+  for (i = 1; i <= 5; i++) {
+    if (!filterOn || i % 2 === 0) results.push(i * i);
+  }
+  var r = document.getElementById('cb-result');
+  r.style.display = 'block';
+  r.textContent = 'Rezultat: [' + results.join(', ') + ']  ' +
+    (filterOn ? '<- doar patratele numerelor pare!' : '<- patratele lui 1..5');
+}
+
+// ── QUIZ ──────────────────────────────────────────────────────────────────────
+var QUIZ = [
+  { q:'Ce structura NU poate fi modificata dupa creare?',
+    opts:['list','dict','tuple','set'], ans:2,
+    fb:'tuple este imuabil (inghetat). Daca incerci sa modifici, primesti TypeError!' },
+  { q:'Ce returneaza: [x**2 for x in range(4)] ?',
+    opts:['[1, 4, 9, 16]','[0, 1, 4, 9]','[0, 2, 4, 6]','Eroare'], ans:1,
+    fb:'range(4) = 0,1,2,3. Deci 0^2=0, 1^2=1, 2^2=4, 3^2=9 -> [0, 1, 4, 9]' },
+  { q:'Cum accesezi 9.5 din: elev = {"medie": 9.5} ?',
+    opts:['elev.medie','elev[0]','elev["medie"]','elev{medie}'], ans:2,
+    fb:'Dict se acceseaza prin cheie cu paranteze patrate: elev["medie"]' },
+  { q:'Ce se intampla cand adaugi un duplicat intr-un set?',
+    opts:['Da eroare','E adaugat de doua ori','E ignorat','Se suprascrie'], ans:2,
+    fb:'Set-urile nu permit duplicate. add() ignora silentios elementele existente.' },
+  { q:'Care comprehension returneaza doar numerele impare?',
+    opts:['[x for x in lst if x%2==0]','[x for x in lst if x%2!=0]','[x%2 for x in lst]','Niciuna'], ans:1,
+    fb:'n%2!=0 inseamna "restul impartirii la 2 e diferit de 0" = numar impar' },
+];
+var score = 0, answered = 0;
+
+function renderQuiz() {
+  var html = '';
+  QUIZ.forEach(function(q, qi) {
+    html += '<div class="quiz-card" id="qc' + qi + '">';
+    html += '<div class="quiz-q">Intrebarea ' + (qi+1) + ': ' + q.q + '</div>';
+    q.opts.forEach(function(o, oi) {
+      html += '<div class="quiz-opt" id="qo' + qi + '-' + oi + '" onclick="answer(' + qi + ',' + oi + ')">';
+      html += '<div class="ql">' + 'ABCD'[oi] + '</div><span>' + o + '</span></div>';
+    });
+    html += '<div class="quiz-fb" id="qf' + qi + '"></div></div>';
+  });
+  document.getElementById('quiz-container').innerHTML = html;
+}
+
+function answer(qi, oi) {
+  var q = QUIZ[qi];
+  var i;
+  for (i = 0; i < q.opts.length; i++) {
+    var opt = document.getElementById('qo' + qi + '-' + i);
+    if (opt) opt.classList.add('locked');
+  }
+  var chosen  = document.getElementById('qo' + qi + '-' + oi);
+  var correct = document.getElementById('qo' + qi + '-' + q.ans);
+  var fb = document.getElementById('qf' + qi);
+  if (oi === q.ans) {
+    chosen.classList.add('correct'); score++;
+    fb.textContent = 'Corect! ' + q.fb; fb.className = 'quiz-fb fb-ok';
+  } else {
+    chosen.classList.add('wrong'); correct.classList.add('correct');
+    fb.textContent = 'Gresit! ' + q.fb; fb.className = 'quiz-fb fb-no';
+  }
+  answered++;
+  if (answered === QUIZ.length) setTimeout(showScore, 500);
+}
+
+function showScore() {
+  var box = document.getElementById('score-box');
+  box.style.display = 'block';
+  document.getElementById('score-num').textContent = score + '/' + QUIZ.length;
+  document.getElementById('prog-fill').style.width = (score / QUIZ.length * 100) + '%';
+  var msgs = [[5,'Perfect! Esti un Python champion!'],[4,'Excelent! Aproape perfect!'],[3,'Bine! Mai exerseaza putin.'],[0,'Reciteste si mai incearca!']];
+  var i;
+  for (i = 0; i < msgs.length; i++) {
+    if (score >= msgs[i][0]) { document.getElementById('score-msg').textContent = msgs[i][1]; break; }
+  }
+  box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+renderQuiz();
+</script>
+</body>
+</html>
