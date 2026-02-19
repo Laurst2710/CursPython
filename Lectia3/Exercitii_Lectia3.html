@@ -1,1 +1,630 @@
 
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python – Lecția 3 – Exerciții Practice</title>
+
+  <style>
+    :root{
+      --blue:    #1A237E;
+      --blue-m:  #3949AB;
+      --blue-2:  #5C6BC0;
+      --blue-l:  #E8EAF6;
+      --green:   #1B5E20;
+      --green-m: #4CAF50;
+      --green-l: #E8F5E9;
+      --orange:  #E65100;
+      --orange-l:#FFF8E1;
+      --red:     #B71C1C;
+      --red-l:   #FFEBEE;
+      --bg:      #F4F6FF;
+      --panel:   #ffffff;
+      --text:    rgba(17,24,39,0.92);
+      --muted:   rgba(26,35,126,0.55);
+      --border:  rgba(57,73,171,0.15);
+      --shadow:  0 18px 60px rgba(26,35,126,0.10);
+      --codeBg:  #1e272e;
+      --codeBorder: rgba(255,255,255,0.06);
+      --radius:  18px;
+      --radius2: 12px;
+      --mono: 'Courier New', Courier, monospace;
+      --sans: 'Segoe UI', Arial, sans-serif;
+      --max: 1040px;
+    }
+    [data-theme="dark"]{
+      --bg:     #0c0f1e;
+      --panel:  rgba(255,255,255,0.05);
+      --text:   rgba(255,255,255,0.92);
+      --muted:  rgba(255,255,255,0.60);
+      --border: rgba(255,255,255,0.10);
+      --shadow: 0 18px 60px rgba(0,0,0,0.40);
+      --codeBg: #0b1117;
+    }
+    *{ box-sizing: border-box; }
+    body{ margin:0; font-family:var(--sans); background:var(--bg); color:var(--text); line-height:1.55; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:26px 18px 70px; }
+
+    /* HEADER */
+    .top{ background:linear-gradient(135deg,#1A237E,#3949AB,#5C6BC0); border-radius:calc(var(--radius)+4px); padding:28px 22px 22px; box-shadow:var(--shadow); position:relative; overflow:hidden; color:#fff; }
+    .top::before{ content:""; position:absolute; inset:0; background:radial-gradient(700px 200px at 15% 0%,rgba(255,255,255,0.07),transparent 60%),radial-gradient(500px 200px at 85% 0%,rgba(255,255,255,0.05),transparent 65%); pointer-events:none; }
+    .top>*{ position:relative; z-index:1; }
+    .titleRow{ display:flex; gap:14px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; }
+    h1{ margin:0; font-size:clamp(1.2rem,2.2vw,1.75rem); font-weight:900; color:#fff; }
+    .sub{ margin:6px 0 0; opacity:0.85; font-size:.95rem; }
+    .badge{ display:inline-block; background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35); border-radius:20px; padding:3px 14px; font-size:.78rem; margin-top:8px; }
+    .controls{ margin-top:18px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .search{ flex:1 1 320px; display:flex; align-items:center; gap:10px; border:1.5px solid rgba(255,255,255,0.30); border-radius:999px; padding:10px 14px; background:rgba(255,255,255,0.12); }
+    .search input{ width:100%; border:0; outline:none; background:transparent; color:#fff; font-size:14px; font-family:var(--sans); }
+    .search input::placeholder{ color:rgba(255,255,255,0.60); }
+    .btn{ border:1.5px solid rgba(255,255,255,0.35); background:rgba(255,255,255,0.12); color:#fff; padding:9px 14px; border-radius:999px; font-size:13px; cursor:pointer; user-select:none; display:inline-flex; align-items:center; gap:7px; transition:background 0.12s,transform 0.08s; font-family:var(--sans); font-weight:700; }
+    .btn:hover{ background:rgba(255,255,255,0.22); transform:translateY(-1px); }
+    .btnPrimary{ background:rgba(255,255,255,0.20); border-color:rgba(255,255,255,0.45); }
+
+    /* CHIPS */
+    .chips{ margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+    .chip{ border:1.5px solid rgba(255,255,255,0.30); background:rgba(255,255,255,0.10); color:#fff; padding:5px 14px; border-radius:999px; font-size:12px; cursor:pointer; font-family:var(--sans); font-weight:700; transition:background 0.12s; }
+    .chip.active,.chip:hover{ background:rgba(255,255,255,0.28); border-color:rgba(255,255,255,0.55); }
+
+    /* PROGRESS */
+    .progress-wrap{ margin-top:14px; display:flex; align-items:center; gap:12px; }
+    .progress-bar{ flex:1; height:8px; background:rgba(255,255,255,0.20); border-radius:999px; overflow:hidden; }
+    .progress-fill{ height:100%; background:rgba(255,255,255,0.80); border-radius:999px; width:0%; transition:width 0.4s ease; }
+    .progress-label{ font-size:12px; color:rgba(255,255,255,0.80); white-space:nowrap; font-weight:700; }
+
+    /* GRID */
+    .grid{ margin-top:20px; display:grid; grid-template-columns:1fr; gap:12px; }
+    @media(min-width:920px){ .grid{ grid-template-columns:1fr 1fr; } }
+
+    /* CARD */
+    .card{ border:1.5px solid var(--border); background:var(--panel); border-radius:var(--radius); box-shadow:0 4px 18px rgba(26,35,126,0.08); overflow:hidden; transition:box-shadow .15s,transform .12s; }
+    .card:hover{ box-shadow:0 10px 36px rgba(26,35,126,0.13); transform:translateY(-1px); }
+    .card[data-topic="arit"]  { border-left:4px solid #4CAF50; }
+    .card[data-topic="comp"]  { border-left:4px solid #1565C0; }
+    .card[data-topic="logic"] { border-left:4px solid #E65100; }
+    .card[data-topic="ord"]   { border-left:4px solid #7B1FA2; }
+    .card[data-topic="attr"]  { border-left:4px solid #006064; }
+
+    .cardHead{ padding:14px 14px 10px; display:flex; align-items:flex-start; gap:12px; }
+    .q{ display:flex; gap:12px; align-items:flex-start; min-width:0; }
+    .num{ flex:0 0 auto; width:36px; height:36px; border-radius:10px; display:grid; place-items:center; font-weight:800; font-size:.88rem; background:var(--blue-l); border:1.5px solid rgba(57,73,171,0.22); color:var(--blue); }
+    [data-theme="dark"] .num{ background:rgba(92,107,192,0.15); border-color:rgba(92,107,192,0.30); color:#9fa8da; }
+
+    .topic-pill{ display:inline-block; padding:2px 10px; border-radius:999px; font-size:11px; font-weight:700; margin-bottom:5px; }
+    .pill-arit  { background:#E8F5E9; color:#1B5E20; }
+    .pill-comp  { background:#E3F2FD; color:#0D47A1; }
+    .pill-logic { background:#FFF8E1; color:#E65100; }
+    .pill-ord   { background:#EDE7F6; color:#4A148C; }
+    .pill-attr  { background:#E0F7FA; color:#006064; }
+    [data-theme="dark"] .pill-arit  { background:rgba(76,175,80,0.15);  color:#81c784; }
+    [data-theme="dark"] .pill-comp  { background:rgba(21,101,192,0.15); color:#64b5f6; }
+    [data-theme="dark"] .pill-logic { background:rgba(230,81,0,0.15);   color:#ffb74d; }
+    [data-theme="dark"] .pill-ord   { background:rgba(123,31,162,0.15); color:#ce93d8; }
+    [data-theme="dark"] .pill-attr  { background:rgba(0,96,100,0.15);   color:#80deea; }
+
+    .qText{ min-width:0; }
+    .qText .label{ font-size:14px; font-weight:650; margin:0; color:var(--text); }
+
+    details{ border-top:1.5px solid var(--border); }
+    summary{ list-style:none; cursor:pointer; padding:11px 14px; user-select:none; display:flex; align-items:center; justify-content:space-between; gap:10px; font-weight:700; font-size:.85rem; color:var(--blue-m); }
+    [data-theme="dark"] summary{ color:#9fa8da; }
+    summary::-webkit-details-marker{ display:none; }
+    .chev{ width:18px; height:18px; display:inline-block; transition:transform 0.16s ease; opacity:0.85; }
+    details[open] .chev{ transform:rotate(180deg); }
+
+    .codeWrap{ padding:0 14px 14px; }
+    .codeBar{ display:flex; align-items:center; justify-content:flex-end; gap:10px; margin:10px 0 8px; }
+    .copyBtn{ border:1.5px solid var(--border); background:var(--blue-l); color:var(--blue-m); padding:6px 12px; border-radius:999px; font-size:12px; cursor:pointer; user-select:none; display:inline-flex; align-items:center; gap:6px; transition:background 0.12s,transform 0.08s; font-family:var(--sans); font-weight:700; }
+    .copyBtn:hover{ background:var(--blue-m); color:#fff; transform:translateY(-1px); }
+    [data-theme="dark"] .copyBtn{ background:rgba(92,107,192,0.15); color:#9fa8da; }
+    [data-theme="dark"] .copyBtn:hover{ background:var(--blue-m); color:#fff; }
+
+    pre{ margin:0; background:var(--codeBg); border:1px solid var(--codeBorder); border-radius:var(--radius2); padding:14px; overflow:auto; box-shadow:0 8px 28px rgba(0,0,0,0.25); }
+    code{ display:block; white-space:pre; font-family:var(--mono); font-size:13px; color:rgba(255,255,255,0.92); }
+
+    .empty{ margin-top:14px; padding:16px 14px; border:1.5px dashed var(--border); border-radius:var(--radius); color:var(--muted); background:rgba(232,234,246,0.30); display:none; }
+    .foot{ margin-top:24px; color:var(--muted); font-size:13px; text-align:center; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="titleRow">
+      <div>
+        <h1>25 Exerciții Practice – Lecția 3</h1>
+        <p class="sub">Operatori & Expresii: Aritmetici • Comparație • Logici • Ordine • Atribuire</p>
+        <div class="badge">Lecția 3 &nbsp;|&nbsp; 10-14 ani &nbsp;|&nbsp; Operatori & Expresii</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button class="btn btnPrimary" id="toggleTheme" type="button">🌓 Temă</button>
+        <button class="btn" id="expandAll" type="button">▾▾ Deschide</button>
+        <button class="btn" id="collapseAll" type="button">▸ Închide</button>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
+          <path d="M16.5 16.5 21 21" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input id="q" type="text" placeholder="Caută exercițiu…" autocomplete="off" />
+      </div>
+      <button class="btn" id="clearSearch" type="button">✕ Reset</button>
+    </div>
+    <div class="chips">
+      <div class="chip active" data-filter="all">Toate (25)</div>
+      <div class="chip" data-filter="arit">🟢 Aritmetici (5)</div>
+      <div class="chip" data-filter="comp">🔵 Comparație (5)</div>
+      <div class="chip" data-filter="logic">🟠 Logici (5)</div>
+      <div class="chip" data-filter="ord">🟣 Ordine (5)</div>
+      <div class="chip" data-filter="attr">🩵 Atribuire (5)</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+      <div class="progress-label" id="progLabel">0 / 25 deschise</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="empty" id="emptyState">Nu există rezultate pentru căutarea curentă.</div>
+    <section class="grid" id="list">
+
+      <!-- ═══ ARITMETICI ═══ -->
+
+      <article class="card ex" data-idx="1" data-topic="arit">
+        <div class="cardHead"><div class="q"><div class="num">1</div><div class="qText">
+          <div class="topic-pill pill-arit">Aritmetici</div>
+          <p class="label" data-text>1. Calculează suma, diferența și produsul numerelor <b>15</b> și <b>4</b>.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>a = 15
+b = 4
+print("Suma:", a + b)       # 19
+print("Diferenta:", a - b)  # 11
+print("Produsul:", a * b)   # 60</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="2" data-topic="arit">
+        <div class="cardHead"><div class="q"><div class="num">2</div><div class="qText">
+          <div class="topic-pill pill-arit">Aritmetici</div>
+          <p class="label" data-text>2. Ai <b>73 de lei</b>. Ciocolatele costă <b>8 lei</b>. Câte poți cumpăra și câți lei îți rămân?</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>bani = 73
+pret = 8
+ciocolate = bani // pret   # 9
+rest = bani % pret         # 1
+print("Ciocolate:", ciocolate)
+print("Rest:", rest, "lei")</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="3" data-topic="arit">
+        <div class="cardHead"><div class="q"><div class="num">3</div><div class="qText">
+          <div class="topic-pill pill-arit">Aritmetici</div>
+          <p class="label" data-text>3. Calculează <b>2 la puterea 8</b> și afișează rezultatul.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>rezultat = 2 ** 8
+print(rezultat)  # 256</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="4" data-topic="arit">
+        <div class="cardHead"><div class="q"><div class="num">4</div><div class="qText">
+          <div class="topic-pill pill-arit">Aritmetici</div>
+          <p class="label" data-text>4. Un fotbalist aleargă <b>90 de minute</b>. Câte ore întregi și câte minute rămân?</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>minute_total = 90
+ore = minute_total // 60    # 1
+minute_ramase = minute_total % 60  # 30
+print("Ore:", ore)
+print("Minute ramase:", minute_ramase)</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="5" data-topic="arit">
+        <div class="cardHead"><div class="q"><div class="num">5</div><div class="qText">
+          <div class="topic-pill pill-arit">Aritmetici</div>
+          <p class="label" data-text>5. Calculează media aritmetică a notelor <b>8, 9, 7, 10</b>.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>note = 8 + 9 + 7 + 10
+media = note / 4
+print("Media:", media)  # 8.5</code></pre></div>
+        </details>
+      </article>
+
+      <!-- ═══ COMPARATIE ═══ -->
+
+      <article class="card ex" data-idx="6" data-topic="comp">
+        <div class="cardHead"><div class="q"><div class="num">6</div><div class="qText">
+          <div class="topic-pill pill-comp">Comparație</div>
+          <p class="label" data-text>6. Verifică dacă nota <b>7</b> este de trecere (>= 5) și afișează True sau False.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>nota = 7
+trecere = nota >= 5
+print(trecere)  # True</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="7" data-topic="comp">
+        <div class="cardHead"><div class="q"><div class="num">7</div><div class="qText">
+          <div class="topic-pill pill-comp">Comparație</div>
+          <p class="label" data-text>7. Compară vârstele lui <b>Ana (13)</b> și <b>Mihai (15)</b>. Afișează cine e mai mare și dacă sunt egali.</p>
+        </div></div></div>
+        <details><summary><span>Zobacz rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>ana = 13
+mihai = 15
+print("Mihai e mai mare:", mihai > ana)   # True
+print("Sunt egali:", ana == mihai)         # False</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="8" data-topic="comp">
+        <div class="cardHead"><div class="q"><div class="num">8</div><div class="qText">
+          <div class="topic-pill pill-comp">Comparație</div>
+          <p class="label" data-text>8. Verifică dacă prețul unui produs (<b>49.99 lei</b>) este diferit de <b>50 lei</b>.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>pret = 49.99
+print(pret != 50)   # True - este diferit</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="9" data-topic="comp">
+        <div class="cardHead"><div class="q"><div class="num">9</div><div class="qText">
+          <div class="topic-pill pill-comp">Comparație</div>
+          <p class="label" data-text>9. Un elev are <b>scorul 85</b> la un test. Verifică dacă a luat cel puțin <b>70</b> de puncte pentru a trece.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>scor = 85
+prag = 70
+a_trecut = scor >= prag
+print("A trecut:", a_trecut)  # True</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="10" data-topic="comp">
+        <div class="cardHead"><div class="q"><div class="num">10</div><div class="qText">
+          <div class="topic-pill pill-comp">Comparație</div>
+          <p class="label" data-text>10. Verifică dacă temperatura de azi (<b>22°C</b>) este mai mică sau egală cu temperatura de ieri (<b>25°C</b>).</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>azi = 22
+ieri = 25
+print("Mai rece azi:", azi <= ieri)  # True</code></pre></div>
+        </details>
+      </article>
+
+      <!-- ═══ LOGICI ═══ -->
+
+      <article class="card ex" data-idx="11" data-topic="logic">
+        <div class="cardHead"><div class="q"><div class="num">11</div><div class="qText">
+          <div class="topic-pill pill-logic">Logici</div>
+          <p class="label" data-text>11. Verifică dacă poți merge la fotbal: trebuie să fie <b>weekend</b> ȘI să <b>nu plouă</b>.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>este_weekend = True
+ploua = False
+pot_merge = este_weekend and not ploua
+print("Merg la fotbal:", pot_merge)  # True</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="12" data-topic="logic">
+        <div class="cardHead"><div class="q"><div class="num">12</div><div class="qText">
+          <div class="topic-pill pill-logic">Logici</div>
+          <p class="label" data-text>12. Intrarea la muzeu e gratuită dacă ești <b>elev</b> SAU ai <b>sub 7 ani</b>. Verifică pentru un elev de 13 ani.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>este_elev = True
+varsta = 13
+gratuit = este_elev or varsta < 7
+print("Intrare gratuita:", gratuit)  # True</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="13" data-topic="logic">
+        <div class="cardHead"><div class="q"><div class="num">13</div><div class="qText">
+          <div class="topic-pill pill-logic">Logici</div>
+          <p class="label" data-text>13. Un joc permite acces dacă ai <b>minim 10 ani</b> ȘI ai <b>acordul părinților</b>. Verifică pentru un copil de 11 ani cu acord.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>varsta = 11
+acord_parinti = True
+acces = varsta >= 10 and acord_parinti
+print("Acces permis:", acces)  # True</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="14" data-topic="logic">
+        <div class="cardHead"><div class="q"><div class="num">14</div><div class="qText">
+          <div class="topic-pill pill-logic">Logici</div>
+          <p class="label" data-text>14. Verifică dacă un număr <b>12</b> NU este impar (folosește <b>not</b>).</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>n = 12
+este_impar = n % 2 != 0
+nu_e_impar = not este_impar
+print("Nu e impar:", nu_e_impar)  # True</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="15" data-topic="logic">
+        <div class="cardHead"><div class="q"><div class="num">15</div><div class="qText">
+          <div class="topic-pill pill-logic">Logici</div>
+          <p class="label" data-text>15. Verifică dacă nota <b>7</b> este validă: trebuie să fie <b>mai mare sau egală cu 1</b> ȘI <b>mai mică sau egală cu 10</b>.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>nota = 7
+valida = nota >= 1 and nota <= 10
+print("Nota valida:", valida)  # True</code></pre></div>
+        </details>
+      </article>
+
+      <!-- ═══ ORDINE ═══ -->
+
+      <article class="card ex" data-idx="16" data-topic="ord">
+        <div class="cardHead"><div class="q"><div class="num">16</div><div class="qText">
+          <div class="topic-pill pill-ord">Ordine operații</div>
+          <p class="label" data-text>16. Ce returnează <b>2 + 3 * 4</b>? Scrie expresia și explică prin comentariu de ce.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>rezultat = 2 + 3 * 4
+print(rezultat)  # 14
+# Înmulțirea (3*4=12) se face prima, apoi adunarea (2+12=14)</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="17" data-topic="ord">
+        <div class="cardHead"><div class="q"><div class="num">17</div><div class="qText">
+          <div class="topic-pill pill-ord">Ordine operații</div>
+          <p class="label" data-text>17. Rescrie expresia <b>2 + 3 * 4</b> cu paranteze astfel încât rezultatul să fie <b>20</b>.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>rezultat = (2 + 3) * 4
+print(rezultat)  # 20
+# Parantezele forțează adunarea (2+3=5) prima, apoi 5*4=20</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="18" data-topic="ord">
+        <div class="cardHead"><div class="q"><div class="num">18</div><div class="qText">
+          <div class="topic-pill pill-ord">Ordine operații</div>
+          <p class="label" data-text>18. Calculează corect media a două note: <b>nota1 = 8</b>, <b>nota2 = 9</b>. Folosește paranteze!</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>nota1 = 8
+nota2 = 9
+# GRESIT - fara paranteze:
+gresit = nota1 + nota2 / 2   # 12.5, nu 8.5!
+# CORECT - cu paranteze:
+corect = (nota1 + nota2) / 2  # 8.5
+print("Corect:", corect)</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="19" data-topic="ord">
+        <div class="cardHead"><div class="q"><div class="num">19</div><div class="qText">
+          <div class="topic-pill pill-ord">Ordine operații</div>
+          <p class="label" data-text>19. Ce returnează <b>10 - 2 * 3 + 1</b>? Calculează pas cu pas prin comentarii.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>rezultat = 10 - 2 * 3 + 1
+print(rezultat)  # 5
+# Pas 1: 2 * 3 = 6
+# Pas 2: 10 - 6 = 4
+# Pas 3: 4 + 1 = 5</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="20" data-topic="ord">
+        <div class="cardHead"><div class="q"><div class="num">20</div><div class="qText">
+          <div class="topic-pill pill-ord">Ordine operații</div>
+          <p class="label" data-text>20. Calculează <b>2 ** 3 + 4 * 2</b>. Explică ordinea prin comentarii.</p>
+        </div></div></div>
+        <details><summary><span>Zobacz rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>rezultat = 2 ** 3 + 4 * 2
+print(rezultat)  # 16
+# Pas 1: 2 ** 3 = 8  (puterea prima)
+# Pas 2: 4 * 2 = 8   (inmultirea)
+# Pas 3: 8 + 8 = 16  (adunarea ultima)</code></pre></div>
+        </details>
+      </article>
+
+      <!-- ═══ ATRIBUIRE ═══ -->
+
+      <article class="card ex" data-idx="21" data-topic="attr">
+        <div class="cardHead"><div class="q"><div class="num">21</div><div class="qText">
+          <div class="topic-pill pill-attr">Atribuire</div>
+          <p class="label" data-text>21. Pornești cu <b>scor = 0</b>. Adaugă <b>100</b>, apoi <b>50</b>, apoi <b>200</b> puncte folosind <b>+=</b>.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>scor = 0
+scor += 100   # nivel 1
+scor += 50    # bonus
+scor += 200   # boss invins
+print("Scor:", scor)  # 350</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="22" data-topic="attr">
+        <div class="cardHead"><div class="q"><div class="num">22</div><div class="qText">
+          <div class="topic-pill pill-attr">Atribuire</div>
+          <p class="label" data-text>22. Pornești cu <b>vieti = 3</b>. Pierde câte o viață de <b>două ori</b> folosind <b>-=</b>. Afișează vieților rămase.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>vieti = 3
+vieti -= 1   # cazut in groapa
+vieti -= 1   # lovit de inamic
+print("Vieti ramase:", vieti)  # 1</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="23" data-topic="attr">
+        <div class="cardHead"><div class="q"><div class="num">23</div><div class="qText">
+          <div class="topic-pill pill-attr">Atribuire</div>
+          <p class="label" data-text>23. Un produs costă <b>200 lei</b>. Aplică o reducere de <b>10%</b> folosind <b>*=</b>, apoi scade un cupon de <b>20 lei</b> cu <b>-=</b>.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>pret = 200
+pret *= 0.9   # reducere 10% -> 180.0
+pret -= 20    # cupon      -> 160.0
+print("Pret final:", pret)  # 160.0</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="24" data-topic="attr">
+        <div class="cardHead"><div class="q"><div class="num">24</div><div class="qText">
+          <div class="topic-pill pill-attr">Atribuire</div>
+          <p class="label" data-text>24. Viteza unui personaj e <b>5</b>. Dublează viteza cu <b>*=</b>, apoi adaugă <b>3</b> cu <b>+=</b>. Afișează viteza finală.</p>
+        </div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>viteza = 5
+viteza *= 2   # dubla -> 10
+viteza += 3   # bonus  -> 13
+print("Viteza:", viteza)  # 13</code></pre></div>
+        </details>
+      </article>
+
+      <article class="card ex" data-idx="25" data-topic="attr">
+        <div class="cardHead"><div class="q"><div class="num">25</div><div class="qText">
+          <div class="topic-pill pill-attr">Atribuire</div>
+          <p class="label" data-text>25. Simulează un meci de baschet: pornești cu <b>puncte = 0</b> și adaugă <b>3, 2, 3, 1, 2</b> puncte. Afișează totalul.</p>
+        </div></div></div>
+        <details><summary><span>Zobacz rezolvarea</span><span class="chev">▾</span></summary>
+          <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+          <pre><code>puncte = 0
+puncte += 3   # cos de 3
+puncte += 2   # cos de 2
+puncte += 3   # cos de 3
+puncte += 1   # fault
+puncte += 2   # cos de 2
+print("Total puncte:", puncte)  # 11</code></pre></div>
+        </details>
+      </article>
+
+    </section>
+    <div class="foot">Python • Lecția 3 • Operatori & Expresii</div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  var savedTheme = localStorage.getItem("py_l3_theme") || "light";
+  root.setAttribute("data-theme", savedTheme);
+  document.getElementById("toggleTheme").addEventListener("click", function(){
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    localStorage.setItem("py_l3_theme", next);
+  });
+
+  var input = document.getElementById("q");
+  var clearBtn = document.getElementById("clearSearch");
+  var listEl = document.getElementById("list");
+  var cards = Array.from(listEl.querySelectorAll(".ex"));
+  var emptyState = document.getElementById("emptyState");
+  var chips = Array.from(document.querySelectorAll(".chip"));
+  var currentFilter = "all";
+
+  function normalize(s){ return (s||"").toString().toLowerCase().trim(); }
+
+  function applyFilter(){
+    var q = normalize(input.value);
+    var shown = 0;
+    cards.forEach(function(card){
+      var topic = card.getAttribute("data-topic") || "";
+      var idx = card.getAttribute("data-idx") || "";
+      var label = (card.querySelector("[data-text]")||{}).textContent || "";
+      var code = (card.querySelector("pre code")||{}).textContent || "";
+      var hay = normalize(idx + " " + label + " " + code + " " + topic);
+      var topicOk = currentFilter === "all" || topic === currentFilter;
+      var searchOk = !q || hay.indexOf(q) > -1;
+      card.style.display = (topicOk && searchOk) ? "" : "none";
+      if(topicOk && searchOk) shown++;
+    });
+    emptyState.style.display = shown === 0 ? "block" : "none";
+  }
+
+  chips.forEach(function(chip){
+    chip.addEventListener("click", function(){
+      chips.forEach(function(c){ c.classList.remove("active"); });
+      chip.classList.add("active");
+      currentFilter = chip.getAttribute("data-filter");
+      applyFilter();
+    });
+  });
+
+  input.addEventListener("input", applyFilter);
+  clearBtn.addEventListener("click", function(){ input.value = ""; applyFilter(); input.focus(); });
+
+  document.getElementById("expandAll").addEventListener("click", function(){
+    cards.forEach(function(c){ if(c.style.display==="none") return; var d=c.querySelector("details"); if(d) d.open=true; });
+  });
+  document.getElementById("collapseAll").addEventListener("click", function(){
+    cards.forEach(function(c){ var d=c.querySelector("details"); if(d) d.open=false; });
+  });
+
+  listEl.addEventListener("click", function(e){
+    var btn = e.target.closest("[data-copy]");
+    if(!btn) return;
+    var codeEl = (btn.closest(".ex")||{}).querySelector("pre code");
+    var text = codeEl ? codeEl.textContent : "";
+    var old = btn.innerHTML;
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(text).then(function(){
+        btn.innerHTML = "✓ Copiat";
+        setTimeout(function(){ btn.innerHTML = old; }, 900);
+      });
+    }
+  });
+
+  function updateProgress(){
+    var total = cards.length;
+    var opened = cards.filter(function(c){ return c.querySelector("details") && c.querySelector("details").open; }).length;
+    document.getElementById("prog").style.width = (opened/total*100)+"%";
+    document.getElementById("progLabel").textContent = opened+" / "+total+" deschise";
+  }
+  listEl.addEventListener("toggle", updateProgress, true);
+
+  // fix "Zobacz" typo in summaries
+  document.querySelectorAll("summary span:first-child").forEach(function(s){
+    if(s.textContent.indexOf("Zobacz") > -1) s.textContent = "Vezi rezolvarea";
+  });
+
+  applyFilter();
+  updateProgress();
+})();
+</script>
+</body>
+</html>
