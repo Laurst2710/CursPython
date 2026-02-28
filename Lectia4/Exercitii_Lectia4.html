@@ -1,1 +1,339 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python – Lecția 4 – Exerciții Practice</title>
 
+  <style>
+    :root{
+      --blue:    #1A237E;
+      --blue-m:  #3949AB;
+      --blue-2:  #5C6BC0;
+      --blue-l:  #E8EAF6;
+      --green:   #1B5E20;
+      --green-m: #4CAF50;
+      --green-l: #E8F5E9;
+      --orange:  #E65100;
+      --orange-l:#FFF8E1;
+      --purple:  #4A148C;
+      --purple-l:#EDE7F6;
+      --teal:    #006064;
+      --teal-l:  #E0F7FA;
+      --bg:      #F4F6FF;
+      --panel:   #ffffff;
+      --text:    rgba(17,24,39,0.92);
+      --muted:   rgba(26,35,126,0.55);
+      --border:  rgba(57,73,171,0.15);
+      --shadow:  0 18px 60px rgba(26,35,126,0.10);
+      --codeBg:  #1e272e;
+      --codeBorder: rgba(255,255,255,0.06);
+      --radius:  18px;
+      --radius2: 12px;
+      --mono: 'Courier New', Courier, monospace;
+      --sans: 'Segoe UI', Arial, sans-serif;
+      --max: 1040px;
+    }
+    [data-theme="dark"]{
+      --bg:     #0c0f1e;
+      --panel:  rgba(255,255,255,0.05);
+      --text:   rgba(255,255,255,0.92);
+      --muted:  rgba(255,255,255,0.60);
+      --border: rgba(255,255,255,0.10);
+      --shadow: 0 18px 60px rgba(0,0,0,0.40);
+      --codeBg: #0b1117;
+    }
+    *{ box-sizing: border-box; }
+    body{ margin:0; font-family:var(--sans); background:var(--bg); color:var(--text); line-height:1.55; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:26px 18px 70px; }
+
+    .top{ background:linear-gradient(135deg,#1A237E,#3949AB,#5C6BC0); border-radius:calc(var(--radius)+4px); padding:28px 22px 22px; box-shadow:var(--shadow); position:relative; overflow:hidden; color:#fff; }
+    .top::before{ content:""; position:absolute; inset:0; background:radial-gradient(700px 200px at 15% 0%,rgba(255,255,255,0.07),transparent 60%),radial-gradient(500px 200px at 85% 0%,rgba(255,255,255,0.05),transparent 65%); pointer-events:none; }
+    .top>*{ position:relative; z-index:1; }
+    .titleRow{ display:flex; gap:14px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; }
+    h1{ margin:0; font-size:clamp(1.2rem,2.2vw,1.75rem); font-weight:900; color:#fff; }
+    .sub{ margin:6px 0 0; opacity:0.85; font-size:.95rem; }
+    .badge{ display:inline-block; background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35); border-radius:20px; padding:3px 14px; font-size:.78rem; margin-top:8px; }
+    .controls{ margin-top:18px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .search{ flex:1 1 320px; display:flex; align-items:center; gap:10px; border:1.5px solid rgba(255,255,255,0.30); border-radius:999px; padding:10px 14px; background:rgba(255,255,255,0.12); }
+    .search input{ width:100%; border:0; outline:none; background:transparent; color:#fff; font-size:14px; font-family:var(--sans); }
+    .search input::placeholder{ color:rgba(255,255,255,0.60); }
+    .btn{ border:1.5px solid rgba(255,255,255,0.35); background:rgba(255,255,255,0.12); color:#fff; padding:9px 14px; border-radius:999px; font-size:13px; cursor:pointer; user-select:none; display:inline-flex; align-items:center; gap:7px; transition:background 0.12s,transform 0.08s; font-family:var(--sans); font-weight:700; }
+    .btn:hover{ background:rgba(255,255,255,0.22); transform:translateY(-1px); }
+    .btnPrimary{ background:rgba(255,255,255,0.20); border-color:rgba(255,255,255,0.45); }
+
+    .chips{ margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+    .chip{ border:1.5px solid rgba(255,255,255,0.30); background:rgba(255,255,255,0.10); color:#fff; padding:5px 14px; border-radius:999px; font-size:12px; cursor:pointer; font-family:var(--sans); font-weight:700; transition:background 0.12s; }
+    .chip.active,.chip:hover{ background:rgba(255,255,255,0.28); border-color:rgba(255,255,255,0.55); }
+
+    .progress-wrap{ margin-top:14px; display:flex; align-items:center; gap:12px; }
+    .progress-bar{ flex:1; height:8px; background:rgba(255,255,255,0.20); border-radius:999px; overflow:hidden; }
+    .progress-fill{ height:100%; background:rgba(255,255,255,0.80); border-radius:999px; width:0%; transition:width 0.4s ease; }
+    .progress-label{ font-size:12px; color:rgba(255,255,255,0.80); white-space:nowrap; font-weight:700; }
+
+    .grid{ margin-top:20px; display:grid; grid-template-columns:1fr; gap:12px; }
+    @media(min-width:920px){ .grid{ grid-template-columns:1fr 1fr; } }
+
+    .card{ border:1.5px solid var(--border); background:var(--panel); border-radius:var(--radius); box-shadow:0 4px 18px rgba(26,35,126,0.08); overflow:hidden; transition:box-shadow .15s,transform .12s; }
+    .card:hover{ box-shadow:0 10px 36px rgba(26,35,126,0.13); transform:translateY(-1px); }
+    .card[data-topic="out"]    { border-left:4px solid #4CAF50; }
+    .card[data-topic="in"]     { border-left:4px solid #1565C0; }
+    .card[data-topic="cast"]   { border-left:4px solid #E65100; }
+    .card[data-topic="fstr"]   { border-left:4px solid #7B1FA2; }
+    .card[data-topic="mix"]    { border-left:4px solid #006064; }
+
+    .cardHead{ padding:14px 14px 10px; display:flex; align-items:flex-start; gap:12px; }
+    .q{ display:flex; gap:12px; align-items:flex-start; min-width:0; }
+    .num{ flex:0 0 auto; width:36px; height:36px; border-radius:10px; display:grid; place-items:center; font-weight:800; font-size:.88rem; background:var(--blue-l); border:1.5px solid rgba(57,73,171,0.22); color:var(--blue); }
+
+    .topic-pill{ display:inline-block; padding:2px 10px; border-radius:999px; font-size:11px; font-weight:700; margin-bottom:5px; }
+    .pill-out   { background:#E8F5E9; color:#1B5E20; }
+    .pill-in    { background:#E3F2FD; color:#0D47A1; }
+    .pill-cast  { background:#FFF8E1; color:#E65100; }
+    .pill-fstr  { background:#EDE7F6; color:#4A148C; }
+    .pill-mix   { background:#E0F7FA; color:#006064; }
+
+    .qText{ min-width:0; }
+    .qText .label{ font-size:14px; font-weight:650; margin:0; color:var(--text); }
+
+    details{ border-top:1.5px solid var(--border); }
+    summary{ list-style:none; cursor:pointer; padding:11px 14px; user-select:none; display:flex; align-items:center; justify-content:space-between; gap:10px; font-weight:700; font-size:.85rem; color:var(--blue-m); }
+    .chev{ width:18px; height:18px; display:inline-block; transition:transform 0.16s ease; opacity:0.85; }
+    details[open] .chev{ transform:rotate(180deg); }
+
+    .codeWrap{ padding:0 14px 14px; }
+    .codeBar{ display:flex; align-items:center; justify-content:flex-end; gap:10px; margin:10px 0 8px; }
+    .copyBtn{ border:1.5px solid var(--border); background:var(--blue-l); color:var(--blue-m); padding:6px 12px; border-radius:999px; font-size:12px; cursor:pointer; user-select:none; display:inline-flex; align-items:center; gap:6px; transition:background 0.12s,transform 0.08s; font-family:var(--sans); font-weight:700; }
+    .copyBtn:hover{ background:var(--blue-m); color:#fff; transform:translateY(-1px); }
+
+    pre{ margin:0; background:var(--codeBg); border:1px solid var(--codeBorder); border-radius:var(--radius2); padding:14px; overflow:auto; box-shadow:0 8px 28px rgba(0,0,0,0.25); }
+    code{ display:block; white-space:pre; font-family:var(--mono); font-size:13px; color:rgba(255,255,255,0.92); }
+
+    .empty{ margin-top:14px; padding:16px 14px; border:1.5px dashed var(--border); border-radius:var(--radius); color:var(--muted); background:rgba(232,234,246,0.30); display:none; }
+    .foot{ margin-top:24px; color:var(--muted); font-size:13px; text-align:center; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="titleRow">
+      <div>
+        <h1>25 Exerciții Practice – Lecția 4</h1>
+        <p class="sub">Intrări și Ieșiri: print() • input() • f-strings • Casting de date</p>
+        <div class="badge">Lecția 4 &nbsp;|&nbsp; 10-14 ani &nbsp;|&nbsp; Intrări & Ieșiri</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button class="btn btnPrimary" id="toggleTheme" type="button">🌓 Temă</button>
+        <button class="btn" id="expandAll" type="button">▾▾ Deschide</button>
+        <button class="btn" id="collapseAll" type="button">▸ Închide</button>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
+          <path d="M16.5 16.5 21 21" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input id="q" type="text" placeholder="Caută exercițiu…" autocomplete="off" />
+      </div>
+      <button class="btn" id="clearSearch" type="button">✕ Reset</button>
+    </div>
+    <div class="chips">
+      <div class="chip active" data-filter="all">Toate (25)</div>
+      <div class="chip" data-filter="out">🟢 Ieșiri (5)</div>
+      <div class="chip" data-filter="in">🔵 Intrări (5)</div>
+      <div class="chip" data-filter="cast">🟠 Conversii (5)</div>
+      <div class="chip" data-filter="fstr">🟣 f-strings (5)</div>
+      <div class="chip" data-filter="mix">🩵 Mix (5)</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+      <div class="progress-label" id="progLabel">0 / 25 deschise</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="empty" id="emptyState">Nu există rezultate pentru căutarea curentă.</div>
+    <section class="grid" id="list">
+
+      <article class="card ex" data-idx="1" data-topic="out">
+        <div class="cardHead"><div class="q"><div class="num">1</div><div class="qText"><div class="topic-pill pill-out">Ieșiri</div><p class="label">1. Afișează "Salut, Python!" pe ecran.</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>print("Salut, Python!")</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="2" data-topic="out">
+        <div class="cardHead"><div class="q"><div class="num">2</div><div class="qText"><div class="topic-pill pill-out">Ieșiri</div><p class="label">2. Afișează 3 fructe pe același rând, separate prin virgule.</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>print("Mere", "Pere", "Banane")</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="3" data-topic="out">
+        <div class="cardHead"><div class="q"><div class="num">3</div><div class="qText"><div class="topic-pill pill-out">Ieșiri</div><p class="label">3. Calculează și afișează rezultatul lui 120 + 340 într-un print.</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>print(120 + 340)</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="4" data-topic="out">
+        <div class="cardHead"><div class="q"><div class="num">4</div><div class="qText"><div class="topic-pill pill-out">Ieșiri</div><p class="label">4. Afișează "Linia 1" și "Linia 2" folosind două print-uri separate.</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>print("Linia 1")\nprint("Linia 2")</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="5" data-topic="out">
+        <div class="cardHead"><div class="q"><div class="num">5</div><div class="qText"><div class="topic-pill pill-out">Ieșiri</div><p class="label">5. Folosește argumentul sep="-" pentru a afișa "A-B-C".</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>print("A", "B", "C", sep="-")</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="6" data-topic="in">
+        <div class="cardHead"><div class="q"><div class="num">6</div><div class="qText"><div class="topic-pill pill-in">Intrări</div><p class="label">6. Cere numele utilizatorului și afișează un mesaj de bun venit.</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>nume = input("Numele tău: ")\nprint("Salut,", nume)</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="7" data-topic="in">
+        <div class="cardHead"><div class="q"><div class="num">7</div><div class="qText"><div class="topic-pill pill-in">Intrări</div><p class="label">7. Cere culoarea preferată și afișează: "Super, și mie îmi place culoarea...".</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>culoare = input("Culoarea preferată: ")\nprint("Super, și mie îmi place culoarea", culoare)</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="8" data-topic="in">
+        <div class="cardHead"><div class="q"><div class="num">8</div><div class="qText"><div class="topic-pill pill-in">Intrări</div><p class="label">8. Cere orașul în care locuiește utilizatorul.</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>oras = input("Unde locuiești? ")\nprint("Orașul tău este", oras)</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="9" data-topic="in">
+        <div class="cardHead"><div class="q"><div class="num">9</div><div class="qText"><div class="topic-pill pill-in">Intrări</div><p class="label">9. Întreabă utilizatorul care este hobby-ul lui.</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>hobby = input("Hobby-ul tău: ")\nprint(hobby, "sună interesant!")</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="10" data-topic="in">
+        <div class="cardHead"><div class="q"><div class="num">10</div><div class="qText"><div class="topic-pill pill-in">Intrări</div><p class="label">10. Cere mâncarea preferată și afișează un mesaj.</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>mancare = input("Mâncare preferată: ")\nprint("Poftă bună la", mancare, "!")</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="11" data-topic="cast">
+        <div class="cardHead"><div class="q"><div class="num">11</div><div class="qText"><div class="topic-pill pill-cast">Conversii</div><p class="label">11. Citește un număr și afișează dublul lui (folosește int).</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>n = int(input("Introdu un număr: "))\nprint(n * 2)</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="12" data-topic="cast">
+        <div class="cardHead"><div class="q"><div class="num">12</div><div class="qText"><div class="topic-pill pill-cast">Conversii</div><p class="label">12. Cere lungimea laturii unui pătrat și calculează aria (float).</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>latura = float(input("Latură pătrat: "))\nprint("Aria:", latura * latura)</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="13" data-topic="cast">
+        <div class="cardHead"><div class="q"><div class="num">13</div><div class="qText"><div class="topic-pill pill-cast">Conversii</div><p class="label">13. Cere vârsta utilizatorului și afișează câți ani va avea anul viitor.</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>varsta = int(input("Câți ani ai? "))\nprint("La anul vei avea", varsta + 1)</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="14" data-topic="cast">
+        <div class="cardHead"><div class="q"><div class="num">14</div><div class="qText"><div class="topic-pill pill-cast">Conversii</div><p class="label">14. Împarte două numere introduse de utilizator și afișează rezultatul.</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>a = float(input("Primul număr: "))\nb = float(input("Al doilea număr: "))\nprint("Rezultat:", a / b)</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="15" data-topic="cast">
+        <div class="cardHead"><div class="q"><div class="num">15</div><div class="qText"><div class="topic-pill pill-cast">Conversii</div><p class="label">15. Citește un preț float și transformă-l în int pentru a afișa doar lei (fără bani).</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>pret = float(input("Preț: "))\nprint("Doar lei:", int(pret))</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="16" data-topic="fstr">
+        <div class="cardHead"><div class="q"><div class="num">16</div><div class="qText"><div class="topic-pill pill-fstr">f-strings</div><p class="label">16. Afișează scorul folosind f-string: "Scorul tău este {puncte}."</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>puncte = 500\nprint(f"Scorul tău este {puncte}.")</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="17" data-topic="fstr">
+        <div class="cardHead"><div class="q"><div class="num">17</div><div class="qText"><div class="topic-pill pill-fstr">f-strings</div><p class="label">17. Prezintă o persoană: "{nume} are {varsta} ani."</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>nume = "Alex"\nvarsta = 12\nprint(f"{nume} are {varsta} ani.")</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="18" data-topic="fstr">
+        <div class="cardHead"><div class="q"><div class="num">18</div><div class="qText"><div class="topic-pill pill-fstr">f-strings</div><p class="label">18. Afișează prețul unui produs cu moneda atașată: "Costă {pret} lei."</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>pret = 49.99\nprint(f"Costă {pret} lei.")</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="19" data-topic="fstr">
+        <div class="cardHead"><div class="q"><div class="num">19</div><div class="qText"><div class="topic-pill pill-fstr">f-strings</div><p class="label">19. Afișează rezultatul unui calcul complex într-un f-string.</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>print(f"Rezultatul 10 + 20 este {10 + 20}")</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="20" data-topic="fstr">
+        <div class="cardHead"><div class="q"><div class="num">20</div><div class="qText"><div class="topic-pill pill-fstr">f-strings</div><p class="label">20. Trimite un mesaj de felicitare: "Bravo {nume}, ai trecut nivelul!"</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>jucator = "Maria"\nprint(f"Bravo {jucator}, ai trecut nivelul!")</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="21" data-topic="mix">
+        <div class="cardHead"><div class="q"><div class="num">21</div><div class="qText"><div class="topic-pill pill-mix">Mix</div><p class="label">21. Calculator de arie pentru dreptunghi (L și l de la tastatură).</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>L = float(input("Lungime: "))\nl = float(input("Lățime: "))\nprint(f"Aria: {L * l}")</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="22" data-topic="mix">
+        <div class="cardHead"><div class="q"><div class="num">22</div><div class="qText"><div class="topic-pill pill-mix">Mix</div><p class="label">22. Cere 3 note și calculează media lor folosind f-string.</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>n1 = int(input("Nota 1: "))\nn2 = int(input("Nota 2: "))\nn3 = int(input("Nota 3: "))\nmedia = (n1+n2+n3)/3\nprint(f"Media ta este {media}")</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="23" data-topic="mix">
+        <div class="cardHead"><div class="q"><div class="num">23</div><div class="qText"><div class="topic-pill pill-mix">Mix</div><p class="label">23. Convertor grade Celsius în Fahrenheit: F = C * 1.8 + 32.</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>C = float(input("Grade Celsius: "))\nF = C * 1.8 + 32\nprint(f"{C} grade C = {F} grade F")</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="24" data-topic="mix">
+        <div class="cardHead"><div class="q"><div class="num">24</div><div class="qText"><div class="topic-pill pill-mix">Mix</div><p class="label">24. Calculator de rest: cere totalul și suma plătită de client.</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>total = float(input("Total factură: "))\nplata = float(input("Suma plătită: "))\nprint(f"Restul de dat: {plata - total} lei")</code></pre></div></details>
+      </article>
+
+      <article class="card ex" data-idx="25" data-topic="mix">
+        <div class="cardHead"><div class="q"><div class="num">25</div><div class="qText"><div class="topic-pill pill-mix">Mix</div><p class="label">25. Calculator IMC: greutate / (inaltime * inaltime).</p></div></div></div>
+        <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary><div class="codeWrap"><div class="codeBar"><button class="copyBtn" data-copy>📋 Copiază</button></div><pre><code>kg = float(input("Greutate (kg): "))\nm = float(input("Înălțime (m): "))\nimc = kg / (m * m)\nprint(f"Indicele tău IMC este {imc:.2f}")</code></pre></div></details>
+      </article>
+
+    </section>
+    <div class="foot">Python • Lecția 4 • Intrări și Ieșiri</div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  document.getElementById("toggleTheme").addEventListener("click", function(){
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+  });
+
+  var input = document.getElementById("q");
+  var listEl = document.getElementById("list");
+  var cards = Array.from(listEl.querySelectorAll(".ex"));
+  var currentFilter = "all";
+
+  function applyFilter(){
+    var q = input.value.toLowerCase();
+    cards.forEach(function(card){
+      var topic = card.getAttribute("data-topic");
+      var text = card.innerText.toLowerCase();
+      var topicOk = currentFilter === "all" || topic === currentFilter;
+      var searchOk = !q || text.indexOf(q) > -1;
+      card.style.display = (topicOk && searchOk) ? "" : "none";
+    });
+  }
+
+  document.querySelectorAll(".chip").forEach(function(chip){
+    chip.addEventListener("click", function(){
+      document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      currentFilter = chip.getAttribute("data-filter");
+      applyFilter();
+    });
+  });
+
+  input.addEventListener("input", applyFilter);
+  document.getElementById("expandAll").onclick = () => cards.forEach(c => c.querySelector("details").open = true);
+  document.getElementById("collapseAll").onclick = () => cards.forEach(c => c.querySelector("details").open = false);
+  
+  listEl.addEventListener("click", function(e){
+    var btn = e.target.closest("[data-copy]");
+    if(btn) {
+      var code = btn.closest(".ex").querySelector("code").innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        var old = btn.innerText; btn.innerText = "✓ Copiat";
+        setTimeout(() => btn.innerText = old, 1000);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>
