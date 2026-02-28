@@ -6,9 +6,12 @@
 <title>Python Lecția 5 - Șiruri de Caractere</title>
 <style>
 :root{
-  --blue:#1A237E;--blue-m:#3949AB;--blue-l:#E8EAF6;
-  --purple:#4A148C;--purple-l:#EDE7F6;--purple-m:#7B1FA2;
-  --bg:#F4F6FF;--text:#333;
+  --blue:#1A237E;--blue-m:#3949AB;--blue-l:#E8EAF6;
+  --purple:#4A148C;--purple-l:#EDE7F6;--purple-m:#7B1FA2;
+  --bg:#F4F6FF;--text:#333;
+  --green:#1B5E20;--green-l:#E8F5E9;--green-m:#388E3C;
+  --red:#B71C1C;--red-l:#FFEBEE;--red-m:#D32F2F;
+  --gold:#F57F17;--gold-l:#FFFDE7;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:15px}
@@ -30,107 +33,488 @@ h3{font-size:1.05rem;color:var(--purple-m);margin:18px 0 8px;font-weight:700}
 .tbl{width:100%;border-collapse:collapse;margin:14px 0;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .tbl th{background:var(--purple);color:#fff;padding:10px 12px;font-size:.88rem;text-align:left}
 .tbl td{padding:9px 12px;font-size:.88rem;border-bottom:1px solid #e9ecef}
+
+/* ===== QUIZ ===== */
+.quiz-header{background:linear-gradient(135deg,#1A237E,#3949AB);color:#fff;border-radius:14px;padding:24px 28px;margin-bottom:28px;display:flex;align-items:center;gap:18px}
+.quiz-header .icon{font-size:2.8rem;line-height:1}
+.quiz-header h2{border:none;padding:0;color:#fff;margin:0 0 4px}
+.quiz-header p{opacity:.85;font-size:.9rem;margin:0}
+.quiz-progress{background:rgba(255,255,255,.2);border-radius:20px;height:8px;margin-top:10px;overflow:hidden}
+.quiz-progress-bar{background:#fff;height:100%;border-radius:20px;transition:width .4s ease;width:0%}
+
+.q-card{background:#fff;border-radius:12px;padding:22px 24px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.07);border:2px solid transparent;transition:border-color .3s}
+.q-card.correct{border-color:var(--green-m);background:var(--green-l)}
+.q-card.wrong{border-color:var(--red-m);background:var(--red-l)}
+.q-num{font-size:.75rem;font-weight:700;color:var(--purple-m);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.q-text{font-size:1rem;font-weight:700;color:#222;margin-bottom:14px;line-height:1.5}
+.q-options{display:flex;flex-direction:column;gap:8px}
+.q-opt{background:#F4F6FF;border:2px solid #dde0f0;border-radius:8px;padding:10px 16px;cursor:pointer;font-size:.92rem;text-align:left;transition:all .2s;font-family:inherit}
+.q-opt:hover:not(:disabled){background:var(--purple-l);border-color:var(--purple-m)}
+.q-opt.selected-correct{background:var(--green-l);border-color:var(--green-m);color:var(--green);}
+.q-opt.selected-wrong{background:var(--red-l);border-color:var(--red-m);color:var(--red);}
+.q-opt.reveal-correct{background:var(--green-l);border-color:var(--green-m);color:var(--green);}
+.q-opt:disabled{cursor:default}
+.q-feedback{margin-top:12px;padding:10px 14px;border-radius:8px;font-size:.88rem;display:none}
+.q-feedback.show{display:block}
+.q-feedback.ok{background:var(--green-l);color:var(--green);border-left:4px solid var(--green-m)}
+.q-feedback.nok{background:var(--red-l);color:var(--red);border-left:4px solid var(--red-m)}
+
+.quiz-btn{background:linear-gradient(135deg,#4A148C,#7B1FA2);color:#fff;border:none;border-radius:30px;padding:13px 36px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:10px;transition:opacity .2s;font-family:inherit}
+.quiz-btn:hover{opacity:.88}
+.quiz-btn:disabled{opacity:.4;cursor:default}
+
+.score-card{background:linear-gradient(135deg,#1A237E,#4A148C);color:#fff;border-radius:16px;padding:36px 28px;text-align:center;display:none;margin-top:24px}
+.score-card.show{display:block}
+.score-card .big-score{font-size:4rem;font-weight:900;line-height:1;margin:12px 0}
+.score-card p{opacity:.85;font-size:1rem;margin-bottom:18px}
+.score-stars{font-size:2rem;margin:8px 0 18px;letter-spacing:4px}
+.retry-btn{background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.5);color:#fff;border-radius:30px;padding:10px 28px;font-size:.95rem;cursor:pointer;font-family:inherit;transition:background .2s}
+.retry-btn:hover{background:rgba(255,255,255,.3)}
+
+/* ===== TEME ===== */
+.teme-header{background:linear-gradient(135deg,#1B5E20,#388E3C);color:#fff;border-radius:14px;padding:24px 28px;margin-bottom:28px;display:flex;align-items:center;gap:18px}
+.teme-header .icon{font-size:2.8rem}
+.teme-header h2{border:none;padding:0;color:#fff;margin:0 0 4px}
+.teme-header p{opacity:.85;font-size:.9rem;margin:0}
+
+.tema-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.07);margin-bottom:20px;border:1px solid #e0e0e0}
+.tema-card-header{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;user-select:none;transition:background .2s}
+.tema-card-header:hover{background:#fafafa}
+.nivel-badge{border-radius:20px;padding:3px 12px;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.nivel-usor{background:var(--green-l);color:var(--green-m)}
+.nivel-mediu{background:#FFF3E0;color:#E65100}
+.nivel-greu{background:var(--red-l);color:var(--red-m)}
+.tema-title{font-weight:700;font-size:1rem;color:#222;flex:1}
+.tema-arrow{font-size:1.1rem;color:#aaa;transition:transform .3s;margin-left:auto}
+.tema-card.open .tema-arrow{transform:rotate(90deg)}
+.tema-body{display:none;padding:0 20px 20px;border-top:1px solid #f0f0f0}
+.tema-card.open .tema-body{display:block}
+.tema-body p{margin:12px 0 8px;color:#444;font-size:.93rem}
+.tema-body .cb{font-size:.82rem}
+.cerinta{background:#F8F9FF;border-left:4px solid var(--purple-m);border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;font-size:.9rem}
+.cerinta strong{color:var(--purple)}
+.hint-btn{background:none;border:1px solid var(--gold);color:var(--gold);border-radius:20px;padding:4px 14px;font-size:.8rem;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:8px}
+.hint-btn:hover{background:var(--gold);color:#fff}
+.hint-box{background:var(--gold-l);border:1px solid #FFE082;border-radius:8px;padding:10px 14px;font-size:.85rem;color:#5D4037;margin-top:8px;display:none}
+.hint-box.show{display:block}
+.bonus-tag{display:inline-block;background:linear-gradient(90deg,#FF6F00,#F9A825);color:#fff;border-radius:12px;padding:2px 10px;font-size:.75rem;font-weight:700;margin-left:8px;vertical-align:middle}
+
 footer{background:var(--purple);color:rgba(255,255,255,.8);text-align:center;padding:18px;font-size:.85rem}
 </style>
 </head>
 <body>
 
 <header>
-  <div style="font-size:2.8rem;margin-bottom:8px">🔤</div>
-  <h1>Python — Lecția 5</h1>
-  <p style="font-size:1.6rem;font-weight:900;">Șiruri de Caractere (Strings)</p>
-  <p style="font-size:.9rem;opacity:.75">Indexare • Slicing • Metode • Formatare</p>
-  <div class="badge">Lecția 5 &nbsp;|&nbsp; 10-14 ani &nbsp;|&nbsp; Nivel: Începător - Intermediar</div>
+  <div style="font-size:2.8rem;margin-bottom:8px">🔤</div>
+  <h1>Python — Lecția 5</h1>
+  <p style="font-size:1.6rem;font-weight:900;">Șiruri de Caractere (Strings)</p>
+  <p style="font-size:.9rem;opacity:.75">Indexare • Slicing • Metode • Formatare</p>
+  <div class="badge">Lecția 5 &nbsp;|&nbsp; 10-14 ani &nbsp;|&nbsp; Nivel: Începător - Intermediar</div>
 </header>
 
 <nav>
-  <a href="#intro">1. Ce este un String</a>
-  <a href="#access">2. Index & Slicing</a>
-  <a href="#modify">3. Modificare</a>
-  <a href="#concat">4. Concatenare</a>
-  <a href="#format">5. Formatare</a>
-  <a href="#escape">6. Escape Characters</a>
-  <a href="#methods">7. Metode Utile</a>
+  <a href="#intro">1. Ce este un String</a>
+  <a href="#access">2. Index & Slicing</a>
+  <a href="#modify">3. Modificare</a>
+  <a href="#concat">4. Concatenare</a>
+  <a href="#format">5. Formatare</a>
+  <a href="#escape">6. Escape Characters</a>
+  <a href="#methods">7. Metode Utile</a>
+  <a href="#quiz">8. Quiz</a>
+  <a href="#teme">9. Teme</a>
 </nav>
 
 <main>
 
 <section id="intro">
-  <h2>1. Ce este un Șir de Caractere?</h2>
-  <div class="box">
-    <p>În Python, un <strong>string</strong> reprezintă o secvență ordonată de caractere — litere, cifre, spații sau simboluri speciale.</p>
-  </div>
-  <p>String-urile sunt esențiale în orice program și se definesc folosind ghilimele simple (<code>' '</code>) sau duble (<code>" "</code>). Putem folosi și ghilimele triple pentru texte lungi.</p>
-  <div class="cb">text1 = 'Salut'
+  <h2>1. Ce este un Șir de Caractere?</h2>
+  <div class="box">
+    <p>În Python, un <strong>string</strong> reprezintă o secvență ordonată de caractere — litere, cifre, spații sau simboluri speciale.</p>
+  </div>
+  <p>String-urile sunt esențiale în orice program și se definesc folosind ghilimele simple (<code>' '</code>) sau duble (<code>" "</code>). Putem folosi și ghilimele triple pentru texte lungi.</p>
+  <div class="cb">text1 = 'Salut'
 text2 = "Salut"
 multi_line = """Acesta este un string care
 se întinde pe mai multe rânduri."""</div>
 </section>
 
 <section id="access">
-  <h2>2. Accesarea Caracterelor și Slicing</h2>
-  <p>Fiecare caracter are un <strong>index numeric</strong>, începând de la <strong>0</strong> pentru primul caracter. Indexul <strong>-1</strong> reprezintă ultimul caracter.</p>
-  <div class="cb">cuvant = "Python"
-print(cuvant[0])   # 'P'
-print(cuvant[-1])  # 'n'</div>
-  <h3>Slicing (Felierea)</h3>
-  <p>Extragem un subșir folosind sintaxa <code>string[start:stop:step]</code>. Valoarea <em>stop</em> nu este inclusă.</p>
-  <div class="cb">text = "Python"
+  <h2>2. Accesarea Caracterelor și Slicing</h2>
+  <p>Fiecare caracter are un <strong>index numeric</strong>, începând de la <strong>0</strong> pentru primul caracter. Indexul <strong>-1</strong> reprezintă ultimul caracter.</p>
+  <div class="cb">cuvant = "Python"
+print(cuvant[0])   # 'P'
+print(cuvant[-1])  # 'n'</div>
+  <h3>Slicing (Felierea)</h3>
+  <p>Extragem un subșir folosind sintaxa <code>string[start:stop:step]</code>. Valoarea <em>stop</em> nu este inclusă.</p>
+  <div class="cb">text = "Python"
 print(text[0:3]) # 'Pyt'
 print(text[::2]) # 'Pto' (sărituri din 2 în 2)</div>
 </section>
 
 <section id="modify">
-  <h2>3. Modificarea String-urilor</h2>
-  <p>String-urile sunt <strong>imutabile</strong>. Metodele de mai jos returnează întotdeauna un string nou:</p>
-  <table class="tbl">
-    <thead><tr><th>Metodă</th><th>Efect</th><th>Exemplu</th></tr></thead>
-    <tbody>
-      <tr><td><code>upper()</code></td><td>Majuscule</td><td>"abc" -> "ABC"</td></tr>
-      <tr><td><code>lower()</code></td><td>Minuscule</td><td>"ABC" -> "abc"</td></tr>
-      <tr><td><code>strip()</code></td><td>Șterge spații</td><td>" hey " -> "hey"</td></tr>
-      <tr><td><code>replace(v, n)</code></td><td>Înlocuiește</td><td>"mere" -> "pere"</td></tr>
-    </tbody>
-  </table>
+  <h2>3. Modificarea String-urilor</h2>
+  <p>String-urile sunt <strong>imutabile</strong>. Metodele de mai jos returnează întotdeauna un string nou:</p>
+  <table class="tbl">
+    <thead><tr><th>Metodă</th><th>Efect</th><th>Exemplu</th></tr></thead>
+    <tbody>
+      <tr><td><code>upper()</code></td><td>Majuscule</td><td>"abc" -> "ABC"</td></tr>
+      <tr><td><code>lower()</code></td><td>Minuscule</td><td>"ABC" -> "abc"</td></tr>
+      <tr><td><code>strip()</code></td><td>Șterge spații</td><td>" hey " -> "hey"</td></tr>
+      <tr><td><code>replace(v, n)</code></td><td>Înlocuiește</td><td>"mere" -> "pere"</td></tr>
+    </tbody>
+  </table>
 </section>
 
 <section id="concat">
-  <h2>4. Concatenarea String-urilor</h2>
-  <p>Unirea se face cu operatorul <code>+</code>, iar repetarea cu <code>*</code>.</p>
-  <div class="cb">salut = "Buna" + " " + "ziua"  # "Buna ziua"
-repetare = "Ha" * 3               # "HaHaHa"</div>
+  <h2>4. Concatenarea String-urilor</h2>
+  <p>Unirea se face cu operatorul <code>+</code>, iar repetarea cu <code>*</code>.</p>
+  <div class="cb">salut = "Buna" + " " + "ziua"  # "Buna ziua"
+repetare = "Ha" * 3               # "HaHaHa"</div>
 </section>
 
 <section id="format">
-  <h2>5. Formatarea String-urilor</h2>
-  <p>Metoda recomandată este <strong>f-string</strong>. Prefixăm textul cu <code>f</code> și inserăm variabile în acolade <code>{}</code>.</p>
-  <div class="cb">nume = "Alex"
+  <h2>5. Formatarea String-urilor</h2>
+  <p>Metoda recomandată este <strong>f-string</strong>. Prefixăm textul cu <code>f</code> și inserăm variabile în acolade <code>{}</code>.</p>
+  <div class="cb">nume = "Alex"
 varsta = 12
 print(f"Numele meu este {nume} și am {varsta} ani.")</div>
 </section>
 
 <section id="escape">
-  <h2>6. Caractere Speciale (Escape)</h2>
-  <p>Secvențele care încep cu backslash (<code>\</code>) reprezintă caractere ce nu pot fi scrise direct.</p>
-  <div class="cb">print("Linie1\nLinie2") # Rând nou
-print("Tab\torizontal")  # Tab vertical
+  <h2>6. Caractere Speciale (Escape)</h2>
+  <p>Secvențele care încep cu backslash (<code>\</code>) reprezintă caractere ce nu pot fi scrise direct.</p>
+  <div class="cb">print("Linie1\nLinie2") # Rând nou
+print("Tab\torizontal")  # Tab orizontal
 print("Ghilimele: \"Python\"")</div>
 </section>
 
 <section id="methods">
-  <h2>7. Metode Utile</h2>
-  <p>Python include un set bogat de funcții predefinite pentru analiză:</p>
-  <div class="box">
-    <p><code>len()</code> returnează lungimea totală a string-ului (inclusiv spațiile!).</p>
-  </div>
-  <div class="cb">parola = "secret123"
-print(len(parola))      # 9
+  <h2>7. Metode Utile</h2>
+  <p>Python include un set bogat de funcții predefinite pentru analiză:</p>
+  <div class="box">
+    <p><code>len()</code> returnează lungimea totală a string-ului (inclusiv spațiile!).</p>
+  </div>
+  <div class="cb">parola = "secret123"
+print(len(parola))      # 9
 print(parola.isdigit()) # False
 print(parola.count("e")) # 2</div>
+</section>
+
+<!-- ===== QUIZ ===== -->
+<section id="quiz">
+  <div class="quiz-header">
+    <div class="icon">🧠</div>
+    <div>
+      <h2>8. Quiz — Testează-ți cunoștințele!</h2>
+      <p>10 întrebări • Răspunde și află imediat dacă ai dreptate</p>
+      <div class="quiz-progress"><div class="quiz-progress-bar" id="progressBar"></div></div>
+    </div>
+  </div>
+
+  <div id="quizContainer"></div>
+
+  <button class="quiz-btn" id="submitQuiz" onclick="submitQuiz()">Verifică Răspunsurile</button>
+
+  <div class="score-card" id="scoreCard">
+    <div style="font-size:1.1rem;opacity:.8">Scorul tău final</div>
+    <div class="big-score" id="scoreFinal">0/10</div>
+    <div class="score-stars" id="scoreStars">⭐⭐⭐⭐⭐</div>
+    <p id="scoreMsg">Felicitări!</p>
+    <button class="retry-btn" onclick="resetQuiz()">🔄 Încearcă din nou</button>
+  </div>
+</section>
+
+<!-- ===== TEME ===== -->
+<section id="teme">
+  <div class="teme-header">
+    <div class="icon">📝</div>
+    <div>
+      <h2>9. Teme pentru Acasă</h2>
+      <p>3 exerciții practice • Ușor → Mediu → Dificil • Click pe temă pentru detalii</p>
+    </div>
+  </div>
+
+  <!-- Tema 1 -->
+  <div class="tema-card" id="tema1">
+    <div class="tema-card-header" onclick="toggleTema('tema1')">
+      <span style="font-size:1.5rem">🟢</span>
+      <span class="tema-title">Tema 1 — Cartea de Vizită Digitală</span>
+      <span class="nivel-badge nivel-usor">Ușor</span>
+      <span class="tema-arrow">▶</span>
+    </div>
+    <div class="tema-body">
+      <p>Scrie un program care afișează o carte de vizită folosind f-strings și metode de string.</p>
+      <div class="cerinta">
+        <strong>Cerințe:</strong><br>
+        1. Declară variabilele: <code>nume</code>, <code>varsta</code>, <code>oras</code>, <code>hobby</code><br>
+        2. Afișează un mesaj formatat care să includă toate variabilele<br>
+        3. Afișează numele cu majuscule (<code>upper()</code>) și numărul de caractere din nume (<code>len()</code>)<br>
+        4. Afișează un separator din caracterul <code>"-"</code> repetat de 30 de ori
+      </div>
+      <p><strong>Exemplu de output așteptat:</strong></p>
+      <div class="cb">--- Carte de Vizită ---
+Nume: ALEX POPESCU (12 caractere)
+Vârsta: 13 ani
+Oraș: București
+Hobby: programare
+------------------------------</div>
+      <button class="hint-btn" onclick="toggleHint('h1')">💡 Arată indiciu</button>
+      <div class="hint-box" id="h1">Folosește <code>f"Nume: {nume.upper()} ({len(nume)} caractere)"</code> și <code>"-" * 30</code> pentru separator.</div>
+    </div>
+  </div>
+
+  <!-- Tema 2 -->
+  <div class="tema-card" id="tema2">
+    <div class="tema-card-header" onclick="toggleTema('tema2')">
+      <span style="font-size:1.5rem">🟠</span>
+      <span class="tema-title">Tema 2 — Analizator de Parole</span>
+      <span class="nivel-badge nivel-mediu">Mediu</span>
+      <span class="tema-arrow">▶</span>
+    </div>
+    <div class="tema-body">
+      <p>Creează un program care primește o parolă și îi analizează caracteristicile.</p>
+      <div class="cerinta">
+        <strong>Cerințe:</strong><br>
+        1. Definește o variabilă <code>parola = "Python2024!"</code><br>
+        2. Afișează lungimea parolei cu <code>len()</code><br>
+        3. Afișează primele 3 și ultimele 3 caractere folosind slicing<br>
+        4. Verifică dacă parola conține litera <code>"a"</code> folosind operatorul <code>in</code><br>
+        5. Afișează parola cu toate literele mici (<code>lower()</code>) și cu toate majusculele (<code>upper()</code>)<br>
+        6. Numără de câte ori apare caracterul <code>"0"</code> în parolă cu <code>count()</code>
+      </div>
+      <p><strong>Exemplu de output așteptat:</strong></p>
+      <div class="cb">Parolă: Python2024!
+Lungime: 11 caractere
+Primele 3 caractere: Pyt
+Ultimele 3 caractere: 24!
+Conține 'a': False
+Minuscule: python2024!
+Majuscule: PYTHON2024!
+Număr de '0': 2</div>
+      <button class="hint-btn" onclick="toggleHint('h2')">💡 Arată indiciu</button>
+      <div class="hint-box" id="h2">Folosește <code>parola[:3]</code> pentru primele 3 și <code>parola[-3:]</code> pentru ultimele 3 caractere. Operatorul <code>in</code>: <code>"a" in parola</code>.</div>
+    </div>
+  </div>
+
+  <!-- Tema 3 -->
+  <div class="tema-card" id="tema3">
+    <div class="tema-card-header" onclick="toggleTema('tema3')">
+      <span style="font-size:1.5rem">🔴</span>
+      <span class="tema-title">Tema 3 — Cifrator Caesar <span class="bonus-tag">BONUS</span></span>
+      <span class="nivel-badge nivel-greu">Dificil</span>
+      <span class="tema-arrow">▶</span>
+    </div>
+    <div class="tema-body">
+      <p>Implementează un cifrator simplu care înlocuiește fiecare literă cu una de la câteva poziții distanță în alfabet.</p>
+      <div class="cerinta">
+        <strong>Cerințe:</strong><br>
+        1. Definește mesajul: <code>mesaj = "salut prietene"</code><br>
+        2. Definește cheia: <code>cheie = 3</code> (câte poziții se deplasează fiecare literă)<br>
+        3. Folosind <code>replace()</code>, înlocuiește manual minim 5 litere diferite<br>
+        (ex: 'a'→'d', 'b'→'e', 's'→'v', 'l'→'o', 'u'→'x', 't'→'w', 'p'→'s', etc.)<br>
+        4. Afișează mesajul original și cel cifrat<br>
+        5. <strong>BONUS:</strong> Afișează lungimea ambelor mesaje și verifică dacă sunt egale
+      </div>
+      <p><strong>Exemplu de output așteptat:</strong></p>
+      <div class="cb">Mesaj original: salut prietene
+Mesaj cifrat:   vdoxw sulhwhqh
+Lungime originală: 14
+Lungime cifrată:   14
+Lungimi egale: True</div>
+      <button class="hint-btn" onclick="toggleHint('h3')">💡 Arată indiciu</button>
+      <div class="hint-box" id="h3">Aplică <code>replace()</code> în lanț: <code>mesaj.replace('a','d').replace('s','v').replace('l','o')...</code>. Atenție la ordinea înlocuirilor — dacă înlocuiești 'a' cu 'd' și după 'd' cu altceva, vei modifica și literele deja înlocuite!</div>
+    </div>
+  </div>
+
 </section>
 
 </main>
 <footer>Python Lecția 5 — Șiruri de Caractere | 10-14 ani | Viitorul Digital</footer>
 
+<script>
+// ========== QUIZ DATA ==========
+const questions = [
+  {
+    q: "Ce va afișa codul următor?\n\ncuvant = \"Python\"\nprint(cuvant[0])",
+    opts: ["'P'", "'y'", "'Python'", "'n'"],
+    correct: 0,
+    explanation: "Indexarea în Python începe de la 0, deci primul caracter 'P' se află la indexul 0."
+  },
+  {
+    q: "Care este rezultatul expresiei: \"Ha\" * 3 ?",
+    opts: ["'HaHaHa'", "'Ha3'", "'Ha Ha Ha'", "Eroare"],
+    correct: 0,
+    explanation: "Operatorul * repetă șirul de un număr specificat de ori: 'Ha' * 3 = 'HaHaHa'."
+  },
+  {
+    q: "Ce metodă folosim pentru a transforma toate literele unui string în MAJUSCULE?",
+    opts: ["lower()", "upper()", "capitalize()", "title()"],
+    correct: 1,
+    explanation: "Metoda upper() transformă toate literele în majuscule. lower() le transformă în minuscule."
+  },
+  {
+    q: "Ce va returna: \"Python\"[-1] ?",
+    opts: ["'P'", "'n'", "'o'", "Eroare"],
+    correct: 1,
+    explanation: "Indexul -1 reprezintă întotdeauna ultimul caracter al șirului. 'Python' are 6 caractere, deci ultimul este 'n'."
+  },
+  {
+    q: "Ce va afișa codul: print(\"Python\"[0:3]) ?",
+    opts: ["'Pyt'", "'Pyth'", "'yth'", "'tho'"],
+    correct: 0,
+    explanation: "Slicing [0:3] extrage caracterele de la indexul 0 până la 3 (exclusiv), adică 'P', 'y', 't' → 'Pyt'."
+  },
+  {
+    q: "Care dintre afirmații este ADEVĂRATĂ despre șirurile Python?",
+    opts: [
+      "Șirurile pot fi modificate direct (sunt mutabile)",
+      "Șirurile sunt imutabile — nu pot fi modificate după creare",
+      "Metodele strip() și upper() modifică șirul original",
+      "Indexarea începe de la 1"
+    ],
+    correct: 1,
+    explanation: "Șirurile în Python sunt imutabile. Metodele returnează un șir NOU, fără a modifica originalul."
+  },
+  {
+    q: "Ce afișează: print(len(\"Salut!\")) ?",
+    opts: ["5", "6", "7", "Eroare"],
+    correct: 1,
+    explanation: "len() numără toate caracterele, inclusiv semnele de punctuație: S-a-l-u-t-! = 6 caractere."
+  },
+  {
+    q: "Cum se definește corect un f-string în Python?",
+    opts: [
+      "f\"Salut, {nume}\"",
+      "\"{nume}\"",
+      "format(\"Salut, {nume}\")",
+      "string(\"Salut, {nume}\")"
+    ],
+    correct: 0,
+    explanation: "F-stringurile se prefixează cu litera 'f' și permit inserarea variabilelor în acolade {}."
+  },
+  {
+    q: "Ce secvență escape produce un rând nou (enter) în Python?",
+    opts: ["\\t", "\\n", "\\r", "\\\\ "],
+    correct: 1,
+    explanation: "\\n este secvența escape pentru linie nouă (new line). \\t este pentru tab orizontal."
+  },
+  {
+    q: "Ce va afișa: print(\"python\".replace(\"p\", \"P\")) ?",
+    opts: ["'python'", "'Python'", "'PYTHON'", "'Pyphon'"],
+    correct: 1,
+    explanation: "replace(vechi, nou) înlocuiește prima literă 'p' (minusculă) cu 'P' (majusculă), rezultând 'Python'."
+  }
+];
+
+let answered = {};
+
+function buildQuiz() {
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+  answered = {};
+  updateProgress();
+
+  questions.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = 'qcard' + i;
+
+    const optsHTML = q.opts.map((opt, j) =>
+      `<button class="q-opt" id="opt_${i}_${j}" onclick="selectAnswer(${i}, ${j})">${opt}</button>`
+    ).join('');
+
+    card.innerHTML = `
+      <div class="q-num">Întrebarea ${i+1} din ${questions.length}</div>
+      <div class="q-text">${q.q.replace(/\n/g, '<br>')}</div>
+      <div class="q-options">${optsHTML}</div>
+      <div class="q-feedback" id="feedback_${i}"></div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function selectAnswer(qIdx, optIdx) {
+  if (answered[qIdx] !== undefined) return;
+  answered[qIdx] = optIdx;
+
+  const q = questions[qIdx];
+  const isCorrect = optIdx === q.correct;
+
+  // Disable all options
+  q.opts.forEach((_, j) => {
+    const btn = document.getElementById(`opt_${qIdx}_${j}`);
+    btn.disabled = true;
+    if (j === q.correct) btn.classList.add('reveal-correct');
+  });
+
+  const selectedBtn = document.getElementById(`opt_${qIdx}_${optIdx}`);
+  selectedBtn.classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
+
+  const card = document.getElementById('qcard' + qIdx);
+  card.classList.add(isCorrect ? 'correct' : 'wrong');
+
+  const feedback = document.getElementById('feedback_' + qIdx);
+  feedback.className = `q-feedback show ${isCorrect ? 'ok' : 'nok'}`;
+  feedback.innerHTML = (isCorrect ? '✅ Corect! ' : '❌ Greșit! ') + q.explanation;
+
+  updateProgress();
+
+  // Auto-check when all answered
+  if (Object.keys(answered).length === questions.length) {
+    setTimeout(submitQuiz, 500);
+  }
+}
+
+function updateProgress() {
+  const pct = (Object.keys(answered).length / questions.length) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+function submitQuiz() {
+  // Make sure all questions are answered (mark unanswered)
+  let score = 0;
+  questions.forEach((q, i) => {
+    if (answered[i] !== undefined && answered[i] === q.correct) score++;
+  });
+
+  const scoreCard = document.getElementById('scoreCard');
+  scoreCard.classList.add('show');
+  document.getElementById('scoreFinal').textContent = score + '/' + questions.length;
+  document.getElementById('submitQuiz').disabled = true;
+
+  let stars = '', msg = '';
+  if (score === 10) { stars = '⭐⭐⭐⭐⭐'; msg = '🎉 Perfect! Ești un expert în string-uri Python!'; }
+  else if (score >= 8) { stars = '⭐⭐⭐⭐'; msg = '👏 Excelent! Mai ai puțin până la perfecțiune!'; }
+  else if (score >= 6) { stars = '⭐⭐⭐'; msg = '👍 Bine! Recitește secțiunile la care ai greșit.'; }
+  else if (score >= 4) { stars = '⭐⭐'; msg = '📚 Continuă să exersezi! Revezi lecția.'; }
+  else { stars = '⭐'; msg = '💪 Nu te descuraja! Citește lecția din nou cu atenție.'; }
+
+  document.getElementById('scoreStars').textContent = stars;
+  document.getElementById('scoreMsg').textContent = msg;
+
+  scoreCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function resetQuiz() {
+  document.getElementById('submitQuiz').disabled = false;
+  document.getElementById('scoreCard').classList.remove('show');
+  buildQuiz();
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ========== TEME ==========
+function toggleTema(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+
+function toggleHint(id) {
+  const box = document.getElementById(id);
+  box.classList.toggle('show');
+}
+
+// Init
+buildQuiz();
+</script>
 </body>
 </html>
