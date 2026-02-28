@@ -1,1 +1,97 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Lecția 5 - Strings</title>
+<style>
+:root{
+  --blue:#1A237E;--blue-m:#3949AB;--blue-l:#E8EAF6;
+  --purple:#4A148C;--purple-m:#7B1FA2;--purple-l:#EDE7F6;
+  --bg:#F4F6FF;--panel:#fff;--text:#2c3e50;
+}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);margin:0;line-height:1.6;}
+header{background:linear-gradient(135deg,#4A148C,#7B1FA2);color:#fff;padding:50px 20px;text-align:center;}
+main{max-width:1000px;margin:30px auto;padding:0 20px;}
+section{background:var(--panel);border-radius:15px;padding:30px;margin-bottom:30px;box-shadow:0 10px 30px rgba(0,0,0,0.05);border-left:5px solid var(--purple-m);}
+h2{color:var(--purple);border-bottom:2px solid var(--purple-l);padding-bottom:10px;margin-top:0;}
+.cb{background:#1e272e;color:#dfe6e9;padding:20px;border-radius:12px;font-family:'Courier New',monospace;white-space:pre;overflow-x:auto;font-size:14px;}
+.box{background:var(--purple-l);border-left:5px solid var(--purple-m);padding:15px;border-radius:8px;margin:15px 0;}
+.badge{background:rgba(255,255,255,0.2);padding:5px 20px;border-radius:20px;font-size:0.85rem;}
+</style>
+</head>
+<body>
 
+<header>
+  <h1>Python — Lecția 5</h1>
+  <p style="font-size:1.4rem;font-weight:900;">Șiruri de Caractere (Strings)</p>
+  <div class="badge">Lecția 5 | 10-14 ani | Nivel: Incepator - Intermediar</div>
+</header>
+
+<main>
+  <section id="def">
+    <h2>1. Ce este un Șir de Caractere?</h2>
+    <p>În Python, un șir de caractere (string) reprezintă o secvență ordonată de caractere — litere, cifre, spații sau simboluri speciale. Se definesc folosind ghilimele simple (' ') sau duble (" ").</p>
+    <div class="cb">print('Salut')
+print("Salut")
+# Triple ghilimele pentru mai multe linii
+text_lung = """Acesta este un string
+pe mai multe rânduri."""</div>
+  </section>
+
+  <section id="access">
+    <h2>2. Accesarea Caracterelor și Slicing</h2>
+    <p>Fiecare caracter are un index numeric, începând de la 0. Indexul -1 reprezintă ultimul caracter.</p>
+    <div class="cb">text = "Python"
+print(text[0])   # 'P'
+print(text[-1])  # 'n'
+# Slicing: [start:stop:step]
+print(text[0:3]) # 'Pyt'
+print(text[::2]) # 'Pto'</div>
+  </section>
+
+  <section id="modify">
+    <h2>3. Modificarea Stringurilor</h2>
+    <p>Stringurile sunt <strong>imutabile</strong>. Operațiile returnează întotdeauna un nou string.</p>
+    <div class="cb">txt = "  Salut Lume  "
+print(txt.upper())      # "  SALUT LUME  "
+print(txt.strip())      # "Salut Lume"
+print(txt.replace("Lume", "Python")) # "  Salut Python  "</div>
+  </section>
+
+  <section id="concat">
+    <h2>4. Concatenarea Stringurilor</h2>
+    <p>Unirea stringurilor se face cu operatorul <code>+</code>, iar repetarea cu <code>*</code>.</p>
+    <div class="cb">print('Buna' + ' ' + 'ziua') # 'Buna ziua'
+print('Ha' * 3)              # 'HaHaHa'</div>
+  </section>
+
+  <section id="format">
+    <h2>5. Formatarea Stringurilor</h2>
+    <p>Cea mai recomandată metodă este f-string (Python 3.6+).</p>
+    <div class="cb">nume = "Alex"
+varsta = 12
+print(f'Numele meu este {nume} si am {varsta} ani')</div>
+  </section>
+
+  <section id="escape">
+    <h2>6. Caractere Speciale (Escape)</h2>
+    <p>Secvențe ce încep cu backslash (\) pentru caractere ce nu pot fi scrise direct.</p>
+    <div class="cb">print("Linie1\nLinie2") # Rând nou
+print("Tab\torizontal")  # Spațiu Tab
+print("Ghilimele: \"Python\"")</div>
+  </section>
+
+  <section id="methods">
+    <h2>7. Metode Utile</h2>
+    <div class="box">
+      Metode frecvente: <code>len()</code>, <code>find()</code>, <code>startswith()</code>, <code>count()</code>, <code>isdigit()</code>.
+    </div>
+    <div class="cb">txt = "Python123"
+print(len(txt))       # 9
+print(txt.isdigit())  # False (are și litere)</div>
+  </section>
+</main>
+
+</body>
+</html>
