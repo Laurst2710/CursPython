@@ -9,6 +9,6 @@ Programa cursului:
     * [📝 Exerciții Lecția 2](https://laurst2710.github.io/CursPython/Lectia2/Exercitii_Lectia2.html)
 * **Lecția 3:** [Operatori și Expresii](https://laurst2710.github.io/CursPython/Lectia3/)
     * [📝 Exerciții Lecția 3](https://laurst2710.github.io/CursPython/Lectia3/Exercitii_Lectia3.html)
-
+* **Lecția 4:** [Intrări/Ieșiri](https://laurst2710.github.io/CursPython/Lectia4/)
 ---
 [Viitorul Digital](https://viitoruldigital.ro)
