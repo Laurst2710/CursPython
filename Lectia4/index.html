@@ -1,1 +1,352 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Lectia 4 - Intrări și Ieșiri</title>
+<style>
+:root{
+  --blue:#1A237E;--blue-m:#3949AB;--blue-l:#E8EAF6;
+  --green:#1B5E20;--green-l:#E8F5E9;--green-m:#4CAF50;
+  --orange:#E65100;--orange-l:#FFF8E1;
+  --purple:#4A148C;--purple-l:#EDE7F6;
+  --red:#B71C1C;--red-l:#FFEBEE;
+  --teal:#006064;--teal-l:#E0F7FA;
+  --pink:#880E4F;--pink-l:#FCE4EC;
+  --bg:#F4F6FF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:#333;line-height:1.75;font-size:15px}
+header{background:linear-gradient(135deg,#1A237E,#3949AB,#5C6BC0);color:#fff;text-align:center;padding:44px 20px 36px;position:relative;overflow:hidden}
+header::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 200px at 15% 0%,rgba(255,255,255,0.07),transparent 60%),radial-gradient(500px 200px at 85% 0%,rgba(255,255,255,0.05),transparent 65%);pointer-events:none}
+header>*{position:relative;z-index:1}
+header h1{font-size:2rem;font-weight:900;margin-bottom:6px}
+header p{opacity:.85;margin-bottom:4px}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:4px 16px;font-size:.82rem;margin-top:6px}
+nav{background:#fff;border-bottom:2px solid var(--blue-l);padding:10px 12px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+nav a{color:var(--blue-m);text-decoration:none;font-size:.82rem;padding:5px 12px;border-radius:20px;border:1px solid var(--blue-l);transition:all .2s}
+nav a:hover{background:var(--blue);color:#fff}
+main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+section{margin-bottom:48px}
+h2{font-size:1.45rem;color:var(--blue);font-weight:800;border-left:5px solid var(--blue-m);padding-left:14px;margin-bottom:18px}
+h3{font-size:1.05rem;color:var(--blue-m);margin:18px 0 8px;font-weight:700}
+p{margin-bottom:10px}
+.box{border-radius:10px;padding:16px 20px;margin:14px 0;border:1px solid rgba(0,0,0,.07)}
+.box-blue  {background:var(--blue-l);border-left:5px solid var(--blue-m)}
+.box-green {background:var(--green-l);border-left:5px solid var(--green-m)}
+.box-orange{background:var(--orange-l);border-left:5px solid var(--orange)}
+.box-red   {background:var(--red-l);border-left:5px solid var(--red)}
+.box-purple{background:var(--purple-l);border-left:5px solid var(--purple)}
+.box-teal  {background:var(--teal-l);border-left:5px solid var(--teal)}
+.box-title {font-weight:700;font-size:.98rem;margin-bottom:7px}
+.cb{background:#1e272e;color:#dfe6e9;border-radius:10px;padding:16px 20px;margin:12px 0;overflow-x:auto;font-family:'Courier New',monospace;font-size:.88rem;line-height:1.75;white-space:pre}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.tbl th{background:var(--blue);color:#fff;padding:10px 12px;font-size:.88rem;text-align:left}
+.tbl td{padding:9px 12px;font-size:.88rem;border-bottom:1px solid #e9ecef}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:nth-child(even) td{background:rgba(0,0,0,.02)}
+.tbl code{font-family:'Courier New',monospace;font-weight:700;color:var(--green)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+@media(max-width:540px){.two-col{grid-template-columns:1fr}}
+.quiz-card{background:#fff;border-radius:12px;padding:20px 22px;margin:14px 0;border:2px solid var(--orange-l);box-shadow:0 2px 8px rgba(230,81,0,.07)}
+.quiz-q{font-weight:700;color:var(--orange);margin-bottom:12px;font-size:.97rem}
+.quiz-q code{background:#f0f2ff;color:var(--blue);padding:2px 7px;border-radius:5px;font-family:'Courier New',monospace;font-size:.92em}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:500px){.quiz-opts{grid-template-columns:1fr}}
+.quiz-opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:7px;cursor:pointer;border:2px solid #dee2e6;background:#f8f9fa;font-size:.92rem;user-select:none;transition:border-color .15s,background .15s}
+.quiz-opt:hover:not(.locked){border-color:var(--blue-m);background:var(--blue-l)}
+.quiz-opt.correct{background:#E8F5E9;border-color:#4CAF50;color:var(--green)}
+.quiz-opt.wrong  {background:#FFEBEE;border-color:#F44336;color:var(--red)}
+.quiz-opt.locked{pointer-events:none}
+.quiz-opt:not(.correct):not(.wrong).locked{opacity:.5}
+.ql{width:26px;height:26px;border-radius:50%;background:#dee2e6;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0}
+.correct .ql{background:#4CAF50;color:#fff}
+.wrong   .ql{background:#F44336;color:#fff}
+.quiz-fb{margin-top:8px;padding:9px 12px;border-radius:7px;font-weight:600;font-size:.88rem;display:none}
+.fb-ok{background:#E8F5E9;color:var(--green);display:block}
+.fb-no{background:#FFEBEE;color:var(--red);display:block}
+.cat-header{display:flex;align-items:center;gap:12px;padding:12px 18px;border-radius:12px;color:#fff;font-weight:800;font-size:1rem;margin:28px 0 14px}
+.cat-arit  {background:linear-gradient(135deg,#1B5E20,#388E3C)}
+.cat-comp  {background:linear-gradient(135deg,#0D47A1,#1976D2)}
+.cat-logic {background:linear-gradient(135deg,#E65100,#F57C00)}
+.cat-ord   {background:linear-gradient(135deg,#4A148C,#7B1FA2)}
+.cat-attr  {background:linear-gradient(135deg,#006064,#00838F)}
+.cat-icon{font-size:1.4rem}
+.cat-score{margin-left:auto;background:rgba(255,255,255,0.2);border-radius:20px;padding:3px 12px;font-size:.82rem}
+.prog-wrap{background:#dee2e6;border-radius:10px;height:12px;overflow:hidden;margin:12px 0 6px}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue-m),var(--green-m));border-radius:10px;transition:width .6s ease;width:0}
+.score-box{background:#fff;border-radius:16px;padding:32px;margin-top:24px;border:2px solid var(--blue-l);text-align:center;display:none;box-shadow:0 8px 32px rgba(26,35,126,0.10)}
+.score-num{font-size:3rem;font-weight:900;color:var(--blue)}
+.score-lbl{color:#757575;font-size:.9rem;margin-top:4px}
+.score-msg{font-weight:800;font-size:1.05rem;margin-top:10px;color:var(--blue)}
+.cat-results{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:500px){.cat-results{grid-template-columns:1fr}}
+.cat-result-item{padding:10px 14px;border-radius:10px;font-size:.85rem;font-weight:700;display:flex;justify-content:space-between}
+.restart-btn{margin-top:18px;padding:12px 28px;background:var(--blue);color:#fff;border:none;border-radius:999px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:'Segoe UI',Arial,sans-serif;transition:background .15s,transform .1s}
+.restart-btn:hover{background:var(--blue-m);transform:translateY(-2px)}
+.exercise{background:#fff;border-radius:12px;padding:20px;margin:18px 0;border:2px solid var(--blue-l);box-shadow:0 2px 8px rgba(26,35,126,.06)}
+.ex-num{display:inline-flex;align-items:center;justify-content:center;background:var(--blue);color:#fff;border-radius:50%;width:30px;height:30px;font-weight:700;margin-right:8px;flex-shrink:0;font-size:.9rem}
+.hw-card{background:#fff;border-radius:12px;padding:20px;margin:18px 0;border:2px solid #880E4F;box-shadow:0 2px 8px rgba(136,14,79,.08)}
+.hw-num{display:inline-flex;align-items:center;justify-content:center;background:#880E4F;color:#fff;border-radius:50%;width:30px;height:30px;font-weight:700;margin-right:8px;flex-shrink:0;font-size:.9rem}
+.hw-badge{display:inline-block;padding:2px 10px;border-radius:10px;font-size:.75rem;font-weight:700;margin-left:8px;vertical-align:middle}
+.hw-easy{background:#E8F5E9;color:#1B5E20}
+.hw-med {background:#FFF8E1;color:#E65100}
+.hw-hard{background:#FFEBEE;color:#B71C1C}
+footer{background:var(--blue);color:rgba(255,255,255,.8);text-align:center;padding:18px;font-size:.85rem}
+</style>
+</head>
+<body>
 
+<header>
+  <div style="font-size:2.8rem;margin-bottom:8px">💬</div>
+  <h1>Python — Lecția 4</h1>
+  <p style="font-size:1.6rem;font-weight:900;">Intrări și Ieșiri</p>
+  <p style="font-size:.9rem;opacity:.75">print() • input() • f-strings • Casting de date</p>
+  <div class="badge">Lecția 4 &nbsp;|&nbsp; 10-14 ani &nbsp;|&nbsp; Nivel: Incepator</div>
+</header>
+
+<nav>
+  <a href="#intro">Intro</a>
+  <a href="#print">Afișare (print)</a>
+  <a href="#input">Citire (input)</a>
+  <a href="#casting">Conversii (Casting)</a>
+  <a href="#fstrings">Formatare (f-strings)</a>
+  <a href="#exercitii">Exerciții</a>
+  <a href="#quiz">Quiz</a>
+  <a href="#teme">Teme</a>
+</nav>
+
+<main>
+
+<section id="intro">
+  <h2>0. Dialogul cu calculatorul</h2>
+  <div class="box box-blue">
+    <div class="box-title">Programarea înseamnă comunicare!</div>
+    <p>Până acum, programele tale rulau cu date fixe. În această lecție, vei învăța cum să ceri informații de la utilizator (<strong>Intrări</strong>) și cum să îi răspunzi acestuia (<strong>Ieșiri</strong>).</p>
+  </div>
+</section>
+
+<section id="print">
+  <h2>1. Ieșirea datelor — print()</h2>
+  <p>Funcția <code>print()</code> este vocea programului tău. Poți afișa texte, numere sau rezultate de calcule.</p>
+  <div class="cb" id="cb-print1"></div>
+  <div class="box box-green">
+    <div class="box-title">Sfat:</div>
+    <p>Poți folosi virgula pentru a afișa mai multe lucruri deodată. Python va pune automat un spațiu între ele!</p>
+  </div>
+</section>
+
+<section id="input">
+  <h2>2. Intrarea datelor — input()</h2>
+  <p>Funcția <code>input()</code> permite utilizatorului să scrie ceva de la tastatură.</p>
+  <div class="cb" id="cb-input1"></div>
+  <div class="box box-orange">
+    <div class="box-title">Atenție mare!</div>
+    <p>Orice citești cu <code>input()</code> este considerat un <strong>String</strong> (text). Chiar dacă utilizatorul scrie <code>10</code>, Python îl vede ca pe un text <code>"10"</code>.</p>
+  </div>
+</section>
+
+<section id="casting">
+  <h2>3. Conversii de date (Casting)</h2>
+  <p>Dacă vrei să faci calcule cu ce introduce utilizatorul, trebuie să transformi textul în număr.</p>
+  <table class="tbl">
+    <thead><tr><th>Funcție</th><th>Ce face?</th><th>Exemplu</th></tr></thead>
+    <tbody>
+      <tr><td><code>int()</code></td><td>Transformă în număr întreg</td><td><code>int("10")</code> -> 10</td></tr>
+      <tr><td><code>float()</code></td><td>Transformă în număr cu virgulă</td><td><code>float("5.5")</code> -> 5.5</td></tr>
+      <tr><td><code>str()</code></td><td>Transformă orice în text</td><td><code>str(100)</code> -> "100"</td></tr>
+    </tbody>
+  </table>
+  <div class="cb" id="cb-casting1"></div>
+</section>
+
+<section id="fstrings">
+  <h2>4. Formatarea modernă — f-strings</h2>
+  <p>Cea mai elegantă metodă de a combina textul cu variabilele este folosirea literei <code>f</code> în fața ghilimelelor.</p>
+  <div class="cb" id="cb-fstrings1"></div>
+</section>
+
+<section id="exercitii">
+  <h2>5. Exerciții Practice</h2>
+  <div class="exercise">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><div class="ex-num">1</div><h3 style="margin:0;color:var(--blue)">Salut personalizat</h3></div>
+    <p>Cere numele utilizatorului și afișează un mesaj de bun venit folosind f-strings.</p>
+    <div class="cb" id="cb-ex1"></div>
+  </div>
+  <div class="exercise">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><div class="ex-num">2</div><h3 style="margin:0;color:var(--blue)">Calculator de vârstă</h3></div>
+    <p>Cere anul nașterii și calculează câți ani va împlini utilizatorul în 2026.</p>
+    <div class="cb" id="cb-ex2"></div>
+  </div>
+</section>
+
+<section id="quiz">
+  <h2>6. Mini-Quiz</h2>
+  <p style="margin-bottom:16px">Verifică ce ai învățat! 25 de întrebări rapide.</p>
+
+  <div class="cat-header cat-attr">
+    <span class="cat-icon">⌨️</span>
+    <span>Sarcini de bază</span>
+    <span class="cat-score" id="score-attr">0/25</span>
+  </div>
+
+  <div id="quiz-container"></div>
+
+  <div class="score-box" id="score-box">
+    <div style="font-size:2.8rem;margin-bottom:8px">🚀</div>
+    <div class="score-num" id="score-num">0/25</div>
+    <div class="score-lbl">răspunsuri corecte</div>
+    <div class="prog-wrap"><div class="prog-fill" id="prog-fill"></div></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="restart-btn" onclick="restart()">🔄 Mai încearcă o dată</button>
+  </div>
+</section>
+
+<section id="teme">
+  <h2>7. Teme pentru Acasă</h2>
+  <div class="hw-card">
+    <div style="display:flex;align-items:center;margin-bottom:12px">
+      <div class="hw-num">1</div>
+      <h3 style="margin:0;color:#880E4F">Magazinul Virtual</h3>
+      <span class="hw-badge hw-easy">Ușor</span>
+    </div>
+    <p>Cere numele unui produs și prețul său. Afișează un mesaj care să spună cât costă produsul.</p>
+    <p style="font-size:.85rem;color:#555">Salvează ca: <code>magazin.py</code></p>
+  </div>
+  <div class="hw-card">
+    <div style="display:flex;align-items:center;margin-bottom:12px">
+      <div class="hw-num">2</div>
+      <h3 style="margin:0;color:#880E4F">Media Notelor</h3>
+      <span class="hw-badge hw-med">Mediu</span>
+    </div>
+    <p>Cere 3 note de la tastatură, calculează media lor și afișează rezultatul cu un f-string.</p>
+    <p style="font-size:.85rem;color:#555">Salvează ca: <code>media.py</code></p>
+  </div>
+</section>
+
+</main>
+<footer>Python Lecția 4 — Intrări și Ieșiri | 10-14 ani | Nivel: Incepator</footer>
+
+<script>
+var BLUE='#74b9ff', GREEN='#55efc4', PINK='#fd79a8', GOLD='#fdcb6e';
+function span(c,t){return '<span style="color:'+c+'">'+t+'</span>';}
+var cm=function(t){return span(BLUE,t);};
+var cs=function(t){return span(GREEN,t);};
+var ck=function(t){return span(PINK,t);};
+var cn=function(t){return span(GOLD,t);};
+
+function setCode(id,lines){var el=document.getElementById(id);if(el)el.innerHTML=lines.join('\n');}
+
+setCode('cb-print1',[
+  cm('# Afișare simplă'),
+  'print('+cs('"Salutare, viitorule programator!"')+')',
+  '',
+  cm('# Afișare multiplă cu virgulă'),
+  'nume = '+cs('"Alex"'),
+  'varsta = '+cn('12'),
+  'print('+cs('"Mă numesc"')+', nume, '+cs('"și am"')+', varsta, '+cs('"ani."')+')'
+]);
+
+setCode('cb-input1',[
+  cm('# Calculatorul întreabă:'),
+  'nume = input('+cs('"Cum te cheamă? "')+')',
+  'print('+cs('"Salut, "')+' + nume + '+cs('"!"')+')'
+]);
+
+setCode('cb-casting1',[
+  cm('# Problema: input() returnează TEXT'),
+  'varsta_text = input('+cs('"Câți ani ai? "')+')',
+  'varsta_numar = int(varsta_text) '+cm('# Transformăm în număr'),
+  '',
+  cm('# Scurtătură (Casting direct):'),
+  'bani = float(input('+cs('"Câți bani ai în pușculiță? "')+'))'
+]);
+
+setCode('cb-fstrings1', [
+  'nume = '+cs('"Maria"'),
+  'scor = '+cn('450'),
+  '',
+  cm('# Folosim f in fata si variabilele in acolade {}'),
+  'print(f'+cs('"Jucătoarea {nume} are scorul {scor}!"')+')'
+]);
+
+setCode('cb-ex1', ['nume = input('+cs('"Numele tău: "')+')','print(f'+cs('"Bine ai venit în echipa Python, {nume}!"')+')']);
+setCode('cb-ex2', ['an = int(input('+cs('"În ce an te-ai născut? "')+'))','varsta = '+cn('2026')+' - an','print(f'+cs('"În 2026 vei avea {varsta} ani."')+')']);
+
+var QUIZ = [
+  {q:"Ce funcție folosim pentru a afișa mesaje?", opts:["input()", "print()", "int()", "str()"], ans:1, fb:"print() este funcția de ieșire (output)."},
+  {q:"Ce returnează întotdeauna funcția input()?", opts:["Un număr", "Un text (String)", "O eroare", "Nimic"], ans:1, fb:"Orice introduce utilizatorul este tratat ca text."},
+  {q:"Cum transformăm textul '12' în numărul 12?", opts:["int('12')", "str('12')", "float('12')", "print('12')"], ans:0, fb:"int() transformă textul în număr întreg."},
+  {q:"Ce simbol punem în fața ghilimelelor pentru f-strings?", opts:["s", "x", "f", "p"], ans:2, fb:"'f' vine de la 'formatted string'."},
+  {q:"Care este rezultatul: print(5 + 5)?", opts:["55", "10", "5 + 5", "Eroare"], ans:1, fb:"Python calculează expresiile înainte de a le afișa."},
+  {q:"Ce face float(input())?", opts:["Cere un text", "Cere un număr cu zecimale", "Cere un nume", "Afișează un număr"], ans:1, fb:"Transformă intrarea în număr zecimal."},
+  {q:"Cum afișăm variabila 'x' folosind f-string?", opts:["{x}", "f'x'", "f'{x}'", "print(x)"], ans:2, fb:"Variabila trebuie să fie între acolade {} în interiorul f-string-ului."},
+  {q:"Care variantă de print() e corectă?", opts:["print Salut", "print('Salut')", "print = 'Salut'", "print('Salut'"], ans:1, fb:"Funcțiile au nevoie de paranteze ()."},
+  {q:"Ce face int('Salut')?", opts:["0", "Eroare", "Salut", "int"], ans:1, fb:"Nu poți transforma un text care nu conține cifre în număr."},
+  {q:"Ce afișează print(2, 3)?", opts:["23", "2 3", "5", "Eroare"], ans:1, fb:"Virgula adaugă un spațiu între elemente."},
+  {q:"Cum cerem vârsta ca număr?", opts:["input()", "int(input())", "str(input())", "print()"], ans:1, fb:"Castingul la int este necesar pentru calcule."},
+  {q:"Ce afișează print(f'1+1={1+1}')?", opts:["1+1=2", "1+1={1+1}", "2=2", "Eroare"], ans:0, fb:"Expresiile din acolade sunt calculate."},
+  {q:"Ce tip de date e rezultatul lui input()?", opts:["int", "float", "str", "bool"], ans:2, fb:"'str' înseamnă string (șir de caractere)."},
+  {q:"print('5' + '5') afișează:", opts:["10", "55", "5 + 5", "Eroare"], ans:1, fb:"Adunarea a două texte le 'lipește' (concatenare)."},
+  {q:"Cum lăsăm un rând gol la print()?", opts:["print()", "print(' ')", "input()", "print(EMPTY)"], ans:0, fb:"Un print() gol afișează o linie nouă."},
+  {q:"Casting la str se face cu:", opts:["string()", "text()", "str()", "float()"], ans:2, fb:"str() transformă în text."},
+  {q:"Care simbol marchează acolada în f-strings?", opts:["()", "[]", "{}", "<>"], ans:2, fb:"Acoladele sunt cele crețe."},
+  {q:"Dacă x=10, print(f'{x+5}') afișează:", opts:["10+5", "15", "{x+5}", "Eroare"], ans:1, fb:"Calculează 10+5 = 15."},
+  {q:"prompt-ul din input('Nume:') este:", opts:["Nume:", "input", "Variabila", "Niciunul"], ans:0, fb:"Prompt-ul este textul care indică ce să scrie utilizatorul."},
+  {q:"Rezultatul lui float('3.14') este:", opts:["3", "3.14", "Text", "Eroare"], ans:1, fb:"Păstrează zecimalele."},
+  {q:"print('A', 'B', sep='-') afișează:", opts:["AB", "A B", "A-B", "Eroare"], ans:2, fb:"'sep' vine de la separator."},
+  {q:"putem scrie: n = int(input())?", opts:["Da", "Nu", "Doar uneori", "Doar în Thonny"], ans:0, fb:"Este cea mai folosită metodă de a citi numere."},
+  {q:"Ce afișează print('Salut' * 2)?", opts:["SalutSalut", "Salut 2", "Eroare", "Salut"], ans:0, fb:"Înmulțirea unui text îl repetă."},
+  {q:"Ce face str(12.5)?", opts:["12.5", "'12.5'", "12", "Eroare"], ans:1, fb:"Transformă numărul în text."},
+  {q:"Lecția 4 este despre:", opts:["Bucle", "Funcții", "Intrări și Ieșiri", "Liste"], ans:2, fb:"Exact, comunicarea cu utilizatorul!"}
+];
+
+var answered = 0, score = 0;
+function buildQuiz() {
+  const container = document.getElementById('quiz-container');
+  QUIZ.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.id = 'qc' + i;
+    card.innerHTML = `<div class="quiz-q">${i+1}. ${item.q}</div><div class="quiz-opts"></div><div class="quiz-fb" id="qf${i}"></div>`;
+    item.opts.forEach((opt, oi) => {
+      const btn = document.createElement('div');
+      btn.className = 'quiz-opt';
+      btn.innerHTML = `<div class="ql">${String.fromCharCode(65+oi)}</div><span>${opt}</span>`;
+      btn.onclick = () => check(i, oi);
+      card.querySelector('.quiz-opts').appendChild(btn);
+    });
+    container.appendChild(card);
+  });
+}
+
+function check(qi, oi) {
+  const q = QUIZ[qi];
+  const card = document.getElementById('qc' + qi);
+  const opts = card.querySelectorAll('.quiz-opt');
+  if (opts[0].classList.contains('locked')) return;
+  opts.forEach(o => o.classList.add('locked'));
+  opts[oi].classList.add(oi === q.ans ? 'correct' : 'wrong');
+  if (oi !== q.ans) opts[q.ans].classList.add('correct');
+  const fb = document.getElementById('qf' + qi);
+  fb.className = 'quiz-fb ' + (oi === q.ans ? 'fb-ok' : 'fb-no');
+  fb.innerHTML = (oi === q.ans ? '✅ ' : '❌ ') + q.fb;
+  if (oi === q.ans) score++;
+  answered++;
+  document.getElementById('score-attr').textContent = score + '/25';
+  if (answered === 25) showFinal();
+}
+
+function showFinal() {
+  document.getElementById('score-box').style.display = 'block';
+  document.getElementById('score-num').textContent = score + '/25';
+  document.getElementById('prog-fill').style.width = (score/25*100) + '%';
+  document.getElementById('score-msg').textContent = score > 20 ? "Ești expert în I/O!" : "Bravo! Mai exersează puțin.";
+  document.getElementById('score-box').scrollIntoView({behavior:'smooth'});
+}
+
+function restart() { location.reload(); }
+buildQuiz();
+</script>
+</body>
+</html>
