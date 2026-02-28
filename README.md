@@ -11,5 +11,6 @@ Programa cursului:
     * [📝 Exerciții Lecția 3](https://laurst2710.github.io/CursPython/Lectia3/Exercitii_Lectia3.html)
 * **Lecția 4:** [Intrări/Ieșiri](https://laurst2710.github.io/CursPython/Lectia4/)
    * [📝 Exerciții Lecția 4](https://laurst2710.github.io/CursPython/Lectia4/Exercitii_Lectia4.html)
+* **Lecția 5:** [Intrări/Ieșiri](https://laurst2710.github.io/CursPython/Lectia5/)     
 ---
 [Viitorul Digital](https://viitoruldigital.ro)
