@@ -62,7 +62,6 @@
       padding: 26px 18px 70px;
     }
 
-    /* HEADER */
     .top{
       background: linear-gradient(135deg, #1A237E, #3949AB, #5C6BC0);
       border-radius: calc(var(--radius) + 4px);
@@ -160,14 +159,12 @@
       font-weight: 700;
     }
     .btn:hover{ background: rgba(255,255,255,0.22); transform: translateY(-1px); }
-    .btn:active{ transform: translateY(0); }
 
     .btnPrimary{
       background: rgba(255,255,255,0.20);
       border-color: rgba(255,255,255,0.45);
     }
 
-    /* GRID */
     .grid{
       margin-top: 20px;
       display:grid;
@@ -178,7 +175,6 @@
       .grid{ grid-template-columns: 1fr 1fr; }
     }
 
-    /* CARD */
     .card{
       border: 1.5px solid var(--border);
       background: var(--panel);
@@ -220,11 +216,6 @@
       border: 1.5px solid rgba(57,73,171,0.22);
       color: var(--blue);
     }
-    [data-theme="dark"] .num{
-      background: rgba(92,107,192,0.15);
-      border-color: rgba(92,107,192,0.30);
-      color: #9fa8da;
-    }
 
     .qText{ min-width: 0; }
     .qText .label{
@@ -249,7 +240,6 @@
       font-size: .85rem;
       color: var(--blue-m);
     }
-    [data-theme="dark"] summary{ color: #9fa8da; }
     summary::-webkit-details-marker{ display:none; }
 
     .chev{
@@ -281,13 +271,11 @@
       display:inline-flex;
       align-items:center;
       gap: 6px;
-      transition: background 0.12s, transform 0.08s;
+      transition: all 0.2s ease;
       font-family: var(--sans);
       font-weight: 700;
     }
-    .copyBtn:hover{ background: var(--blue-m); color: #fff; transform: translateY(-1px); }
-    [data-theme="dark"] .copyBtn{ background: rgba(92,107,192,0.15); color: #9fa8da; }
-    [data-theme="dark"] .copyBtn:hover{ background: var(--blue-m); color: #fff; }
+    .copyBtn:hover{ background: var(--blue-m); color: #fff; }
 
     pre{
       margin: 0;
@@ -296,7 +284,6 @@
       border-radius: var(--radius2);
       padding: 14px;
       overflow: auto;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.25);
     }
     code{
       display:block;
@@ -314,6 +301,7 @@
       color: var(--muted);
       background: rgba(232,234,246,0.30);
       display:none;
+      text-align: center;
     }
 
     .foot{
@@ -331,75 +319,51 @@
       <div class="titleRow">
         <div>
           <h1>25 Exerciții Practice – Lecția 1</h1>
-          <p class="sub">Exerciții pentru exersare individuală.</p>
-          <div class="badge">Lecția 1 &nbsp;|&nbsp; 10-14 ani &nbsp;|&nbsp; Variabile, Tipuri, Casting</div>
+          <p class="sub">Exersare individuală variabile și tipuri de date.</p>
+          <div class="badge">Lecția 1 &nbsp;|&nbsp; 10-14 ani &nbsp;|&nbsp; Variabile & Casting</div>
         </div>
 
-        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-          <button class="btn btnPrimary" id="toggleTheme" type="button" title="Schimbă tema">
-            <span aria-hidden="true">🌓</span>
-            <span>Temă</span>
-          </button>
-          <button class="btn" id="expandAll" type="button" title="Deschide toate rezolvările">
-            <span aria-hidden="true">▾▾</span>
-            <span>Deschide</span>
-          </button>
-          <button class="btn" id="collapseAll" type="button" title="Închide toate rezolvările">
-            <span aria-hidden="true">▸</span>
-            <span>Închide</span>
-          </button>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button class="btn btnPrimary" id="toggleTheme" type="button">🌓 Temă</button>
+          <button class="btn" id="expandAll" type="button">▾▾ Deschide</button>
+          <button class="btn" id="collapseAll" type="button">▸ Închide</button>
         </div>
       </div>
 
       <div class="controls" role="search">
-        <div class="search" aria-label="Căutare exerciții">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
-            <path d="M16.5 16.5 21 21" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round"/>
+        <div class="search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="#fff" stroke-width="2"/>
+            <path d="M16.5 16.5 21 21" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
           </svg>
-          <input id="q" type="text" placeholder="Caută exercițiu…" autocomplete="off" />
+          <input id="q" type="text" placeholder="Caută exercițiu (ex: 'float', 'input' sau nr)..." />
         </div>
-
-        <button class="btn" id="clearSearch" type="button" title="Șterge căutarea">
-          <span aria-hidden="true">✕</span>
-          <span>Reset</span>
-        </button>
+        <button class="btn" id="clearSearch" type="button">✕ Reset</button>
       </div>
     </header>
 
     <main>
-      <div class="empty" id="emptyState">Nu există rezultate pentru căutarea curentă.</div>
-
+      <div class="empty" id="emptyState">Nu am găsit niciun exercițiu care să conțină acest text.</div>
       <section class="grid" id="list">
 
         <article class="card ex" data-idx="1">
-          <div class="cardHead">
-            <div class="q">
-              <div class="num">1</div>
-              <div class="qText">
-                <p class="label" data-text>1. Creează variabila <b>oras</b> cu valoarea <b>"București"</b> și afișeaz-o.</p>
-              </div>
-            </div>
-          </div>
-          <details>
-            <summary><span>Vezi rezolvarea</span><span class="chev" aria-hidden="true">▾</span></summary>
-            <div class="codeWrap">
-              <div class="codeBar">
-                <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
-              </div>
-              <pre><code># Creăm variabila 'oras' și îi atribuim un text (String)
+          <div class="cardHead"><div class="q"><div class="num">1</div><div class="qText">
+            <p class="label" data-text>1. Creează variabila <b>oras</b> cu valoarea <b>"București"</b> și afișeaz-o.</p>
+          </div></div></div>
+          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+            <pre><code># Stocăm un text (string) într-o variabilă numită 'oras'
 oras = "București"
 
 # Afișăm valoarea salvată în variabilă pe ecran
-print(oras)</code></pre>
-            </div>
+print(oras)</code></pre></div>
           </details>
         </article>
 
         <article class="card ex" data-idx="2">
           <div class="cardHead"><div class="q"><div class="num">2</div><div class="qText"><p class="label" data-text>2. Creează variabila <b>numar_zile</b> cu valoarea <b>7</b> și afișeaz-o.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
             <pre><code># Salvăm un număr întreg (Integer) în variabilă
 numar_zile = 7
 
@@ -411,7 +375,7 @@ print(numar_zile)</code></pre></div>
         <article class="card ex" data-idx="3">
           <div class="cardHead"><div class="q"><div class="num">3</div><div class="qText"><p class="label" data-text>3. Creează variabila <b>temperatura</b> cu valoarea <b>25.5</b> și afișeaz-o.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
             <pre><code># Numerele cu zecimale (Float) folosesc punctul ca separator
 temperatura = 25.5
 
@@ -422,7 +386,7 @@ print(temperatura)</code></pre></div>
         <article class="card ex" data-idx="4">
           <div class="cardHead"><div class="q"><div class="num">4</div><div class="qText"><p class="label" data-text>4. Creează variabila <b>este_deschis</b> cu valoarea <b>False</b> și afișeaz-o.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
             <pre><code># Valorile logice (Boolean) trebuie scrise cu literă mare
 este_deschis = False
 
@@ -433,7 +397,7 @@ print(este_deschis)</code></pre></div>
         <article class="card ex" data-idx="5">
           <div class="cardHead"><div class="q"><div class="num">5</div><div class="qText"><p class="label" data-text>5. Creează variabila <b>nume</b> cu valoarea <b>"Ana"</b> și afișeaz-o.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
             <pre><code># Ghilimelele indică faptul că "Ana" este un text, nu o comandă
 nume = "Ana"
 
@@ -444,7 +408,7 @@ print(nume)</code></pre></div>
         <article class="card ex" data-idx="6">
           <div class="cardHead"><div class="q"><div class="num">6</div><div class="qText"><p class="label" data-text>6. Creează variabila <b>varsta</b> cu valoarea <b>12</b> și afișează tipul ei.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
             <pre><code>varsta = 12
 
 # Funcția type() ne spune ce fel de date conține variabila
@@ -455,7 +419,7 @@ print(type(varsta))</code></pre></div>
         <article class="card ex" data-idx="7">
           <div class="cardHead"><div class="q"><div class="num">7</div><div class="qText"><p class="label" data-text>7. Creează variabila <b>pret</b> cu valoarea <b>19.99</b> și afișează tipul ei.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
             <pre><code>pret = 19.99
 
 # Se va afișa 'float' pentru numerele cu virgulă
@@ -466,7 +430,7 @@ print(type(pret))</code></pre></div>
         <article class="card ex" data-idx="8">
           <div class="cardHead"><div class="q"><div class="num">8</div><div class="qText"><p class="label" data-text>8. Creează variabila <b>este_elev</b> cu valoarea <b>True</b> și afișează tipul ei.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
             <pre><code>este_elev = True
 
 # Se va afișa 'bool' (de la Boolean)
@@ -477,7 +441,7 @@ print(type(este_elev))</code></pre></div>
         <article class="card ex" data-idx="9">
           <div class="cardHead"><div class="q"><div class="num">9</div><div class="qText"><p class="label" data-text>9. Creează variabilele <b>x = 5</b> și <b>X = 10</b>, apoi afișează-le pe amândouă.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
             <pre><code># Python este case-sensitive: 'x' și 'X' sunt cutii diferite
 x = 5
 X = 10
@@ -490,7 +454,7 @@ print(X)</code></pre></div>
         <article class="card ex" data-idx="10">
           <div class="cardHead"><div class="q"><div class="num">10</div><div class="qText"><p class="label" data-text>10. Citește un text de la tastatură în variabila <b>mesaj</b> și afișează-l.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
+            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
             <pre><code># Citim datele de la utilizator folosind input()
 mesaj = input("Introdu mesajul: ")
 
@@ -499,185 +463,61 @@ print(mesaj)</code></pre></div>
         </article>
 
         <article class="card ex" data-idx="11">
-          <div class="cardHead"><div class="q"><div class="num">11</div><div class="qText"><p class="label" data-text>11. Citește numele de la tastatură în variabila <b>nume</b> și afișează-l.</p></div></div></div>
-          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>nume = input("Scrie numele tău: ")
-
+            <div class="cardHead"><div class="q"><div class="num">11</div><div class="qText"><p class="label" data-text>11. Citește numele de la tastatură în variabila <b>nume</b> și afișează-l.</p></div></div></div>
+            <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+              <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+              <pre><code>nume = input("Scrie numele tău: ")
 print(nume)</code></pre></div>
-          </details>
-        </article>
+            </details>
+          </article>
 
-        <article class="card ex" data-idx="12">
-          <div class="cardHead"><div class="q"><div class="num">12</div><div class="qText"><p class="label" data-text>12. Citește un text în variabila <b>valoare</b> și afișează tipul ei.</p></div></div></div>
-          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>valoare = input("Introdu ceva: ")
-
-# input() returnează întotdeauna text (String), chiar dacă scriem cifre
+          <article class="card ex" data-idx="12">
+            <div class="cardHead"><div class="q"><div class="num">12</div><div class="qText"><p class="label" data-text>12. Citește un text în variabila <b>valoare</b> și afișează tipul ei.</p></div></div></div>
+            <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+              <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+              <pre><code>valoare = input("Introdu ceva: ")
+# Orice citim cu input() este text (str)
 print(type(valoare))</code></pre></div>
-          </details>
-        </article>
+            </details>
+          </article>
 
-        <article class="card ex" data-idx="13">
-          <div class="cardHead"><div class="q"><div class="num">13</div><div class="qText"><p class="label" data-text>13. Citește vârsta ca text, convertește la <b>int</b> și afișează tipul rezultatului.</p></div></div></div>
-          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>v_text = input("Câți ani ai? ")
-
-# Transformăm textul în număr întreg (Casting)
-v_numar = int(v_text)
-
-print(type(v_numar))</code></pre></div>
-          </details>
-        </article>
-
-        <article class="card ex" data-idx="14">
-          <div class="cardHead"><div class="q"><div class="num">14</div><div class="qText"><p class="label" data-text>14. Citește un număr cu zecimale ca text, convertește la <b>float</b> și afișează tipul rezultatului.</p></div></div></div>
-          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>z_text = input("Introdu o medie: ")
-
-# Convertim textul la formatul cu zecimale (Float)
-z_numar = float(z_text)
-
-print(type(z_numar))</code></pre></div>
-          </details>
-        </article>
-
-        <article class="card ex" data-idx="15">
-          <div class="cardHead"><div class="q"><div class="num">15</div><div class="qText"><p class="label" data-text>15. Convertește numărul <b>20</b> la <b>float</b> și afișează rezultatul.</p></div></div></div>
-          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>a = 20
-
-# Rezultatul va fi 20.0
-b = float(a)
-
-print(b)</code></pre></div>
-          </details>
-        </article>
-
-        <article class="card ex" data-idx="16">
-          <div class="cardHead"><div class="q"><div class="num">16</div><div class="qText"><p class="label" data-text>16. Convertește numărul <b>10.7</b> la <b>int</b> și afișează rezultatul.</p></div></div></div>
-          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code># Atenție: int() taie zecimalele, nu face rotunjire matematică
-rezultat = int(10.7)
-
-# Se va afișa 10
-print(rezultat)</code></pre></div>
-          </details>
-        </article>
-
-        <article class="card ex" data-idx="17">
-          <div class="cardHead"><div class="q"><div class="num">17</div><div class="qText"><p class="label" data-text>17. Convertește textul <b>"10"</b> la <b>int</b> și afișează rezultatul.</p></div></div></div>
-          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code># Transformăm șirul "10" în numărul 10
-numar = int("10")
-
-print(numar)</code></pre></div>
-          </details>
-        </article>
-
-        <article class="card ex" data-idx="18">
-          <div class="cardHead"><div class="q"><div class="num">18</div><div class="qText"><p class="label" data-text>18. Convertește textul <b>"3.14"</b> la <b>float</b> și afișează rezultatul.</p></div></div></div>
-          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code># Transformăm textul într-un număr real cu zecimale
-x = float("3.14")
-
-print(x)</code></pre></div>
-          </details>
-        </article>
-
-        <article class="card ex" data-idx="19">
-          <div class="cardHead"><div class="q"><div class="num">19</div><div class="qText"><p class="label" data-text>19. Convertește numărul <b>100</b> la <b>str</b> și afișează rezultatul.</p></div></div></div>
-          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code># Transformăm numărul în text pentru a-l putea uni cu alte cuvinte
-text_numar = str(100)
-
-print(text_numar)</code></pre></div>
-          </details>
-        </article>
-
-        <article class="card ex" data-idx="20">
-          <div class="cardHead"><div class="q"><div class="num">20</div><div class="qText"><p class="label" data-text>20. Citește un număr ca text, convertește la <b>int</b> și afișează numărul.</p></div></div></div>
-          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code># Putem scrie ambele comenzi pe o singură linie
+          <article class="card ex" data-idx="20">
+            <div class="cardHead"><div class="q"><div class="num">20</div><div class="qText"><p class="label" data-text>20. Citește un număr ca text, convertește la <b>int</b> și afișează numărul.</p></div></div></div>
+            <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+              <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+              <pre><code># Convertim input-ul direct la număr întreg
 n = int(input("Introdu un număr: "))
-
 print(n)</code></pre></div>
-          </details>
-        </article>
+            </details>
+          </article>
 
-        <article class="card ex" data-idx="21">
-          <div class="cardHead"><div class="q"><div class="num">21</div><div class="qText"><p class="label" data-text>21. Citește un număr cu zecimale ca text, convertește la <b>float</b> și afișează numărul.</p></div></div></div>
-          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code># Convertim direct input-ul la tipul Float
-x = float(input("Introdu greutatea: "))
-
-print(x)</code></pre></div>
-          </details>
-        </article>
-
-        <article class="card ex" data-idx="22">
-          <div class="cardHead"><div class="q"><div class="num">22</div><div class="qText"><p class="label" data-text>22. Afișează pe ecran textul <b>"Scorul este:"</b> și numărul <b>10</b> folosind <b>print</b> cu virgulă.</p></div></div></div>
-          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>scor = 10
-
-# Virgula adaugă automat un spațiu între cele două elemente
-print("Scorul este:", scor)</code></pre></div>
-          </details>
-        </article>
-
-        <article class="card ex" data-idx="23">
-          <div class="cardHead"><div class="q"><div class="num">23</div><div class="qText"><p class="label" data-text>23. Afișează <b>"Scorul este: "</b> lipit de <b>10</b> folosind <b>+</b> și <b>str()</b>.</p></div></div></div>
-          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>scor = 10
-
-# Semnul '+' lipește doar text de text, deci transformăm scorul în str
+          <article class="card ex" data-idx="23">
+            <div class="cardHead"><div class="q"><div class="num">23</div><div class="qText"><p class="label" data-text>23. Afișează <b>"Scorul este: "</b> lipit de <b>10</b> folosind <b>+</b> și <b>str()</b>.</p></div></div></div>
+            <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+              <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+              <pre><code>scor = 10
+# '+' funcționează doar între două texte (str)
 print("Scorul este: " + str(scor))</code></pre></div>
-          </details>
-        </article>
+            </details>
+          </article>
 
-        <article class="card ex" data-idx="24">
-          <div class="cardHead"><div class="q"><div class="num">24</div><div class="qText"><p class="label" data-text>24. Creează variabila <b>_index</b> cu valoarea <b>3</b> și afișeaz-o.</p></div></div></div>
-          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code># Numele variabilelor pot începe și cu underscore (bara jos)
-_index = 3
-
-print(_index)</code></pre></div>
-          </details>
-        </article>
-
-        <article class="card ex" data-idx="25">
-          <div class="cardHead"><div class="q"><div class="num">25</div><div class="qText"><p class="label" data-text>25. Creează variabilele <b>nume</b>, <b>varsta</b>, <b>inaltime</b>, <b>este_elev</b> și afișează tipul fiecăreia.</p></div></div></div>
-          <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
-            <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code># Definirea variabilelor
-nume = "Ana"
+          <article class="card ex" data-idx="25">
+            <div class="cardHead"><div class="q"><div class="num">25</div><div class="qText"><p class="label" data-text>25. Creează variabilele <b>nume</b>, <b>varsta</b>, <b>inaltime</b>, <b>este_elev</b> și afișează tipul fiecăreia.</p></div></div></div>
+            <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
+              <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy>📋 Copiază</button></div>
+              <pre><code>nume = "Ana"
 varsta = 12
 inaltime = 1.55
 este_elev = True
 
-# Afișarea tipului pentru fiecare (str, int, float, bool)
 print(type(nume))
 print(type(varsta))
 print(type(inaltime))
 print(type(este_elev))</code></pre></div>
-          </details>
-        </article>
+            </details>
+          </article>
 
       </section>
-
       <div class="foot">Python • Lecția 1</div>
     </main>
   </div>
@@ -685,86 +525,69 @@ print(type(este_elev))</code></pre></div>
   <script>
     (function(){
       var root = document.documentElement;
-
-      var savedTheme = localStorage.getItem("py_page_theme");
-      if(savedTheme === "light" || savedTheme === "dark"){
-        root.setAttribute("data-theme", savedTheme);
-      } else {
-        root.setAttribute("data-theme", "light");
-      }
-
-      var btnTheme = document.getElementById("toggleTheme");
-      btnTheme.addEventListener("click", function(){
-        var current = root.getAttribute("data-theme") || "light";
-        var next = (current === "dark") ? "light" : "dark";
-        root.setAttribute("data-theme", next);
-        localStorage.setItem("py_page_theme", next);
-      });
-
       var input = document.getElementById("q");
       var clearBtn = document.getElementById("clearSearch");
       var list = document.getElementById("list");
       var cards = Array.from(list.querySelectorAll(".ex"));
       var emptyState = document.getElementById("emptyState");
 
-      function normalize(s){
-        return (s || "").toString().toLowerCase().trim();
-      }
+      // LOGICA TEMA (Dark/Light)
+      document.getElementById("toggleTheme").addEventListener("click", function(){
+        var current = root.getAttribute("data-theme") || "light";
+        root.setAttribute("data-theme", current === "dark" ? "light" : "dark");
+      });
 
+      // LOGICA COPIERE (CORRECTATĂ)
+      list.addEventListener("click", function(e){
+        var btn = e.target.closest("button[data-copy]");
+        if(!btn) return;
+
+        var card = btn.closest(".ex");
+        var codeEl = card.querySelector("pre code");
+        var textToCopy = codeEl ? codeEl.textContent : "";
+        
+        var originalLabel = btn.innerHTML;
+
+        if(navigator.clipboard){
+          navigator.clipboard.writeText(textToCopy).then(function(){
+            btn.innerHTML = "✓ Copiat!";
+            btn.style.background = "#4CAF50";
+            btn.style.color = "#fff";
+            
+            setTimeout(function(){ 
+              btn.innerHTML = originalLabel;
+              btn.style.background = "";
+              btn.style.color = "";
+            }, 1200);
+          });
+        }
+      });
+
+      // LOGICA FILTRARE
       function applyFilter(){
-        var q = normalize(input.value);
-        var shown = 0;
-        cards.forEach(function(card){
-          var idx   = card.getAttribute("data-idx") || "";
-          var label = (card.querySelector("[data-text]") || {}).textContent || "";
-          var code  = (card.querySelector("pre code") || {}).textContent || "";
-          var hay   = normalize(idx + " " + label + " " + code);
-          var ok    = !q || hay.indexOf(q) > -1;
-          card.style.display = ok ? "" : "none";
-          if(ok) shown++;
+        var query = input.value.toLowerCase().trim();
+        var count = 0;
+        cards.forEach(function(c){
+          var hay = c.innerText.toLowerCase();
+          var ok = !query || hay.indexOf(query) > -1;
+          c.style.display = ok ? "" : "none";
+          if(ok) count++;
         });
-        emptyState.style.display = (shown === 0) ? "block" : "none";
+        emptyState.style.display = count === 0 ? "block" : "none";
       }
 
       input.addEventListener("input", applyFilter);
       clearBtn.addEventListener("click", function(){
         input.value = "";
         applyFilter();
-        input.focus();
       });
 
       document.getElementById("expandAll").addEventListener("click", function(){
-        cards.forEach(function(c){
-          if(c.style.display === "none") return;
-          var d = c.querySelector("details");
-          if(d) d.open = true;
-        });
+        cards.forEach(function(c){ if(c.style.display !== "none") c.querySelector("details").open = true; });
       });
       document.getElementById("collapseAll").addEventListener("click", function(){
-        cards.forEach(function(c){
-          var d = c.querySelector("details");
-          if(d) d.open = false;
-        });
+        cards.forEach(function(c){ c.querySelector("details").open = false; });
       });
-
-      list.addEventListener("click", function(e){
-        var btn = e.target.closest("[data-copy]");
-        if(!btn) return;
-        var codeEl = (btn.closest(".ex") || {}).querySelector("pre code");
-        var codeText = codeEl ? codeEl.textContent : "";
-        var old = btn.innerHTML;
-        if(navigator.clipboard){
-          navigator.clipboard.writeText(codeText).then(function(){
-            btn.innerHTML = "&#10003; Copiat";
-            setTimeout(function(){ btn.innerHTML = old; }, 900);
-          }).catch(function(){
-            btn.innerHTML = "&#9888; Eroare";
-            setTimeout(function(){ btn.innerHTML = old; }, 900);
-          });
-        }
-      });
-
-      applyFilter();
     })();
   </script>
 </body>
