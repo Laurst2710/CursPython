@@ -16,7 +16,7 @@
       --green-l: #E8F5E9;
       --orange:  #E65100;
       --orange-l:#FFF8E1;
-      --red:     #B71C1C;
+      --red:      #B71C1C;
       --red-l:   #FFEBEE;
       --bg:      #F4F6FF;
       --panel:   #ffffff;
@@ -35,11 +35,11 @@
     }
 
     [data-theme="dark"]{
-      --bg:     #0c0f1e;
-      --panel:  rgba(255,255,255,0.05);
+      --bg:      #0c0f1e;
+      --panel:   rgba(255,255,255,0.05);
       --panel2: rgba(255,255,255,0.08);
-      --text:   rgba(255,255,255,0.92);
-      --muted:  rgba(255,255,255,0.60);
+      --text:    rgba(255,255,255,0.92);
+      --muted:   rgba(255,255,255,0.60);
       --border: rgba(255,255,255,0.10);
       --shadow: 0 18px 60px rgba(0,0,0,0.40);
       --codeBg: #0b1117;
@@ -372,7 +372,6 @@
 
       <section class="grid" id="list">
 
-        <!-- 1 -->
         <article class="card ex" data-idx="1">
           <div class="cardHead">
             <div class="q">
@@ -388,257 +387,288 @@
               <div class="codeBar">
                 <button class="copyBtn" type="button" data-copy><span aria-hidden="true">📋</span><span>Copiază</span></button>
               </div>
-              <pre><code>oras = "București"
+              <pre><code># Creăm variabila 'oras' și îi atribuim un text (String)
+oras = "București"
+
+# Afișăm valoarea salvată în variabilă pe ecran
 print(oras)</code></pre>
             </div>
           </details>
         </article>
 
-        <!-- 2 -->
         <article class="card ex" data-idx="2">
           <div class="cardHead"><div class="q"><div class="num">2</div><div class="qText"><p class="label" data-text>2. Creează variabila <b>numar_zile</b> cu valoarea <b>7</b> și afișeaz-o.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>numar_zile = 7
+            <pre><code># Salvăm un număr întreg (Integer) în variabilă
+numar_zile = 7
+
+# Tipărim rezultatul
 print(numar_zile)</code></pre></div>
           </details>
         </article>
 
-        <!-- 3 -->
         <article class="card ex" data-idx="3">
           <div class="cardHead"><div class="q"><div class="num">3</div><div class="qText"><p class="label" data-text>3. Creează variabila <b>temperatura</b> cu valoarea <b>25.5</b> și afișeaz-o.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>temperatura = 25.5
+            <pre><code># Numerele cu zecimale (Float) folosesc punctul ca separator
+temperatura = 25.5
+
 print(temperatura)</code></pre></div>
           </details>
         </article>
 
-        <!-- 4 -->
         <article class="card ex" data-idx="4">
           <div class="cardHead"><div class="q"><div class="num">4</div><div class="qText"><p class="label" data-text>4. Creează variabila <b>este_deschis</b> cu valoarea <b>False</b> și afișeaz-o.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>este_deschis = False
+            <pre><code># Valorile logice (Boolean) trebuie scrise cu literă mare
+este_deschis = False
+
 print(este_deschis)</code></pre></div>
           </details>
         </article>
 
-        <!-- 5 -->
         <article class="card ex" data-idx="5">
           <div class="cardHead"><div class="q"><div class="num">5</div><div class="qText"><p class="label" data-text>5. Creează variabila <b>nume</b> cu valoarea <b>"Ana"</b> și afișeaz-o.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>nume = "Ana"
+            <pre><code># Ghilimelele indică faptul că "Ana" este un text, nu o comandă
+nume = "Ana"
+
 print(nume)</code></pre></div>
           </details>
         </article>
 
-        <!-- 6 -->
         <article class="card ex" data-idx="6">
           <div class="cardHead"><div class="q"><div class="num">6</div><div class="qText"><p class="label" data-text>6. Creează variabila <b>varsta</b> cu valoarea <b>12</b> și afișează tipul ei.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
             <pre><code>varsta = 12
+
+# Funcția type() ne spune ce fel de date conține variabila
 print(type(varsta))</code></pre></div>
           </details>
         </article>
 
-        <!-- 7 -->
         <article class="card ex" data-idx="7">
           <div class="cardHead"><div class="q"><div class="num">7</div><div class="qText"><p class="label" data-text>7. Creează variabila <b>pret</b> cu valoarea <b>19.99</b> și afișează tipul ei.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
             <pre><code>pret = 19.99
+
+# Se va afișa 'float' pentru numerele cu virgulă
 print(type(pret))</code></pre></div>
           </details>
         </article>
 
-        <!-- 8 -->
         <article class="card ex" data-idx="8">
           <div class="cardHead"><div class="q"><div class="num">8</div><div class="qText"><p class="label" data-text>8. Creează variabila <b>este_elev</b> cu valoarea <b>True</b> și afișează tipul ei.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
             <pre><code>este_elev = True
+
+# Se va afișa 'bool' (de la Boolean)
 print(type(este_elev))</code></pre></div>
           </details>
         </article>
 
-        <!-- 9 -->
         <article class="card ex" data-idx="9">
           <div class="cardHead"><div class="q"><div class="num">9</div><div class="qText"><p class="label" data-text>9. Creează variabilele <b>x = 5</b> și <b>X = 10</b>, apoi afișează-le pe amândouă.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>x = 5
+            <pre><code># Python este case-sensitive: 'x' și 'X' sunt cutii diferite
+x = 5
 X = 10
+
 print(x)
 print(X)</code></pre></div>
           </details>
         </article>
 
-        <!-- 10 -->
         <article class="card ex" data-idx="10">
           <div class="cardHead"><div class="q"><div class="num">10</div><div class="qText"><p class="label" data-text>10. Citește un text de la tastatură în variabila <b>mesaj</b> și afișează-l.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>mesaj = input("Scrie un mesaj: ")
+            <pre><code># Citim datele de la utilizator folosind input()
+mesaj = input("Introdu mesajul: ")
+
 print(mesaj)</code></pre></div>
           </details>
         </article>
 
-        <!-- 11 -->
         <article class="card ex" data-idx="11">
           <div class="cardHead"><div class="q"><div class="num">11</div><div class="qText"><p class="label" data-text>11. Citește numele de la tastatură în variabila <b>nume</b> și afișează-l.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>nume = input("Introdu numele: ")
+            <pre><code>nume = input("Scrie numele tău: ")
+
 print(nume)</code></pre></div>
           </details>
         </article>
 
-        <!-- 12 -->
         <article class="card ex" data-idx="12">
           <div class="cardHead"><div class="q"><div class="num">12</div><div class="qText"><p class="label" data-text>12. Citește un text în variabila <b>valoare</b> și afișează tipul ei.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>valoare = input("Scrie ceva: ")
+            <pre><code>valoare = input("Introdu ceva: ")
+
+# input() returnează întotdeauna text (String), chiar dacă scriem cifre
 print(type(valoare))</code></pre></div>
           </details>
         </article>
 
-        <!-- 13 -->
         <article class="card ex" data-idx="13">
           <div class="cardHead"><div class="q"><div class="num">13</div><div class="qText"><p class="label" data-text>13. Citește vârsta ca text, convertește la <b>int</b> și afișează tipul rezultatului.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>varsta_text = input("Introdu varsta: ")
-varsta = int(varsta_text)
-print(type(varsta))</code></pre></div>
+            <pre><code>v_text = input("Câți ani ai? ")
+
+# Transformăm textul în număr întreg (Casting)
+v_numar = int(v_text)
+
+print(type(v_numar))</code></pre></div>
           </details>
         </article>
 
-        <!-- 14 -->
         <article class="card ex" data-idx="14">
           <div class="cardHead"><div class="q"><div class="num">14</div><div class="qText"><p class="label" data-text>14. Citește un număr cu zecimale ca text, convertește la <b>float</b> și afișează tipul rezultatului.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>valoare_text = input("Introdu un numar cu zecimale: ")
-valoare = float(valoare_text)
-print(type(valoare))</code></pre></div>
+            <pre><code>z_text = input("Introdu o medie: ")
+
+# Convertim textul la formatul cu zecimale (Float)
+z_numar = float(z_text)
+
+print(type(z_numar))</code></pre></div>
           </details>
         </article>
 
-        <!-- 15 -->
         <article class="card ex" data-idx="15">
           <div class="cardHead"><div class="q"><div class="num">15</div><div class="qText"><p class="label" data-text>15. Convertește numărul <b>20</b> la <b>float</b> și afișează rezultatul.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
             <pre><code>a = 20
+
+# Rezultatul va fi 20.0
 b = float(a)
+
 print(b)</code></pre></div>
           </details>
         </article>
 
-        <!-- 16 -->
         <article class="card ex" data-idx="16">
           <div class="cardHead"><div class="q"><div class="num">16</div><div class="qText"><p class="label" data-text>16. Convertește numărul <b>10.7</b> la <b>int</b> și afișează rezultatul.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>rezultat = int(10.7)
+            <pre><code># Atenție: int() taie zecimalele, nu face rotunjire matematică
+rezultat = int(10.7)
+
+# Se va afișa 10
 print(rezultat)</code></pre></div>
           </details>
         </article>
 
-        <!-- 17 -->
         <article class="card ex" data-idx="17">
           <div class="cardHead"><div class="q"><div class="num">17</div><div class="qText"><p class="label" data-text>17. Convertește textul <b>"10"</b> la <b>int</b> și afișează rezultatul.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>numar = int("10")
+            <pre><code># Transformăm șirul "10" în numărul 10
+numar = int("10")
+
 print(numar)</code></pre></div>
           </details>
         </article>
 
-        <!-- 18 -->
         <article class="card ex" data-idx="18">
           <div class="cardHead"><div class="q"><div class="num">18</div><div class="qText"><p class="label" data-text>18. Convertește textul <b>"3.14"</b> la <b>float</b> și afișează rezultatul.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>x = float("3.14")
+            <pre><code># Transformăm textul într-un număr real cu zecimale
+x = float("3.14")
+
 print(x)</code></pre></div>
           </details>
         </article>
 
-        <!-- 19 -->
         <article class="card ex" data-idx="19">
           <div class="cardHead"><div class="q"><div class="num">19</div><div class="qText"><p class="label" data-text>19. Convertește numărul <b>100</b> la <b>str</b> și afișează rezultatul.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>text = str(100)
-print(text)</code></pre></div>
+            <pre><code># Transformăm numărul în text pentru a-l putea uni cu alte cuvinte
+text_numar = str(100)
+
+print(text_numar)</code></pre></div>
           </details>
         </article>
 
-        <!-- 20 -->
         <article class="card ex" data-idx="20">
           <div class="cardHead"><div class="q"><div class="num">20</div><div class="qText"><p class="label" data-text>20. Citește un număr ca text, convertește la <b>int</b> și afișează numărul.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>n = int(input("Introdu un numar: "))
+            <pre><code># Putem scrie ambele comenzi pe o singură linie
+n = int(input("Introdu un număr: "))
+
 print(n)</code></pre></div>
           </details>
         </article>
 
-        <!-- 21 -->
         <article class="card ex" data-idx="21">
           <div class="cardHead"><div class="q"><div class="num">21</div><div class="qText"><p class="label" data-text>21. Citește un număr cu zecimale ca text, convertește la <b>float</b> și afișează numărul.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>x = float(input("Introdu un numar cu zecimale: "))
+            <pre><code># Convertim direct input-ul la tipul Float
+x = float(input("Introdu greutatea: "))
+
 print(x)</code></pre></div>
           </details>
         </article>
 
-        <!-- 22 -->
         <article class="card ex" data-idx="22">
           <div class="cardHead"><div class="q"><div class="num">22</div><div class="qText"><p class="label" data-text>22. Afișează pe ecran textul <b>"Scorul este:"</b> și numărul <b>10</b> folosind <b>print</b> cu virgulă.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
             <pre><code>scor = 10
+
+# Virgula adaugă automat un spațiu între cele două elemente
 print("Scorul este:", scor)</code></pre></div>
           </details>
         </article>
 
-        <!-- 23 -->
         <article class="card ex" data-idx="23">
           <div class="cardHead"><div class="q"><div class="num">23</div><div class="qText"><p class="label" data-text>23. Afișează <b>"Scorul este: "</b> lipit de <b>10</b> folosind <b>+</b> și <b>str()</b>.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
             <pre><code>scor = 10
+
+# Semnul '+' lipește doar text de text, deci transformăm scorul în str
 print("Scorul este: " + str(scor))</code></pre></div>
           </details>
         </article>
 
-        <!-- 24 -->
         <article class="card ex" data-idx="24">
           <div class="cardHead"><div class="q"><div class="num">24</div><div class="qText"><p class="label" data-text>24. Creează variabila <b>_index</b> cu valoarea <b>3</b> și afișeaz-o.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>_index = 3
+            <pre><code># Numele variabilelor pot începe și cu underscore (bara jos)
+_index = 3
+
 print(_index)</code></pre></div>
           </details>
         </article>
 
-        <!-- 25 -->
         <article class="card ex" data-idx="25">
           <div class="cardHead"><div class="q"><div class="num">25</div><div class="qText"><p class="label" data-text>25. Creează variabilele <b>nume</b>, <b>varsta</b>, <b>inaltime</b>, <b>este_elev</b> și afișează tipul fiecăreia.</p></div></div></div>
           <details><summary><span>Vezi rezolvarea</span><span class="chev">▾</span></summary>
             <div class="codeWrap"><div class="codeBar"><button class="copyBtn" type="button" data-copy><span>📋</span><span>Copiază</span></button></div>
-            <pre><code>nume = "Ana"
+            <pre><code># Definirea variabilelor
+nume = "Ana"
 varsta = 12
 inaltime = 1.55
 este_elev = True
 
+# Afișarea tipului pentru fiecare (str, int, float, bool)
 print(type(nume))
 print(type(varsta))
 print(type(inaltime))
