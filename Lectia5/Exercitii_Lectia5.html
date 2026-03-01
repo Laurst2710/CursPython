@@ -381,12 +381,30 @@ print(f"Inițiala: {prenume[0].upper()}.")</code></pre></div></details>
 
   listEl.addEventListener("click", function(e){
     var btn = e.target.closest("[data-copy]");
-    if(btn) {
-      var code = btn.closest(".ex").querySelector("code").innerText;
-      navigator.clipboard.writeText(code).then(() => {
-        var old = btn.innerText; btn.innerText = "✓ Copiat";
-        setTimeout(() => btn.innerText = old, 1000);
-      });
+    if(!btn) return;
+    var code = btn.closest(".ex").querySelector("code").innerText;
+
+    function markOk(){
+      var old = btn.innerText;
+      btn.innerText = "✓ Copiat";
+      setTimeout(function(){ btn.innerText = old; }, 1200);
+    }
+
+    function fallback(){
+      var ta = document.createElement("textarea");
+      ta.value = code;
+      ta.style.cssText = "position:fixed;top:0;left:0;opacity:0;";
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      try{ document.execCommand("copy"); markOk(); }
+      catch(err){ alert("Nu s-a putut copia. Selectează manual codul."); }
+      document.body.removeChild(ta);
+    }
+
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(code).then(markOk).catch(fallback);
+    } else {
+      fallback();
     }
   });
 })();
